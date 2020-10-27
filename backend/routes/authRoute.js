@@ -1,13 +1,18 @@
 "use strict";
 
 import express from "express";
-import { googleSignIn, authStatus, isNewUser } from "../controllers/auth";
+import {
+  googleSignIn,
+  googleSignOut,
+  authStatus,
+  isNewUser,
+} from "../controllers/auth";
 
 // Define Router
 const router = express.Router();
 
 router.post("/signIn", googleSignIn);
-
+router.post("/signOut", googleSignOut);
 
 router.get("/authStatus", authStatus);
 router.get("/isNewUser", isNewUser);

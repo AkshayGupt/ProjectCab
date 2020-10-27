@@ -4,7 +4,8 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import authRoute from './routes/authRoute';
-const bodyParser= require("body-parser");
+import bodyParser from 'body-parser';
+
 // Fetch Environment variables
 dotenv.config();
 
