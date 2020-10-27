@@ -14,7 +14,8 @@ const provider = new firebase.auth.GoogleAuthProvider();
 
 // Enable Google Sign in through credentials
 exports.googleSignIn = (req, res) => {
-    let id_token = req.body();
+    let id_token = req.body.id_token;
+    // console.log(id_token);
     let credential = provider.credential(id_token);
 
   firebase
@@ -23,17 +24,36 @@ exports.googleSignIn = (req, res) => {
     .then((result) => {
       let token = result.credential.accessToken;
       let user = result.user;
+      return res.json({
+        token,
+        user
+      })
     })
     .catch((error) => {
+
+      return res.status(400).json({
+        error:"Error in FIrebase!"
+      })
       console.log("Messed Up!");
     });
 };
 
-// Returns [user object] if user exists,
-// otherwise, return [null].
+
 exports.authStatus = (req, res) => {
   let currentUser = firebase.auth().currentUser;
-  res.json({ currentUser: `${currentUser}` });
+  
+  if(currentUser && currentUser.email){
+   return res.json({
+      email:currentUser.email,
+      status:true
+    })
+  }
+  else{
+    return res.status(400).json({
+      email:"",
+      status:false
+    })
+  }
 };
 
 // Checks if user is new user or not

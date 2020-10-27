@@ -3,6 +3,13 @@ import {Redirect} from 'react-router-dom';
 import {Row,Col,Container,Form,Button} from 'react-bootstrap';
 import './Landing.css';
 import GoogleButton from 'react-google-button'
+import LoginWithGoogle from './LoginWithGoogle';
+
+const onSignIn = () =>{
+    console.log("Success");
+}
+
+
 const Landing = ()  =>{
     return(
         <div className="Landing-Page">
@@ -15,11 +22,8 @@ const Landing = ()  =>{
                     <Col></Col>
                     <Col sm="auto" > 
                         <div className="box">
-                            <div className="button">
-                                    <a href="/register" className="btn btn-lg btn-light">Register</a>
-                            </div> 
                             <div className="sign-in mt-3 ml-4">
-                                <div className="g-signin2" data-width="50" data-height="50" data-longtitle="true"></div>
+                                <LoginWithGoogle/>
                             </div>
                         </div>
                     </Col>

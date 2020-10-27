@@ -4,7 +4,7 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import authRoute from './routes/authRoute';
-
+const bodyParser= require("body-parser");
 // Fetch Environment variables
 dotenv.config();
 
@@ -14,11 +14,14 @@ const app = express();
 // Enable All cors
 app.use(cors());
 
+app.use(bodyParser.json());
+
 app.use("/", authRoute);
 app.use("/auth", authRoute);
 
 // Define Port (Default 5000)
-const port = process.env.PORT || 5000;
+// const port = process.env.PORT || 5000;
+const port =5000;
 
 // Launch Server
 app.listen(port, (req, res) => {
