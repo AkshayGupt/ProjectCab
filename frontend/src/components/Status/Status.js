@@ -1,17 +1,27 @@
 import React,{useState} from 'react'
 import { Container,Row,Col,Badge,Button } from 'react-bootstrap';
 import './Status.scss';
-import {isAuthenticated} from '../Auth/helper';
+import {Redirect} from 'react-router-dom';
+import {isAuthenticated, signOut} from '../Auth/helper';
 const Status =()=> {
 
     const[authenticated,setAuthenticated] = useState(false);
-
+    const[redirect,setRedirect] = useState(false);
     const getName= () =>{
         if(localStorage.getItem("name"))
         return localStorage.getItem("name");
     }
 
+    const signout = () =>{
+        signOut()
+        setRedirect(true);
+    }
 
+    const redirectToLandingPage = () =>{
+        if(redirect){
+            return <Redirect to ="/" />
+        }
+    }
 
     //Temp
     const checkAuthentication = () =>{
@@ -31,6 +41,7 @@ const Status =()=> {
 
     return (
         <div>
+            {redirectToLandingPage()}
             <div className="mb-3">
             <h1 className="text-center register-heading text-light"> Status</h1>
             </div>
@@ -39,7 +50,7 @@ const Status =()=> {
                 <div>
                 <a href="/register" className="btn btn-info">Create New Trip</a>
                 {' '}
-                <a href="/" className="btn btn-info">Logout</a>
+                <button className="btn btn-info" onClick={()=>signout()}>Logout</button>
                 </div>
                
             </div>

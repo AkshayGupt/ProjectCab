@@ -39,7 +39,6 @@ exports.googleSignIn = (req, res) => {
 
 // Sign out from firebase.
 exports.googleSignOut = (req, res) => {
-  provider.signOut();
   firebase.auth().signOut();
 };
 
