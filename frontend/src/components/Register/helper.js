@@ -3,8 +3,6 @@ import {API} from '../../backend';
 export const register =(trip)=>{
     
     //@debug
-    // console.log(trip);
-
     return fetch(`${API}/register`,{
         method:'POST',
         headers:{

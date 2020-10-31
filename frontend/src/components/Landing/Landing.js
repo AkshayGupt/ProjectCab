@@ -1,16 +1,13 @@
-import React,{useState} from 'react';
-import {Redirect} from 'react-router-dom';
-import {Row,Col,Container,Form,Button} from 'react-bootstrap';
+import React from 'react';
+import {Row,Col,Container} from 'react-bootstrap';
 import './Landing.css';
-import GoogleButton from 'react-google-button'
 import LoginWithGoogle from './LoginWithGoogle';
+import { isSignedIn } from '../Auth/helper';
 
-const onSignIn = () =>{
-    console.log("Success");
-}
 
 
 const Landing = ()  =>{
+
     return(
         <div className="Landing-Page">
             <div className="text-center">
@@ -22,9 +19,11 @@ const Landing = ()  =>{
                     <Col></Col>
                     <Col sm="auto" > 
                         <div className="box">
+                           
                             <div className="sign-in mt-3 ml-4">
-                                <LoginWithGoogle/>
+                                {!isSignedIn()?(<LoginWithGoogle/>): (<a href="/status" className="btn btn-lg btn-light">Check Status</a>)}
                             </div>
+
                         </div>
                     </Col>
                     <Col></Col>

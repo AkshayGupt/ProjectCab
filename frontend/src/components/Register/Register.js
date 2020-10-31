@@ -1,8 +1,7 @@
 import React,{useState} from 'react';
 import {Redirect} from 'react-router-dom';
-import {Row,Col,Container,Form,Button,Dropdown,DropdownButton,Badge} from 'react-bootstrap';
+import {Row,Col,Container,Form,Button,Badge} from 'react-bootstrap';
 import './Register.css';
-import {register} from './helper';  
 const Register=() =>{
 
     const [values,setValues] = useState({
@@ -25,7 +24,7 @@ const Register=() =>{
 
     const onSubmit=()=>{
 
-        if(name == "" || phone == 0 || destination == "Select" || gender == "Select"){
+        if(name === "" || phone === 0 || destination === "Select" || gender === "Select"){
             alert("Please fill all the entries!");
             return;
         }

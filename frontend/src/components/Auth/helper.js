@@ -8,21 +8,20 @@ return fetch(`http://localhost:5000/authStatus`,{
     .catch();
 }
 
-// export const isSignedIn = () =>{
-//     isAuthenticated()
-//     .then(data=>{
-//         if(data.status === true){
-//             return true;
-//         }
-//         else{
-//            return false;
-//         }
-//     })
-//     .catch();
-// }
+
+export const isSignedIn = () =>{
+    if(localStorage.getItem("UID")) {
+      return true;
+    }else{
+      return false;
+    }
+}
 
 export const signOut = () =>{
-    return fetch(`http://localhost:5000/signOut`,{
+    fetch(`http://localhost:5000/signOut`,{
         method:"POST"
     });
+    localStorage.removeItem("name");
+    localStorage.removeItem("email");
+    localStorage.removeItem("UID");
 }

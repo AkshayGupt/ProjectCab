@@ -22,15 +22,16 @@ const LoginWithGoogle = () =>{
         };
         // debugger;    
 
-        localStorage.setItem("name",googleresponse.name);
-
         signin(googleresponse)
         .then(data=>{
             if(data.error){
                 console.log(data.error);
             }
             else{
-                console.log("Data Returned From Firebase:",data);
+                console.log("Data Returned From Firebase:",data.user);
+                localStorage.setItem("UID",data.user.uid);
+                localStorage.setItem("email",data.user.email);
+                localStorage.setItem("name",data.user.displayName);
                 setRedirect(true);
             }
         })
@@ -39,7 +40,6 @@ const LoginWithGoogle = () =>{
     }
 
     const responseGoogle = (response) => {
-            var res = response.profileObj;
             signup(response);
     }
 
@@ -52,6 +52,7 @@ const LoginWithGoogle = () =>{
                 onSuccess={responseGoogle}
                 onFailure={responseGoogle}
             />
+
         </div>
       
     );
