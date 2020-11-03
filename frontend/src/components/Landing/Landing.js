@@ -12,7 +12,7 @@ const Landing = ()  =>{
         <div className="Landing-Page">
             <div className="text-center">
                 <div>
-                    <h1 className="Landing-heading text-light">Want to Save Money, Pool it!</h1>
+                    <p className="Landing-heading text-light">Want to Save Money, Pool it!</p>
                 </div>
                 <Container>
                 <Row className="justify-content-md-center">

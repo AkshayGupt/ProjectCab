@@ -2,6 +2,8 @@ import React,{useState} from 'react';
 import {Redirect} from 'react-router-dom';
 import {Row,Col,Container,Form,Button,Badge} from 'react-bootstrap';
 import './Register.css';
+import AvailableTimes from 'react-available-times';
+import TimeSlot from './TimeSlot';
 const Register=() =>{
 
     const [values,setValues] = useState({
@@ -22,14 +24,77 @@ const Register=() =>{
         setValues({...values,error:false,[name]:event.target.value})
     }
 
+    let st;
+    const[start,setStart] =useState({
+        date:0,
+        month:0,
+        year:0,
+        hours:0,
+        minutes:0,
+        seconds:0
+    });
+    const[end,setEnd] =useState({
+        date:0,
+        month:0,
+        year:0,
+        hours:0,
+        minutes:0,
+        seconds:0
+    });
+    function timeSlotValidator(slotTime) {
+        const eveningTime = new Date(
+          start.year,
+          start.month-1,
+          start.date,
+          start.hours,
+          start.minutes,
+          start.seconds
+        );
+        const isValid = slotTime.getTime() > eveningTime.getTime();
+        return isValid;
+      }
+
+
+    function handleStart(str) {
+        st=new Date(str);
+        var date = new Date(str);
+        const splitted =date.toString().split(" ");
+        const time = (splitted[4]);
+        const res =time.split(":");
+        const hrs= parseInt(res[0]);
+        const mins= parseInt(res[1]);
+        const secs= parseInt(res[2]);
+        var dt = new Date(str),
+        mnth = ("0" + (dt.getMonth() + 1)).slice(-2),
+        day = ("0" + dt.getDate()).slice(-2);   
+        setStart({...start,month:parseInt(mnth),date:parseInt(day),year:date.getFullYear(),hours:hrs,minutes:mins,seconds:secs});
+    }
+    function handleEnd(str) {
+        var date = new Date(str);
+        const splitted =date.toString().split(" ");
+        const time = (splitted[4]);
+        const res =time.split(":");
+
+        // console.log(res[0]+" "+res[1]+" "+res[2]);
+
+        const hrs= parseInt(res[0]);
+        const mins= parseInt(res[1]);
+        const secs= parseInt(res[2]);
+        var dt = new Date(str),
+        mnth = ("0" + (dt.getMonth() + 1)).slice(-2),
+        day = ("0" + dt.getDate()).slice(-2);
+        setEnd({...start,month:parseInt(mnth),date:parseInt(day),year:date.getFullYear(),hours:hrs,minutes:mins,seconds:secs});
+    }
+
     const onSubmit=()=>{
 
-        if(name === "" || phone === 0 || destination === "Select" || gender === "Select"){
+        if(name === "" || phone === 0 || destination === "Select" || gender === "Select" || start.date === 0 || end.date === 0){
             alert("Please fill all the entries!");
             return;
         }
 
-        const obj={name,gender,phone,destination,cabSize,sameGender};
+        const obj={name,gender,phone,destination,cabSize,sameGender,start,end};
+
         console.log(obj);
 
         //@todo
@@ -86,6 +151,9 @@ const Register=() =>{
                 <Col>                     
                     <Form>
                         <Form.Group>
+                            <a href="/status" className="btn btn-dark">{"Back"}</a>
+                        </Form.Group>
+                        <Form.Group>
                             <Form.Label>Name </Form.Label>
                             <Form.Control type="name" placeholder="Enter name"  onChange={handleChange("name")} value={name}/>
                         </Form.Group>
@@ -138,64 +206,18 @@ const Register=() =>{
                             </Form.Control>
                             <Form.Text>Please select No if you want to share your cab with same Gender</Form.Text>
                         </Form.Group>
-                        <Form.Group>
-                            <Form.Label>Time Slot</Form.Label>
-                            <Form.Control as="select">
-                                <option>00:00</option>
-                                <option>00:30</option>
-                                <option>1:00</option>
-                                <option>1:30</option>
-                                <option>2:00</option>
-                                <option>2:30</option>
-                                <option>3:00</option>
-                                <option>3:30</option>
-                                <option>4:00</option>
-                                <option>4:30</option>
-                                <option>5:00</option>
-                                <option>5:30</option>
-                                <option>6:00</option>
-                                <option>6:30</option>
-                                <option>7:00</option>
-                                <option>7:30</option>
-                                <option>8:00</option>
-                                <option>8:30</option>
-                                <option>9:00</option>
-                                <option>9:30</option>
-                                <option>10:00</option>
-                                <option>10:30</option>
-                                <option>11:00</option>
-                                <option>11:30</option>
-                                <option>12:00</option>
-                                <option>12:30</option>
-                                <option>13:00</option>
-                                <option>13:30</option>
-                                <option>14:00</option>
-                                <option>14:30</option>
-                                <option>15:00</option>
-                                <option>15:30</option>
-                                <option>16:00</option>
-                                <option>16:30</option>
-                                <option>17:00</option>
-                                <option>17:30</option>
-                                <option>18:00</option>
-                                <option>18:30</option>
-                                <option>19:00</option>
-                                <option>19:30</option>
-                                <option>20:00</option>
-                                <option>20:30</option>
-                                <option>21:00</option>
-                                <option>21:30</option>
-                                <option>22:00</option>
-                                <option>22:30</option>
-                                <option>23:00</option>
-                                <option>23:30</option>
-                            </Form.Control>
-                        </Form.Group>
-                        <Button  variant="info" size="md" onClick={()=>onSubmit()}>Register</Button>
+                    
+                        <br></br>
+                        <TimeSlot text="Start Time" handleEvent={handleStart} time={start} />
+                        <br></br>
+                        <TimeSlot text="End Time" handleEvent={handleEnd} timeSlotValidator={timeSlotValidator} time={end}/>
                         
+                        <div className="text-center">
+                            <Button  variant="info" size="lg" onClick={()=>onSubmit()}>Register</Button>
+                        </div>
+                      
                     </Form>
-                
-                
+
                 </Col>
                 <Col sm="3"></Col>
             </Row>

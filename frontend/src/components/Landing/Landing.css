@@ -9,15 +9,16 @@
 .Landing-heading{
 
     position: relative;
-    padding-top: 7rem;
-    width: 13em;
+    padding-top: 5rem;
+    /* width: 13em; */
     margin: 0 auto;
-    border-right: 2px solid rgba(255,255,255,.75);
-    font-size: 300%;
+    /* Typewriter effect*/
+    /* border-right: 1px solid rgba(255,255,255,.75); */ 
+    font-size: 4vw;
     text-align: center;
     white-space: nowrap;
     overflow: hidden;
-    transform: translateY(-50%);    
+    transform: translateY(-20%);    
 }
 
 /* Animation */

@@ -5,7 +5,7 @@ import {signOut, isSignedIn} from '../Auth/helper';
 const Navigation = () => {
     const[redirect,setRedirect] = useState(false);
     const signout = () =>{
-        signOut()
+        signOut();
         setRedirect(true);
     }
 
@@ -14,18 +14,18 @@ const Navigation = () => {
             return <Redirect to ="/" />
         }
     }
+
     return (
         <div>
+            {redirectToLandingPage()}
             <nav className="navbar navbar-light bg-dark">
             <a className="navbar-brand text-white" href="/">ProjectCab</a>
-            <div className="sign-in mt-3 ml-4">
-                         
+            <div className="sign-in">
+                            
                 <form className="form-inline">
                     {
-            
-                        
-                          <div className="sign-in mt-3 ml-4">
-                                {!isSignedIn()?(<LoginWithGoogle/>): (<button className="btn btn-info" onClick={()=>signout()}>Logout</button>)}
+                          <div className="sign-in my-auto">
+                                {!isSignedIn()?(""): (<p className="text-white" onClick={()=>signout()}>Logout</p>)}
                             </div>
                     }
                 

@@ -11,8 +11,9 @@ function App() {
   return (
     <>
       {/* ToDo: Navigation Bar */}
-      {/* <Navigation/> */}
+      
       <Router>
+        {/* <Navigation/> */}
         <Switch>
             <Route exact  path="/" component={Landing} />
             <PrivateRoute path="/register" exact component={Register} />
