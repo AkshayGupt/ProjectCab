@@ -2,7 +2,6 @@ import React,{useState} from 'react';
 import {Redirect} from 'react-router-dom';
 import {Row,Col,Container,Form,Button,Badge} from 'react-bootstrap';
 import './Register.css';
-import AvailableTimes from 'react-available-times';
 import TimeSlot from './TimeSlot';
 const Register=() =>{
 
@@ -52,10 +51,13 @@ const Register=() =>{
         );
         const isValid = slotTime.getTime() > eveningTime.getTime();
         return isValid;
-      }
+    }
 
+    function returnTrue(){
+        return true;
+    }
 
-    function handleStart(str) {
+    const handleStart =(str)=> {
         st=new Date(str);
         var date = new Date(str);
         const splitted =date.toString().split(" ");
@@ -69,14 +71,12 @@ const Register=() =>{
         day = ("0" + dt.getDate()).slice(-2);   
         setStart({...start,month:parseInt(mnth),date:parseInt(day),year:date.getFullYear(),hours:hrs,minutes:mins,seconds:secs});
     }
-    function handleEnd(str) {
+
+     const handleEnd = (str) => {
         var date = new Date(str);
         const splitted =date.toString().split(" ");
         const time = (splitted[4]);
         const res =time.split(":");
-
-        // console.log(res[0]+" "+res[1]+" "+res[2]);
-
         const hrs= parseInt(res[0]);
         const mins= parseInt(res[1]);
         const secs= parseInt(res[2]);
@@ -151,7 +151,7 @@ const Register=() =>{
                 <Col>                     
                     <Form>
                         <Form.Group>
-                            <a href="/status" className="btn btn-dark">{"Back"}</a>
+                            <a href="/status" className="btn btn-dark"><i class="fa fa-arrow-left" aria-hidden="true"></i></a>
                         </Form.Group>
                         <Form.Group>
                             <Form.Label>Name </Form.Label>
@@ -176,7 +176,6 @@ const Register=() =>{
                         <Form.Group as={Row}>
                             <Form.Label column sm="2">Source:</Form.Label>
                             <Col sm="10" className="mt-1"> <h4><Badge variant="info">MUJ</Badge></h4>
-                            {/* <Form.Control plaintext readOnly defaultValue="MUJ" /> */}
                             </Col>
                            
                         </Form.Group>
@@ -206,11 +205,11 @@ const Register=() =>{
                             </Form.Control>
                             <Form.Text>Please select No if you want to share your cab with same Gender</Form.Text>
                         </Form.Group>
-                    
+                        <p>{JSON.stringify(start)}</p>
                         <br></br>
-                        <TimeSlot text="Start Time" handleEvent={handleStart} time={start} />
+                        <TimeSlot text="Start Time" handleEvent={handleStart} time={start.date} />
                         <br></br>
-                        <TimeSlot text="End Time" handleEvent={handleEnd} timeSlotValidator={timeSlotValidator} time={end}/>
+                        <TimeSlot text="End Time" handleEvent={handleEnd} timeSlotValidator={timeSlotValidator} time={end.date}/>
                         
                         <div className="text-center">
                             <Button  variant="info" size="lg" onClick={()=>onSubmit()}>Register</Button>
@@ -224,7 +223,11 @@ const Register=() =>{
             </Container>
            
         </div>
+
     )
-}
+
+    
+   
+};
 
 export default Register;

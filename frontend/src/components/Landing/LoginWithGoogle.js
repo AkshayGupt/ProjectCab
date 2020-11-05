@@ -2,10 +2,11 @@ import React,{useState} from 'react';
 import GoogleLogin from 'react-google-login';
 import { Redirect } from 'react-router-dom';
 import {signin} from './helper';
-const LoginWithGoogle = () =>{
+import Loading from '../../Loading';
+const LoginWithGoogle = ({ toggleLoading}) =>{
 
     const [redirect,setRedirect] = useState(false);
-
+    
     const redirectToHomePage = () =>{
         if(redirect){
             return <Redirect to="/status"/>
@@ -26,6 +27,7 @@ const LoginWithGoogle = () =>{
         .then(data=>{
             if(data.error){
                 console.log(data.error);
+                toggleLoading();
             }
             else{
                 console.log("Data Returned From Firebase:",data.user);
@@ -40,19 +42,22 @@ const LoginWithGoogle = () =>{
     }
 
     const responseGoogle = (response) => {
-            signup(response);
+        toggleLoading();
+       signup(response);
     }
 
-    return(
-        <div>
-            {redirectToHomePage()}
-            <GoogleLogin
-                clientId="75919986643-5sm5ivl89jlterfa2f4qi3g183btlj52.apps.googleusercontent.com"
-                buttonText="Google"
-                onSuccess={responseGoogle}
-                onFailure={responseGoogle}
-            />
+   
 
+    return(
+        <div>      
+            {redirectToHomePage()}
+                <GoogleLogin
+                    clientId="75919986643-5sm5ivl89jlterfa2f4qi3g183btlj52.apps.googleusercontent.com"
+                    buttonText="Google"
+                    onSuccess={responseGoogle}
+                    onFailure={responseGoogle}
+                />
+           
         </div>
       
     );

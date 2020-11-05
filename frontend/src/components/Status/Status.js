@@ -42,25 +42,26 @@ const Status =()=> {
     return (
         <div>
             {redirectToLandingPage()}
-            <div className="mb-3">
-            <h1 className="text-center register-heading text-light"> Status</h1>
+            <div className="mb-3" className="status-heading ">
+                <h1 className="text-center text-light">
+                    Status
+                </h1>
             </div>
-            <div className="mx-5 d-flex justify-content-between">
-                <p className="ml-2">Welcome {getName()} !</p>
+            <div className="mr-3 my-3 d-flex justify-content-end">
                 <div>
-                <a href="/register" className="btn btn-info">Create New Trip</a>
+                <a href="/register" className="btn btn-info"> <i class="fa fa-pencil" aria-hidden="true"></i> Create Trip   </a>
                 {' '}
-                <button className="btn btn-info" onClick={()=>signout()}>Logout</button>
+                <button className="btn btn-info " onClick={()=>signout()}><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</button>
                 </div>
                
             </div>
 
             <div className="d-flex justify-content-start align-items-center ">
                 <h1 className="ml-5 mt-4">Current Status </h1>
-                <p></p>
+              
                 <Badge variant="danger mt-4">pending</Badge>
             </div>
-
+            <p className="mx-5  "><hr/></p>
             {/* Temp */}
             <div className="text-center mb-3">
                 <Button onClick={()=>checkAuthentication()}>Check Login Status</Button>
@@ -68,6 +69,7 @@ const Status =()=> {
             </div>
             
             <div className="current-status text-center">
+            <iframe src="https://giphy.com/embed/RMwYOO5e8pr1lhL8K7" width="480" height="300" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/onmilwaukee-sherlock-burger-search-RMwYOO5e8pr1lhL8K7">   </a></p>
                 <h3>Currently Processing!</h3>
                 <h4>Sorry, We have not found any match for your trip till now!</h4>
             </div>
