@@ -43,7 +43,7 @@ const Status =()=> {
         <div>
             {redirectToLandingPage()}
             <div className="mb-3" className="status-heading ">
-                <h1 className="text-center text-light">
+                <h1 className="text-center text-light display-3">
                     Status
                 </h1>
             </div>
@@ -61,7 +61,7 @@ const Status =()=> {
               
                 <Badge variant="danger mt-4">pending</Badge>
             </div>
-            <p className="mx-5  "><hr/></p>
+            
             {/* Temp */}
             <div className="text-center mb-3">
                 <Button onClick={()=>checkAuthentication()}>Check Login Status</Button>

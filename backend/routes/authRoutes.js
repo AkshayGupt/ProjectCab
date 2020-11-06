@@ -11,6 +11,9 @@ import {
 // Define Router
 const router = express.Router();
 
+// @Todo: Define middlewares to check isSigned
+
+
 router.post("/signIn", googleSignIn);
 router.post("/signOut", googleSignOut);
 
