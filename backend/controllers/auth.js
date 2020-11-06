@@ -6,15 +6,8 @@ import { firebaseConfig } from "./config/config";
 
 const config = firebaseConfig();
 
-// Initialize Firebase (ONLINE)
+// Initialize Firebase app
 firebase.initializeApp(config);
-
-// For Firebase Local Emulator Suite
-// var db = firebase.firestore();
-// if(location.hostname == "localhost") {
-//   db.useEmulator("localhost", 8080);
-// }
-
 
 // Google provider instance
 const provider = new firebase.auth.GoogleAuthProvider();
