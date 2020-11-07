@@ -20,6 +20,7 @@ exports.setUser = (req, res) => {
       email: user.email,
       whatsappNumber: user.whatsappNumber,
       gender: user.gender,
+      pastTrips: [],
     })
     .then((ref) => {
       return res.status(200).json({ message: "Created" });
