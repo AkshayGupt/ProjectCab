@@ -14,10 +14,11 @@ const LoginWithGoogle = ({ toggleLoading}) =>{
     }
 
     const signup =(res) =>{
+        console.log(res);
         const googleresponse = {
             name:res.profileObj.name,
             email:res.profileObj.email,
-            id_token:res.wc.id_token,
+            id_token:res.tokenId,
             Image:res.profileObj.imageUrl,
             ProviderId:'Google'
         };
