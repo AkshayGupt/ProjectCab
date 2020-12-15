@@ -12,6 +12,7 @@ export const signin = (googleResponse) =>{
         body:JSON.stringify(googleResponse)
     })
     .then(res=>{
+        
         return res.json();
     })
     .catch(err=>console.log(err));

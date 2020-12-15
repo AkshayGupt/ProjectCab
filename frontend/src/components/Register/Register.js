@@ -4,6 +4,8 @@ import {Row,Col,Container,Form,Button,Badge} from 'react-bootstrap';
 import './Register.css';
 import TimeSlot from './TimeSlot';
 import Confirm from './Confirm';
+
+import Navigation from '../Navigation/Navigation';    
 const Register=() =>{
 
     const [confirm,setConfirm] = useState(false);
@@ -109,7 +111,8 @@ const Register=() =>{
         }
     }
     const register = () =>{
-        return <div className="body">
+        return (<div>
+        <div className="body">
                 <div className="mb-3">
                     <h1 className="text-center register-heading text-light">  <h1 className="text-center text-light display-3">Create new Trip <i class="fa fa-pencil" aria-hidden="true"></i></h1></h1>
                 </div>
@@ -169,7 +172,7 @@ const Register=() =>{
                     <Col sm="3"></Col>
                 </Row>
                 </Container>
-            </div>
+            </div></div>)
         
     }
    

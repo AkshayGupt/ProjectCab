@@ -35,6 +35,7 @@ const LoginWithGoogle = ({ toggleLoading}) =>{
                 localStorage.setItem("UID",data.user.uid);
                 localStorage.setItem("email",data.user.email);
                 localStorage.setItem("name",data.user.displayName);
+                localStorage.setItem("image",data.user.photoURL);
                 setRedirect(true);
             }
         })

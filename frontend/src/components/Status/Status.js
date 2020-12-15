@@ -2,6 +2,8 @@ import React,{useState} from 'react'
 import { Container,Row,Col,Badge,Button } from 'react-bootstrap';
 import './Status.scss';
 import {Redirect} from 'react-router-dom';
+
+import Navigation from '../Navigation/Navigation';    
 import {isAuthenticated, signOut} from '../Auth/helper';
 const Status =()=> {
 
@@ -50,6 +52,8 @@ const Status =()=> {
             <div className="mr-3 my-3 d-flex justify-content-end">
                 <div>
                 <a href="/register" className="btn btn-info"> <i class="fa fa-pencil" aria-hidden="true"></i> Create Trip   </a>
+                {' '}
+                <a href="/profile" className="btn btn-info"> <i class="fa fa-user" aria-hidden="true"></i> Profile   </a>
                 {' '}
                 <button className="btn btn-info " onClick={()=>signout()}><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</button>
                 </div>
