@@ -23,6 +23,7 @@ exports.googleSignIn = (req, res) => {
     .auth()
     .signInWithCredential(credential)
     .then((result) => {
+      console.log("Result from Backend: "+result);
       let token = result.credential.accessToken;
       let user = result.user;
       return res.json({

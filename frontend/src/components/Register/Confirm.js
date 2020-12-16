@@ -27,6 +27,8 @@ const Confirm =({trip})=> {
        
     }
     const handleConfirm = () =>{
+
+
         setRedirect(true);
     }
 

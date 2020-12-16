@@ -26,7 +26,8 @@ const LoginWithGoogle = ({ toggleLoading}) =>{
 
         signin(googleresponse)
         .then(data=>{
-            if(data.error){
+            console.log(data);
+            if( !data || data.error){
                 console.log(data.error);
                 toggleLoading();
             }

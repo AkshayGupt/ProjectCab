@@ -1,9 +1,9 @@
 import {API} from '../../backend';
 
-export const register =(trip)=>{
+export const createNewTrip =(trip)=>{
     
     //@debug
-    return fetch(`${API}/register`,{
+    return fetch(`http://localhost:5000/db/createNewTrip`,{
         method:'POST',
         headers:{
             Accept: "application/json",
@@ -16,3 +16,4 @@ export const register =(trip)=>{
     })
     .catch(err=>console.log(err));
 };
+

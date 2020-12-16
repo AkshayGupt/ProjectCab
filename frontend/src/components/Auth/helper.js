@@ -24,4 +24,5 @@ export const signOut = () =>{
     localStorage.removeItem("name");
     localStorage.removeItem("email");
     localStorage.removeItem("UID");
+    localStorage.removeItem("image");
 }

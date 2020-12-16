@@ -4,7 +4,7 @@ import {Row,Col,Container,Form,Button,Badge} from 'react-bootstrap';
 import './Register.css';
 import TimeSlot from './TimeSlot';
 import Confirm from './Confirm';
-
+import {createNewTrip} from './helper';
 import Navigation from '../Navigation/Navigation';    
 const Register=() =>{
 
@@ -13,11 +13,11 @@ const Register=() =>{
         source:"Manipal Jaipur",
         destination:"Select",
         cabSize:2,
-        sameGender:"yes",
+        genderAllowed:"any",
         error:"",
         success:false
     });
-    const{source,destination,cabSize,sameGender,success,error} = values;
+    const{source,destination,cabSize,genderAllowed,success,error} = values;
 
     const handleChange = name=>event=>{
         setValues({...values,error:false,[name]:event.target.value})
@@ -88,12 +88,28 @@ const Register=() =>{
             alert("Please fill all the entries!");
             return;
         }
-        const obj={source,destination,cabSize,sameGender,start,end};
+        const membersNeeded =cabSize;
+        const startTime = start;
+        const endTime =end;
+        const members =[];
+        members.push(localStorage.getItem("name"));
+        const obj={source,destination,membersNeeded,members,genderAllowed,startTime,endTime};
 
         console.log(obj);
-        setConfirm(true);
+        // setConfirm(true);
         //temporary to redirect to status page
         // setValues({...values,success:true})        
+
+        createNewTrip(obj)
+        .then(data=>{
+            if(data.error){
+                console.log("Error"+data.error);
+            }
+            else{
+                setValues({...values,success:true});
+
+            }
+        })
     }
 
     
@@ -151,6 +167,14 @@ const Register=() =>{
                                 </Form.Control>
                             </Form.Group>
                             <Form.Group>
+                                <Form.Label>Gender Allowed <i class="fa fa-users" aria-hidden="true"></i></Form.Label>
+                                <Form.Control as="select" value={genderAllowed} onChange={handleChange("genderAllowed")}>
+                                    <option value="any">any</option>
+                                    <option value="male">male</option>
+                                    <option value="female">female</option>
+                                </Form.Control>
+                            </Form.Group>
+                            {/* <Form.Group>
                                 <Form.Label>Other Gender allowed</Form.Label>
                                 <Form.Control as="select" value={sameGender} onChange={handleChange("sameGender")}>
                                     <option value="yes">Yes</option>
@@ -158,7 +182,7 @@ const Register=() =>{
                                    
                                 </Form.Control>
                                 <Form.Text>Please select No if you want to share your cab with same Gender</Form.Text>
-                            </Form.Group>
+                            </Form.Group> */}
                             <br></br>
                         </Form>
                         <h1 className="text-center"><i className="fa fa-calendar" aria-hidden="true"></i></h1>  <br/>
@@ -180,7 +204,7 @@ const Register=() =>{
     return (
         <div>
             {onSuccessfulRegister()}
-            {confirm?<Confirm trip={{source,destination,cabSize,sameGender,start,end}}/>:register()}
+            {confirm?<Confirm trip={{source,destination,cabSize,genderAllowed,start,end}}/>:register()}
         </div>
 
     )

@@ -17,6 +17,7 @@ var db = firebase.firestore();
  */
 exports.createNewTrip = (req, res) => {
   let trip = req.body;
+  console.log("TRIP: "+trip);
   const tripId = trip.members[0].toString() + Date.now().toString();
 
   let membersList = [];
@@ -116,3 +117,50 @@ exports.markTripComplete = (req, res) => {
       return res.json({ message: "Cannot fetch documnt" });
     });
 };
+
+/*
+* Return a Trip using its tripID
+* Searches in the trips collection
+*/
+exports.getTripById = (req,res) => {
+  const tripId =req.body.tripID;
+  
+  db.collection("trips")
+  .where("tripID","==",tripId)
+  .get()
+  .then((doc)=>{
+    console.log(doc);
+      return res.status(200)
+              .json(doc.docs.map((doc) => doc.data()));
+  })
+  .catch((err)=>{
+    return res.status(400)
+            .json({
+              error:"Trip not found!"
+            })
+  })
+}
+
+/*
+* Return a Trip using its tripID
+* Searches in the trips collection
+*/
+exports.getPastTripById = (req,res) => {
+  const tripId =req.body.tripID;
+  
+  db.collection("past_trips")
+  .where("tripID","==",tripId)
+  .get()
+  .then((doc)=>{
+    console.log(doc);
+      return res.status(200)
+              .json(doc.docs.map((doc) => doc.data()));
+  })
+  .catch((err)=>{
+    return res.status(400)
+            .json({
+              error:"Trip not found!"
+            })
+  })
+}
+
