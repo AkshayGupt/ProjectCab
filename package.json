@@ -4,7 +4,9 @@
   "description": "The project is to build a website/app for traveling in groups for people who would normally would pay for the whole vehicle, meant for multiple people, by themselves. It is an attempt to connect people that are traveling to the same destination.  The website/app should enable a user to enter basic information, and attempt to add him/her to a suitable group.",
   "main": "index.js",
   "dependencies": {
-    "concurrently": "^5.3.0"
+    "concurrently": "^5.3.0",
+    "firebase-admin": "^9.4.2",
+    "firebase-functions": "^3.13.0"
   },
   "devDependencies": {},
   "scripts": {

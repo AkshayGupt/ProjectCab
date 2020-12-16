@@ -33,39 +33,37 @@ exports.setUser = (req, res) => {
 };
 
 //Returns all users
-exports.getAllUsers =(req,res)=>{
-  db.collection("users").get()
-  .then((doc)=>{
-    return res.status(200).json(
-      doc.docs.map(doc =>doc.data())
-    );
-  })
-  .catch((err)=>{
-    return res
-    .status(400)
-    .json({ error: "Error in retrieving data from firebase!" });
-  });
-}
-
+exports.getAllUsers = (req, res) => {
+  db.collection("users")
+    .get()
+    .then((doc) => {
+      return res.status(200).json(doc.docs.map((doc) => doc.data()));
+    })
+    .catch((err) => {
+      return res
+        .status(400)
+        .json({ error: "Error in retrieving data from firebase!" });
+    });
+};
 
 //Fetch a user by its UID from database and returns it
-exports.getUserById =(req,res)=>{
+exports.getUserById = (req, res) => {
   const UID = req.body.id;
-  db.collection("users").where('userID', '==', UID).get()
-  .then((doc)=>{
-    const len=doc.docs.length;
-    if(len == 0){
-      return res.status(400).json({
-        error:"User not Found!"
-      })
-    }
-    return res.status(200).json(
-      doc.docs.map(doc =>doc.data())
-    );
-  })
-  .catch((err)=>{
-    return res
-    .status(400)
-    .json({ error: "Error in retrieving data from firebase!" });
-  });
-}
+  db.collection("users")
+    .where("userID", "==", UID)
+    .get()
+    .then((doc) => {
+      const len = doc.docs.length;
+      if (len == 0) {
+        return res.status(400).json({
+          error: "User not Found!",
+        });
+      }
+      return res.status(200).json(doc.docs.map((doc) => doc.data()));
+    })
+    .catch((err) => {
+      return res
+        .status(400)
+        .json({ error: "Error in retrieving data from firebase!" });
+    });
+};
