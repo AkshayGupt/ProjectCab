@@ -68,34 +68,7 @@ While the prerequisites above must be satisfied prior to having your pull reques
 * Use the imperative mood ("Set color to..." not "Sets color to...")
 * Limit the first line to 72 characters or less
 * Reference issues and pull requests liberally after the first line
-* Consider stating with the commit messages with an applicable emoji:
-  * :art: `:art:` when improving the format/structure of the code
-  * :zap: `:zap:` when improving performance
-  * :fire: `:fire:` when removing code/files
-  * :bug: `:bug:` when fixing a bug
-  * :sparkles: `:sparkles:` when introducing new features
-  * :memo: `:memo:` when adding/updating documentation
-  * :rocket: `:rocket:` when deploying stuff
-  * :ambulance: `:ambulance:` when applying a critical hotfix
-  * :lipstick: `:lipstick:` when adding/updating the UI/style files
-  * :white_check_mark: `:white_check_mark:` when adding/updating tests
-  * :lock: `:lock:` when fixing security issues/leaks
-  * :heavy_plus_sign: `:heavy_plus_sign:` when adding dependencies
-  * :heavy_minus_sign: `:heavy_minus_sign:` when removing dependencies
-  * :card_file_box: `:card_file_box:` when working on backend
-  * :pencil2: `:pencil2:` when fixing typos
-  * :alien: `:alien:` when working with API
-  * :building_construction: `:building_construction:` when making architectural changes
-  * :truck: `:truck:` when renaming/moving files
-  * :boom: `:boom:` when introducing breaking changes
-  * :bulb: `:bulb:` when adding or updating comments in source code
-  * :rotating_light: `:rotating_light:` when removing linter warnings
-  * :green_heart: `:green_heart:` when fixing CI build
-  * :arrow_down: `:arrow_down:` when downgrading dependencies
-  * :arrow_up: `:arrow_up:` when upgrading dependencies
-  * :pushpin: `pushpin` when pining dependencies to specific versions
-  * :recycle: `:recycle:` when refactoring code
-  * :see_no_evil: `:see_no_evil:` when adding/updating .gitignore file
+* Consider stating with the commit messages with an applicable emoji (Refer [here](https://gitmoji.dev/))
 
 ### JavaScript Styleguide
 
