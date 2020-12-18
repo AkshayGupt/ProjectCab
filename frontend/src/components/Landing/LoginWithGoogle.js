@@ -14,7 +14,12 @@ const LoginWithGoogle = ({ toggleLoading}) =>{
     }
 
     const signup =(res) =>{
-        console.log(res);
+        console.log("Response");
+        console.log(res.error);
+        if(res.error){
+            console.log("Reeturning")
+            return;
+        }
         const googleresponse = {
             name:res.profileObj.name,
             email:res.profileObj.email,
@@ -29,9 +34,10 @@ const LoginWithGoogle = ({ toggleLoading}) =>{
             console.log(data);
             if( !data || data.error){
                 console.log(data.error);
-                toggleLoading();
+               
             }
             else{
+                toggleLoading();
                 console.log("Data Returned From Firebase:",data.user);
                 localStorage.setItem("UID",data.user.uid);
                 localStorage.setItem("email",data.user.email);
@@ -45,7 +51,7 @@ const LoginWithGoogle = ({ toggleLoading}) =>{
     }
 
     const responseGoogle = (response) => {
-        toggleLoading();
+        // toggleLoading();
        signup(response);
     }
 

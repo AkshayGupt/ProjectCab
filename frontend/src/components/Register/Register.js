@@ -1,6 +1,6 @@
 import React,{useState} from 'react';
 import {Redirect} from 'react-router-dom';
-import {Row,Col,Container,Form,Button,Badge} from 'react-bootstrap';
+import {Row,Col,Container,Form,Button,Badge,Spinner} from 'react-bootstrap';
 import './Register.css';
 import TimeSlot from './TimeSlot';
 import Confirm from './Confirm';
@@ -125,6 +125,10 @@ const Register=() =>{
             return  <div>
             <div className="alert alert-success mt-3">
             <h4>Registered successfully!</h4>
+            <h6>Redirecting <Spinner animation="border" role="status"  size="sm">
+                <span className="sr-only">Loading...</span>
+            </Spinner>
+            </h6>
             </div>
                 </div>
         }
@@ -203,7 +207,7 @@ const Register=() =>{
                         </Form>
 
                         <h1 className="text-center"><i className="fa fa-calendar" aria-hidden="true"></i></h1>  <br/>
-                        <div class="d-flex justify-content-between">
+                        <div className="d-flex justify-content-between p-3" style={{borderStyle:start.date!=0?"groove":""}}>
                             <div >
                             {start.date != 0 && (
                               <>

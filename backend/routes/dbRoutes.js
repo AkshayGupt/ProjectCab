@@ -9,7 +9,8 @@ import { setUser,
 import { createNewTrip,
          markTripComplete,
          getTripById,
-         getPastTripById 
+         getPastTripById,
+         getTripsByUserId
         } from "../controllers/trip";
 
 //Define router
@@ -28,6 +29,8 @@ router.get("/getTripById", getTripById);
 router.get("/getPastTripById", getPastTripById);
 router.post("/createNewTrip", createNewTrip);
 router.post("/markTripComplete", markTripComplete);
+
+router.get("/getTripsByUserId",getTripsByUserId);
 
 // Export module to enable imports
 module.exports = router;
