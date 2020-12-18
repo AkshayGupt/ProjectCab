@@ -61,25 +61,25 @@ const Status =()=> {
             </div>
 
             <div className="d-flex justify-content-start align-items-center ">
-                <h1 className="ml-5 mt-4">Current Status </h1>
+                <h2 className="ml-5 mt-4">Current Status </h2>
               
                 <Badge variant="danger mt-4">pending</Badge>
             </div>
             
             {/* Temp */}
-            <div className="text-center mb-3">
+            {/* <div className="text-center mb-3">
                 <Button onClick={()=>checkAuthentication()}>Check Login Status</Button>
                 {authenticated && <p>Secret Content</p>}
-            </div>
+            </div> */}
             
             <div className="current-status text-center">
-            <iframe src="https://giphy.com/embed/RMwYOO5e8pr1lhL8K7" width="480" height="300" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/onmilwaukee-sherlock-burger-search-RMwYOO5e8pr1lhL8K7">   </a></p>
+            {/* <iframe src="https://giphy.com/embed/RMwYOO5e8pr1lhL8K7" width="480" height="300" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/onmilwaukee-sherlock-burger-search-RMwYOO5e8pr1lhL8K7">   </a></p> */}
                 <h3>Currently Processing!</h3>
                 <h4>Sorry, We have not found any match for your trip till now!</h4>
             </div>
 
             <div className="mb-5 mt-5">
-               <h2 className="ml-5">Future Trips</h2>
+               <h2 className="ml-5">Upcoming Trips</h2>
             </div>
             <div>
                 <Container>

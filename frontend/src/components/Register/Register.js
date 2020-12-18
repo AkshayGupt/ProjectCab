@@ -92,7 +92,7 @@ const Register=() =>{
         const startTime = start;
         const endTime =end;
         const members =[];
-        members.push(localStorage.getItem("name"));
+        members.push(localStorage.getItem("UID"));
         const obj={source,destination,membersNeeded,members,genderAllowed,startTime,endTime};
 
         console.log(obj);
@@ -107,7 +107,6 @@ const Register=() =>{
             }
             else{
                 setValues({...values,success:true});
-
             }
         })
     }
@@ -120,10 +119,26 @@ const Register=() =>{
             return;
         }
     }
-
+    const showSuccessMessage =()=>{
+    
+        if(success){
+            return  <div>
+            <div className="alert alert-success mt-3">
+            <h4>Registered successfully!</h4>
+            </div>
+                </div>
+        }
+           
+    }
     const onSuccessfulRegister=()=>{
         if(success){
-            return <Redirect to="/status"/>
+            window.setTimeout(function(){
+
+                // Move to a new location or you can do something else
+                window.location.href = "http://localhost:3000/status";
+        
+            }, 3000);
+            // return <Redirect to="/status"/>
         }
     }
     const register = () =>{
@@ -141,7 +156,7 @@ const Register=() =>{
                         </div>
                            
                     </Col>
-                    <Col>                     
+                    <Col>                    
                         <Form>
                             <Form.Group >
                                 <Form.Label >Source</Form.Label>
@@ -159,7 +174,7 @@ const Register=() =>{
                                 </Form.Control>
                             </Form.Group>
                             <Form.Group>
-                                <Form.Label>Max Cab size <i class="fa fa-users" aria-hidden="true"></i></Form.Label>
+                                <Form.Label>Minimum Cab size <i class="fa fa-users" aria-hidden="true"></i></Form.Label>
                                 <Form.Control as="select" value={cabSize} onChange={handleChange("cabSize")}>
                                     <option value="2">2</option>
                                     <option value="4">4</option>
@@ -167,12 +182,13 @@ const Register=() =>{
                                 </Form.Control>
                             </Form.Group>
                             <Form.Group>
-                                <Form.Label>Gender Allowed <i class="fa fa-users" aria-hidden="true"></i></Form.Label>
+                                <Form.Label>Gender Allowed <i class="fa " aria-hidden="true"></i></Form.Label>
                                 <Form.Control as="select" value={genderAllowed} onChange={handleChange("genderAllowed")}>
-                                    <option value="any">any</option>
-                                    <option value="male">male</option>
-                                    <option value="female">female</option>
+                                    <option value="any">Any</option>
+                                    <option value="male">Only male</option>
+                                    <option value="female">Only female</option>
                                 </Form.Control>
+                                <Form.Text>**Selecting particular gender might lower the chances of matching.</Form.Text>
                             </Form.Group>
                             {/* <Form.Group>
                                 <Form.Label>Other Gender allowed</Form.Label>
@@ -185,13 +201,50 @@ const Register=() =>{
                             </Form.Group> */}
                             <br></br>
                         </Form>
+
                         <h1 className="text-center"><i className="fa fa-calendar" aria-hidden="true"></i></h1>  <br/>
-                        <TimeSlot text="Start Time" handleEvent={handleStart} time={start.date}/>
-                        <TimeSlot text="End Time" handleEvent={handleEnd} timeSlotValidator={timeSlotValidator} time={end.date}/>
-                            <div className="text-center my-5">
-                                <Button  variant="info" size="lg" onClick={()=>onSubmit()}>Create Trip</Button>
+                        <div class="d-flex justify-content-between">
+                            <div >
+                            {start.date != 0 && (
+                              <>
+                              <h6>Start:</h6>
+                               <p>Date: {start.date}{'-'}{start.month}{'-'}{start.year}</p>
+                               <p>Time: {start.hours}{'hrs '}{start.minutes}{'mins '}{start.seconds}secs</p>
+                               </>
+                        )}
                             </div>
-                          
+                            <div>
+                            {end.date != 0 && (
+                             <>
+                             <h6>End:</h6>
+                              <p>Date: {end.date}{'-'}{end.month}{'-'}{end.year}</p>
+                              <p>Time: {end.hours}{'hrs '}{end.minutes}{'mins '}{end.seconds}secs</p>
+                              </>
+                        )}
+                            </div>
+                        </div>
+                       
+                      
+
+                        {start.date == 0?<TimeSlot text="Start Time" handleEvent={handleStart} time={start.date}/>:(
+                             ""
+                        )}
+                        {start.date == 0 || end.date != 0?(
+                           ""
+                        ):<TimeSlot text="End Time" handleEvent={handleEnd} timeSlotValidator={timeSlotValidator} time={end.date}/>}
+                            <div className="text-center">
+                                {
+                                    success?(
+                                        <>{showSuccessMessage()} </>
+                                    ):
+                                    (
+                                        <Button className="my-5" variant="info" size="lg" onClick={()=>onSubmit()}>Create Trip</Button>
+                                    )
+                                }
+                                
+                            </div>
+                        
+                           
                     </Col>
                     <Col sm="3"></Col>
                 </Row>
