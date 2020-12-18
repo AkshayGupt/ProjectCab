@@ -1,16 +1,14 @@
 "use strict";
 
 import express from "express";
-import { setUser,
-         getAllUsers,
-         getUserById 
-        } from "../controllers/user";
+import { setUser, getAllUsers, getUserById } from "../controllers/user";
 
-import { createNewTrip,
-         markTripComplete,
-         getTripById,
-         getPastTripById 
-        } from "../controllers/trip";
+import {
+  createNewTrip,
+  markTripComplete,
+  getTripById,
+  getPastTripById,
+} from "../controllers/trip";
 
 //Define router
 const router = express.Router();
@@ -21,7 +19,6 @@ const router = express.Router();
 router.post("/setUser", setUser);
 router.get("/getAllUsers", getAllUsers);
 router.get("/getUserById", getUserById);
-
 
 /* TRIP ROUTES */
 router.get("/getTripById", getTripById);
