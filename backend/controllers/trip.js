@@ -164,3 +164,19 @@ exports.getPastTripById = (req,res) => {
   })
 }
 
+
+exports.getTripsByUserId =(req,res) =>{
+  console.log("Getting Trips of User",uid);
+  const uid =req.body.UID;
+ 
+  db.collection("trips")
+  .where("members", 'array-contains',uid)
+  .get()
+  .then((doc)=>{res.status(200)
+    .json(doc.docs.map((doc) => doc.data()));
+  })
+  .catch(err=>{
+    console.log(err);
+  })
+
+}
