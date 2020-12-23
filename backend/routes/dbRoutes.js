@@ -8,6 +8,7 @@ import {
   markTripComplete,
   getTripById,
   getPastTripById,
+  getTripsByUserId,
 } from "../controllers/trip";
 
 //Define router

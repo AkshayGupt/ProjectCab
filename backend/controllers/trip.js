@@ -1,8 +1,8 @@
 "use strict";
 
-import { user } from "firebase-functions/lib/providers/auth";
 import firebase from "firebase/app";
 import "firebase/firestore";
+import "regenerator-runtime/runtime.js";
 
 var db = firebase.firestore();
 
@@ -10,18 +10,15 @@ var db = firebase.firestore();
 // db.settings({ host: "localhost:8080", ssl: false });
 
 /**
- * Create a new trip
- *
- * Gets a [Trip] object.
- * Saves that object in the database.
+ * Private helper function to create a new trip if no existing trips are found.
  */
-exports.createNewTrip = (req, res) => {
-  let trip = req.body;
-  console.log("TRIP: "+trip);
+const _createNewTrip = (trip, res) => {
+  // Assign a tripId
   const tripId = trip.members[0].toString() + Date.now().toString();
 
+  // Create members list
   let membersList = [];
-  for (let i in trip.members) membersList.push(trip.members[i]);
+  membersList.push(trip.members[0]);
 
   db.collection("trips")
     .doc(tripId)
@@ -43,6 +40,66 @@ exports.createNewTrip = (req, res) => {
     .catch((err) => {
       return res.status(400).json({ error: "Error in creating a new trip!" });
     });
+};
+
+/**
+ * Create a new trip
+ *
+ * Gets a [Trip] object.
+ * Saves that object in the database.
+ */
+exports.createNewTrip = async (req, res) => {
+  let trip = req.body;
+
+  // TODO: Find duplicate existing trips
+
+  let {
+    userID,
+    source,
+    destination,
+    startTime,
+    endTime,
+    membersNeeded,
+    genderAllowed,
+  } = trip;
+
+  // TODO: Improve the member capacity
+
+  const tripQuery = db
+    .collection("trips")
+    .where("source", "==", source)
+    .where("destination", "==", destination)
+    .where("genderAllowed", "==", genderAllowed)
+    .where("membersNeeded", ">=", membersNeeded);
+
+  try {
+    await db.runTransaction(async (t) => {
+      const snapshot = await t.get(tripQuery);
+      if (snapshot.exists && snapshot.docs.length > 0) {
+
+        let doc = null;
+        for(document in snapshot.docs) {
+          if(document.endTime <= endTime && document.membersNeeded > membersNeeded) {
+            doc = document;
+            break;
+          }
+        }
+
+        // Add the new user to the existing trip
+        const tripRef = db.collection("trips").doc(doc.tripID);
+        t.update(tripRef, { members: doc.data().members.push(userID) });
+        console.log("New member added!");
+      } else {
+        console.log("No Existing Trips found! Creating new trip.");
+        _createNewTrip(trip, res);
+      }
+    });
+    return res.status(200).json({ message: "Transaction ran successfully" });
+  } catch (e) {
+    console.log("Transaction Failure: ", e);
+    _createNewTrip(trip, res);
+    return res.status(200).json({ message: "Done" });
+  }
 };
 
 /**
@@ -118,65 +175,59 @@ exports.markTripComplete = (req, res) => {
     });
 };
 
-/*
-* Return a Trip using its tripID
-* Searches in the trips collection
-*/
-exports.getTripById = (req,res) => {
-  const tripId =req.body.tripID;
-  
-  db.collection("trips")
-  .where("tripID","==",tripId)
-  .get()
-  .then((doc)=>{
-    console.log(doc);
-      return res.status(200)
-              .json(doc.docs.map((doc) => doc.data()));
-  })
-  .catch((err)=>{
-    return res.status(400)
-            .json({
-              error:"Trip not found!"
-            })
-  })
-}
+/**
+ * Return a Trip using its tripID
+ * Searches in collection 'trips'
+ */
+exports.getTripById = (req, res) => {
+  const tripId = req.body.tripID;
 
-/*
-* Return a Trip using its tripID
-* Searches in the trips collection
-*/
-exports.getPastTripById = (req,res) => {
-  const tripId =req.body.tripID;
-  
+  db.collection("trips")
+    .where("tripID", "==", tripId)
+    .get()
+    .then((doc) => {
+      console.log(doc);
+      return res.status(200).json(doc.docs.map((doc) => doc.data()));
+    })
+    .catch((err) => {
+      return res.status(400).json({
+        error: "Trip not found!",
+      });
+    });
+};
+
+/**
+ * Return a Trip using its tripID
+ * Searches in collection 'trips'
+ */
+exports.getPastTripById = (req, res) => {
+  const tripId = req.body.tripID;
+
   db.collection("past_trips")
-  .where("tripID","==",tripId)
-  .get()
-  .then((doc)=>{
-    console.log(doc);
-      return res.status(200)
-              .json(doc.docs.map((doc) => doc.data()));
-  })
-  .catch((err)=>{
-    return res.status(400)
-            .json({
-              error:"Trip not found!"
-            })
-  })
-}
+    .where("tripID", "==", tripId)
+    .get()
+    .then((doc) => {
+      console.log(doc);
+      return res.status(200).json(doc.docs.map((doc) => doc.data()));
+    })
+    .catch((err) => {
+      return res.status(400).json({
+        error: "Trip not found!",
+      });
+    });
+};
 
+exports.getTripsByUserId = (req, res) => {
+  console.log("Getting Trips of User", uid);
+  const uid = req.body.UID;
 
-exports.getTripsByUserId =(req,res) =>{
-  console.log("Getting Trips of User",uid);
-  const uid =req.body.UID;
- 
   db.collection("trips")
-  .where("members", 'array-contains',uid)
-  .get()
-  .then((doc)=>{res.status(200)
-    .json(doc.docs.map((doc) => doc.data()));
-  })
-  .catch(err=>{
-    console.log(err);
-  })
-
-}
+    .where("members", "array-contains", uid)
+    .get()
+    .then((doc) => {
+      res.status(200).json(doc.docs.map((doc) => doc.data()));
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};

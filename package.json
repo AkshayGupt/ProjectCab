@@ -8,11 +8,10 @@
     "firebase-admin": "^9.4.2",
     "firebase-functions": "^3.13.0"
   },
-  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "frontend": "cd frontend && npm start",
-    "backend": "cd backend && npm start",
+    "backend": "cd backend2 && npm start",
     "dev": "concurrently \"npm run backend\" \"npm run frontend\""
   },
   "repository": {
