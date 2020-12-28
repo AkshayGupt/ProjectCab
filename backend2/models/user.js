@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-const {ObjectId} =Schema;
+const { ObjectId } = Schema;
 
 const User = new Schema(
   {
@@ -19,14 +19,11 @@ const User = new Schema(
     image: {
       type: String,
     },
-    trips:[
-      { type : ObjectId,
-         ref: 'Trip' 
-      }],
-    createdAt:{
-      type:Date,
-      default:Date.now
-    }
+    trips: [{ type: ObjectId, ref: "Trip" }],
+    createdAt: {
+      type: Date,
+      default: Date.now,
+    },
   },
   { timestamps: true }
 );

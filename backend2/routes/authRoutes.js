@@ -1,19 +1,31 @@
-const express = require ('express');
+// "use strict";
+
+const express = require("express");
 const router = express.Router();
-const passport = require('passport');
-const {
-     ensureAuth,
-     ensureGuest
-} = require('../middleware/auth');
+const passport = require("passport");
+const { ensureAuth, ensureGuest } = require("../middleware/auth");
 
+router.get("/", ensureGuest, (req, res) => {
+  res.send("Login");
+});
+router.get("/dashboard", ensureAuth, (req, res) => {
+  res.send("DashBoard");
+});
 
-//Auth Routes
-router.get('/signIn', passport.authenticate('google',{ scope:['profile'] }));
+router.get("/signIn", passport.authenticate("google", { scope: ["profile"] }));
 
-router.get('/signOut',(req,res)=>{
-     req.logOut()
-     res.redirect('/')
-})
+router.get(
+  "/google/callback",
+  passport.authenticate("google", { failureRedirect: "/" }),
+  (req, res) => {
+    res.redirect("/dashboard");
+  }
+);
+
+router.get("/signOut", (req, res) => {
+  req.logOut();
+  res.redirect("/");
+});
 
 router.get('/google/callback',passport.authenticate('google',{ failureRedirect:'/failure' }),(req,res) =>{
      return res.status(200).json({
@@ -48,5 +60,3 @@ router.get('/success',(req,res)=>{
 })
 
 module.exports = router;
-
-

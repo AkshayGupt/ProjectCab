@@ -1,14 +1,10 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-const {ObjectId} =Schema;
+const { ObjectId } = Schema;
 
 const Trip = new Schema(
   {
-    members: [
-      { type : ObjectId, 
-        ref: 'User' 
-      }
-    ],
+    members: [{ type: ObjectId, ref: "User" }],
     genderAllowed: {
       type: Number,
       required: true,
