@@ -1,31 +1,32 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
+const {ObjectId} =Schema;
 
 const User = new Schema(
   {
-    googleID: {
+    googleId: {
       type: String,
-      required: true,
     },
     firstName: {
       type: String,
-      required: true,
     },
     lastName: {
       type: String,
-      required: true,
     },
     email: {
       type: String,
-      required: true,
     },
     image: {
       type: String,
     },
-    trips: {
-      type: Array,
-      default: [],
-    },
+    trips:[
+      { type : ObjectId,
+         ref: 'Trip' 
+      }],
+    createdAt:{
+      type:Date,
+      default:Date.now
+    }
   },
   { timestamps: true }
 );

@@ -1,12 +1,14 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
+const {ObjectId} =Schema;
 
 const Trip = new Schema(
   {
-    members: {
-      type: Array,
-      required: true,
-    },
+    members: [
+      { type : ObjectId, 
+        ref: 'User' 
+      }
+    ],
     genderAllowed: {
       type: Number,
       required: true,
