@@ -39,7 +39,7 @@ connectDB();
 
 app.use("/", authRoute);
 app.use("/auth", authRoute);
-// app.use('/db', dbRoute);
+app.use('/db', dbRoute);
 
 const port = process.env.PORT || 5000;
 

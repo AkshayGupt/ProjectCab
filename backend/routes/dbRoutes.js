@@ -1,33 +1,25 @@
-// "use strict";
+const express = require("express");
+const { ensureAuth } = require("../middleware/auth");
+const {
+  createNewTrip,
+  getTripById,
+  getTripsByUserId,
+} = require("../controllers/trip");
+const { getUserById } = require("../controllers/user");
 
-// import express from "express";
-// import { setUser, getAllUsers, getUserById } from "../controllers/user";
+//Define router
+const router = express.Router();
 
-// import {
-//   createNewTrip,
-//   markTripComplete,
-//   getTripById,
-//   getPastTripById,
-//   getTripsByUserId,
-// } from "../controllers/trip";
-
-// //Define router
-// const router = express.Router();
-
-// /*@Todo: Make these routes private*/
-
-// /* USER ROUTES */
-// router.post("/setUser", setUser);
+/* USER ROUTES */
 // router.get("/getAllUsers", getAllUsers);
-// router.get("/getUserById", getUserById);
+router.get("/getUserById", getUserById);
 
-// /* TRIP ROUTES */
-// router.get("/getTripById", getTripById);
+/* TRIP ROUTES */
+router.get("/getTripById", getTripById);
+router.get("/getTripsByUserId", getTripsByUserId);
 // router.get("/getPastTripById", getPastTripById);
-// router.post("/createNewTrip", createNewTrip);
+router.post("/createNewTrip", createNewTrip);
 // router.post("/markTripComplete", markTripComplete);
 
-// router.get("/getTripsByUserId", getTripsByUserId);
-
-// // Export module to enable imports
-// module.exports = router;
+// Export module to enable imports
+module.exports = router;
