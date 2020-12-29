@@ -1,7 +1,5 @@
 const User = require("../models/User");
 
-// TODO: Exclude
-
 /**
  * Get User by ID
  */
