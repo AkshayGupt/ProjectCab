@@ -1,6 +1,5 @@
 const Trip = require("../models/Trip");
-
-// TODO: Add trip to user array 'trips'
+const User = require("../models/User");
 
 /**
  * Create a new trip
@@ -9,12 +8,21 @@ const Trip = require("../models/Trip");
  * Saves that object in the database.
  */
 exports.createNewTrip = (req, res) => {
+  const userID = req.body.members[0];
   const trip = new Trip(req.body);
   trip.save((err, trip) => {
     if (err) {
       return res.status(400).json({ error: "Cannot create a new trip!" });
     } else {
       console.log(trip);
+      User.findOneAndUpdate(
+        { _id: userID },
+        { $push: { trips: trip.id } }
+      ).exec((err, docs) => {
+        if (err) {
+          return res.status(400).json({ error: "Cannot upload data" });
+        }
+      });
       return res.status(200).json({ message: "Trip Created successfully!" });
     }
   });
