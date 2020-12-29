@@ -170,4 +170,4 @@ controllers/config/config.js
 dist
 
 # Environment Variables
-.env
+*.env

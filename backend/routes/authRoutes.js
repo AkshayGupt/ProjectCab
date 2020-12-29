@@ -1,17 +1,62 @@
-"use strict";
+// "use strict";
 
-import express from "express";
-import { googleSignIn, googleSignOut, authStatus } from "../controllers/auth";
-
-// Define Router
+const express = require("express");
 const router = express.Router();
+const passport = require("passport");
+const { ensureAuth, ensureGuest } = require("../middleware/auth");
 
-// @Todo: Define middlewares to check isSigned
+router.get("/", ensureGuest, (req, res) => {
+  res.send("Login");
+});
+router.get("/dashboard", ensureAuth, (req, res) => {
+  res.send("DashBoard");
+});
 
-router.post("/signIn", googleSignIn);
-router.post("/signOut", googleSignOut);
+router.get("/signIn", passport.authenticate("google", { scope: ["profile"] }));
 
-router.get("/authStatus", authStatus);
+router.get(
+  "/google/callback",
+  passport.authenticate("google", { failureRedirect: "/" }),
+  (req, res) => {
+    res.redirect("/dashboard");
+  }
+);
 
-// Export module to enable imports
+router.get("/signOut", (req, res) => {
+  req.logOut();
+  res.redirect("/");
+});
+
+router.get('/google/callback',passport.authenticate('google',{ failureRedirect:'/failure' }),(req,res) =>{
+     return res.status(200).json({
+          message:"Logged In"
+     })
+})
+
+
+router.get('/authStatus',ensureAuth,(req,res)=>{
+     return res.status(200).json({
+          message:"Logged In"
+     })
+})
+
+
+router.get('/',ensureGuest, (req,res)=>{
+     return res.status(200).json({
+          message:"Logged In"
+     })
+})
+
+router.get('/failure',(req,res)=>{
+     return res.status(400).json({
+          error:"Not Authenticated"
+     })
+})
+
+router.get('/success',(req,res)=>{
+     return res.status(400).json({
+          message:"Authenticated"
+     })
+})
+
 module.exports = router;
