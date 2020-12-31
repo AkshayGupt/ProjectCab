@@ -61,3 +61,64 @@ exports.getTripsByUserId = (req, res) => {
       }
     });
 };
+
+/**
+ * Return all past trips of a user
+ * @param {String} req: UserID
+ */
+exports.getPastTrips = (req, res) => {
+  const userID = req.body.userID;
+  const currentDateTime = new Date().toISOString();
+  Trip.find({ members: { $all: [userID] }, endTime: { $lte: currentDateTime } })
+    .populate("members")
+    .exec((err, trips) => {
+      if (err) {
+        return res.status(400).json({ error: "Cannot fetch past trips!" });
+      } else {
+        return res.status(200).json(trips);
+      }
+    });
+};
+
+/**
+ * Return all the ongoing trips of a user
+ * @param {String} req: UserID
+ */
+exports.getOngoingTrips = (req, res) => {
+  const userID = req.body.userID;
+  const currentDateTime = new Date().toISOString();
+  Trip.find({
+    members: { $all: [userID] },
+    startTime: { $lte: currentDateTime },
+    endTime: { $gte: currentDateTime },
+  })
+    .populate("members")
+    .exec((err, trips) => {
+      if (err) {
+        return res.status(400).json({ error: "Cannot fetch ongoing trips!" });
+      } else {
+        return res.status(200).json(trips);
+      }
+    });
+};
+
+/**
+ * Return all the Future trips of a user
+ * @param {String} req: UserID
+ */
+exports.getFutureTrips = (req, res) => {
+  const userID = req.body.userID;
+  const currentDateTime = new Date().toISOString();
+  Trip.find({
+    members: { $all: [userID] },
+    startTime: { $gt: currentDateTime },
+  })
+    .populate("members")
+    .exec((err, trips) => {
+      if (err) {
+        return res.status(400).json({ error: "Cannot fetch future trips!" });
+      } else {
+        return res.status(200).json(trips);
+      }
+    });
+};

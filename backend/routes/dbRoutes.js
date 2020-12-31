@@ -5,6 +5,9 @@ const {
   createNewTrip,
   getTripById,
   getTripsByUserId,
+  getPastTrips,
+  getOngoingTrips,
+  getFutureTrips,
 } = require("../controllers/trip");
 const { getUserById } = require("../controllers/user");
 
@@ -12,15 +15,17 @@ const { getUserById } = require("../controllers/user");
 const router = express.Router();
 
 /* USER ROUTES */
-// router.get("/getAllUsers", getAllUsers);
 router.get("/getUserById", getUserById);
 
 /* TRIP ROUTES */
 router.get("/getTripById", getTripById);
-router.get("/getTripsByUserId", getTripsByUserId);
-// router.get("/getPastTripById", getPastTripById);
+router.get("/getPastTrips", getPastTrips);
+router.get("/getOngoingTrips", getOngoingTrips);
+router.get("/getFutureTrips", getFutureTrips);
+
+router.get("getTripsByUserId", getTripsByUserId);
+
 router.post("/createNewTrip", checkExistingTrips, createNewTrip);
-// router.post("/markTripComplete", markTripComplete);
 
 // Export module to enable imports
 module.exports = router;
