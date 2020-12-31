@@ -70,7 +70,7 @@ exports.getPastTrips = (req, res) => {
   const userID = req.body.userID;
   const currentDateTime = new Date().toISOString();
   Trip.find({ members: { $all: [userID] }, endTime: { $lte: currentDateTime } })
-    .populate("members")
+    .populate("members", "firstName lastName image")
     .exec((err, trips) => {
       if (err) {
         return res.status(400).json({ error: "Cannot fetch past trips!" });
@@ -92,7 +92,7 @@ exports.getOngoingTrips = (req, res) => {
     startTime: { $lte: currentDateTime },
     endTime: { $gte: currentDateTime },
   })
-    .populate("members")
+    .populate("members", "firstName lastName image")
     .exec((err, trips) => {
       if (err) {
         return res.status(400).json({ error: "Cannot fetch ongoing trips!" });
@@ -113,7 +113,7 @@ exports.getFutureTrips = (req, res) => {
     members: { $all: [userID] },
     startTime: { $gt: currentDateTime },
   })
-    .populate("members")
+    .populate("members", "firstName lastName image")
     .exec((err, trips) => {
       if (err) {
         return res.status(400).json({ error: "Cannot fetch future trips!" });

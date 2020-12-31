@@ -1,5 +1,5 @@
 const Trip = require("../models/Trip");
-
+const User = require("../models/User");
 /**
  * Check if an existing trip already exists with the given parameters.
  * If exists, add the user in that trip.
@@ -45,6 +45,16 @@ exports.checkExistingTrips = (req, res, next) => {
             return next();
           } else {
             console.log(updatedTrip);
+            User.findOneAndUpdate(
+              { _id: userID },
+              { $push: { trips: newTrip.id } }
+            ).exec((err, doc) => {
+              if (err) {
+                return res
+                  .status(400)
+                  .json({ error: "Cannot add trip to user array" });
+              }
+            });
             res.status(200).json({ message: "Existing trip found!" });
           }
         });
