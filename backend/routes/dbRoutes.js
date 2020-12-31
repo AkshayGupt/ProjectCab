@@ -1,5 +1,6 @@
 const express = require("express");
 const { ensureAuth } = require("../middleware/auth");
+const { checkExistingTrips } = require("../middleware/db");
 const {
   createNewTrip,
   getTripById,
@@ -18,7 +19,7 @@ router.get("/getUserById", getUserById);
 router.get("/getTripById", getTripById);
 router.get("/getTripsByUserId", getTripsByUserId);
 // router.get("/getPastTripById", getPastTripById);
-router.post("/createNewTrip", createNewTrip);
+router.post("/createNewTrip", checkExistingTrips, createNewTrip);
 // router.post("/markTripComplete", markTripComplete);
 
 // Export module to enable imports
