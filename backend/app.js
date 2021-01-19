@@ -5,10 +5,9 @@ const cors = require("cors");
 const authRoute = require("./routes/authRoutes");
 const dbRoute = require("./routes/dbRoutes");
 const bodyParser = require("body-parser");
-const mongoose = require("mongoose");
+const cookieParser = require("cookie-parser");
 const connectDB = require("./config/db");
 const dotenv = require("dotenv");
-const passport = require("passport");
 const session = require("express-session");
 
 // Init express
@@ -16,9 +15,6 @@ const app = express();
 
 // Fetch Environment variables
 dotenv.config({ path: "./config/config.env" });
-
-//passort config
-require("./config/passport")(passport);
 
 //Sessions
 app.use(
@@ -29,9 +25,8 @@ app.use(
   })
 );
 
-app.use(passport.initialize());
-app.use(passport.session());
 app.use(cors());
+app.use(cookieParser());
 app.use(bodyParser.json());
 
 // Connect to mongoDB
@@ -39,7 +34,7 @@ connectDB();
 
 app.use("/", authRoute);
 app.use("/auth", authRoute);
-app.use('/db', dbRoute);
+app.use("/db", dbRoute);
 
 const port = process.env.PORT || 5000;
 

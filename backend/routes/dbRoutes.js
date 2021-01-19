@@ -23,7 +23,7 @@ router.get("/getPastTrips", getPastTrips);
 router.get("/getOngoingTrips", getOngoingTrips);
 router.get("/getFutureTrips", getFutureTrips);
 
-router.get("getTripsByUserId", getTripsByUserId);
+router.get("/getTripsByUserId", getTripsByUserId);
 
 router.post("/createNewTrip", checkExistingTrips, createNewTrip);
 

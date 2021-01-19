@@ -45,4 +45,4 @@ const Trip = new Schema(
   { timestamps: true }
 );
 
-module.exports = mongoose.model("Trip", Trip);
+module.exports = mongoose.models.Trip || mongoose.model("Trip", Trip);

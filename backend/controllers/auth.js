@@ -1,62 +1,61 @@
-// "use strict";
+"use strict";
 
-// import firebase from "firebase/app";
-// import "firebase/auth";
-// import { firebaseConfig } from "./config/config";
+const User = require("../models/user");
+const { validationResult } = require("express-validator");
+var jwt = require("jsonwebtoken");
+var expressJwt = require("express-jwt");
 
-// const config = firebaseConfig();
+exports.signup = (req, res) => {
+  const errors = validationResult(req);
 
-// // Initialize Firebase app
-// firebase.initializeApp(config);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({
+      error: errors.array()[0].msg,
+      parameter: errors.array()[0].param,
+    });
+  }
 
-// // Google provider instance
-// const provider = new firebase.auth.GoogleAuthProvider();
+  const user = new User(req.body);
+  user.save((err, user) => {
+    if (err) return res.status(400).json({ error: err.message });
+    return res.status(200).json({ name: user.firstName, email: user.email });
+  });
+};
 
-// // Enable Google Sign in through credentials
-// exports.googleSignIn = (req, res) => {
-//   let id_token = req.body.id_token;
-//   // console.log(id_token);
-//   let credential = provider.credential(id_token);
+exports.signin = (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({
+      error: errors.array()[0].msg,
+      parameter: errors.array()[0].param,
+    });
+  }
 
-//   firebase
-//     .auth()
-//     .signInWithCredential(credential)
-//     .then((result) => {
-//       console.log("Result from Backend: " + result);
-//       let token = result.credential.accessToken;
-//       let isNew = result.additionalUserInfo.isNewUser;
-//       let user = result.user;
-//       return res.json({
-//         isNewUser: isNew,
-//         token: token,
-//         user: user,
-//       });
-//     })
-//     .catch((error) => {
-//       return res.status(400).json({
-//         error: "Error in FIrebase!",
-//       });
-//     });
-// };
+  const { email, password } = req.body;
 
-// // Sign out from firebase.
-// exports.googleSignOut = (req, res) => {
-//   firebase.auth().signOut();
-// };
+  User.findOne({ email }, (err, user) => {
+    if (err || !user) {
+      return res
+        .status(400)
+        .json({ error: "User email and password do not match!" });
+    }
 
-// // Return [null] if the user is not authenticated
-// exports.authStatus = (req, res) => {
-//   let currentUser = firebase.auth().currentUser;
+    // Create Token
+    const token = jwt.sign({ _id: user._id }, process.env.SECRET);
+    res.cookie("token", { expire: new Date() + 9999 });
+    return res.status(200).json({
+      message: "User signed up successfully!",
+      token: token,
+      user: {
+        _id: user._id,
+        email: user.email,
+        firstName: user.firstName,
+      },
+    });
+  });
+};
 
-//   if (currentUser && currentUser.email) {
-//     return res.json({
-//       email: currentUser.email,
-//       status: true,
-//     });
-//   } else {
-//     return res.status(400).json({
-//       email: "",
-//       status: false,
-//     });
-//   }
-// };
+exports.signout = (req, res) => {
+  res.clearCookie("token");
+  res.status(200).json({ message: "User signed out successfully!" });
+};
