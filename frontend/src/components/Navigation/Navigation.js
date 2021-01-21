@@ -22,7 +22,7 @@ const Navigation = () => {
         <div>
             {redirectToLandingPage()}
             <nav className="navbar bg-light">
-            <a className="navbar-brand text-dark text-bold" href="/">Pool It</a>  
+            <a className="navbar-brand text-dark text-bold"  href="/"><h3 style={{fontStyle:"italic", fontFamily:"cursive"}}>Pool It</h3></a>  
             <div className="sign-in">
                             
                 <form className="form-inline">

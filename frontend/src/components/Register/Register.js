@@ -153,7 +153,7 @@ const Register=() =>{
             <Navigation/>
             <div className="body">
                 <div className="mb-3">
-                    <h1 className="text-center register-heading text-light">  <h1 className="text-center text-light display-3">Create new Trip <i class="fa fa-pencil" aria-hidden="true"></i></h1></h1>
+                    <h1 className="text-center register-heading">  <h1 className="text-center display-3">Create new Trip <i class="fa fa-pencil" aria-hidden="true"></i></h1></h1>
                 </div>
                 <Container>
                 <Row>
@@ -175,9 +175,9 @@ const Register=() =>{
                                 <Form.Label>Destination</Form.Label>
                                 <Form.Control as="select" value={destination} onChange={handleChange("destination")}>
                                     <option value="Select">Select</option>
-                                    <option value="airport">Airport</option>
-                                    <option value="railway station">Railway Station </option>
-                                    <option value="sindhi camp">Sindhi Camp</option>
+                                    <option value="Airport">Airport</option>
+                                    <option value="Railway station">Railway Station </option>
+                                    <option value="Sindhi camp">Sindhi Camp</option>
                                 </Form.Control>
                             </Form.Group>
                             <Form.Group>

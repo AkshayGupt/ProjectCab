@@ -5,7 +5,7 @@ import {Redirect} from 'react-router-dom';
 import Trips from './Trips';
 import Contact from './Contact';
 import Profile from './Profile';
-
+import './Dashboard.css';
 import Navigation from '../Navigation/Navigation';    
 import {isAuthenticated, signOut} from '../Auth/helper';
 const Dashboard =()=> {
@@ -52,19 +52,32 @@ const Dashboard =()=> {
             {redirectToLandingPage()}
             <Navigation/>
             <Row>
-                <Col md lg="1" className="mt-5">
-                        <div>
-                            <Nav defaultActiveKey="/home" className="flex-column">
-                                <Nav.Link onClick={()=>{setComponent("trips")}}>Trips</Nav.Link>
-                                <Nav.Link onClick={()=>{setComponent("profile")}}>Profile</Nav.Link>
-                                <Nav.Link onClick={()=>{setComponent("contact")}}>Contact</Nav.Link>
-                                <Nav.Link eventKey="disabled" disabled>
-                                    Disabled
+                <Col md lg="2" className="sidebar mb-5">
+                    <h2 className="text-center mt-5">Dashboard</h2>
+                        <div className="mt-5">
+                            <Nav defaultActiveKey="/home" className="flex-column text-center">
+                                <Nav.Link 
+                                    className={component === "trips"?"bg-dark text-white mx-3":"text-dark"}
+                                    onClick={()=>{setComponent("trips")}}
+                                >
+                                    Trips
+                                </Nav.Link>
+                                <Nav.Link 
+                                    className={component === "profile"?"bg-dark text-white mx-3":"text-dark"}
+                                    onClick={()=>{setComponent("profile")}}
+                                >
+                                    Profile
+                                </Nav.Link>
+                                <Nav.Link 
+                                    className={component === "contact"?"bg-dark text-white mx-3":"text-dark"}
+                                    onClick={()=>{setComponent("contact")}}
+                                >
+                                    Contact
                                 </Nav.Link>
                             </Nav>
                         </div>
                 </Col>
-                <Col md lg="11">
+                <Col md lg="10">
                    {component === "trips"  && <Trips/>}
                    {component === "profile" && <Profile/>}
                    {component === "contact" && <Contact/>}

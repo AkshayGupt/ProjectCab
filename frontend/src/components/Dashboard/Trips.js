@@ -44,7 +44,7 @@ const Trips = () => {
            
            <Row>
                 <Col md lg="8">
-                <h1 className="text-center mb-5">Trips <a href="/register"><i style={{fontSize:"50px",marginLeft:"5px"}} className="fa fa-plus-square-o" aria-hidden="true" ></i></a></h1>
+                <h1 className="text-center mb-5 ">Trips <a href="/register"><i style={{fontSize:"50px",marginLeft:"5px"}} className="fa fa-plus-square-o" aria-hidden="true" ></i></a></h1>
                 {/* <p className="ml-3 text-center">Create a new Trip <a href="/register"><i style={{fontSize:"50px",marginLeft:"20px"}} className="fa fa-plus-square-o" aria-hidden="true" ></i></a></p> */}
                 <div>
                 <Container>
@@ -61,20 +61,26 @@ const Trips = () => {
                                 </div>
                                 :
                                 <Row>
-                                    {trips.length>0 &&(trips).map((tripp)=>{
-                                        return   <Col md="4 text-center mb-2">
-                                        <TripCard
-                                            trip={{
-                                                source:tripp.source,
-                                                destination:tripp.destination,
-                                                members:tripp.members
-                                            }}
-                                        />
-                                        </Col>
-                                    })} 
-                                    {trips.length == 0 && (
-                                        <h5>It seems you have not created a trip yet !</h5>
-                                    )}
+                                    {/* {JSON.stringify(trips[0])} */}
+                                        {trips.length>0 &&(trips).map((tripp)=>{
+                                            return   <Col md="4 text-center mb-2" lg="6">
+                                            <TripCard
+                                                trip={{
+                                                    source:tripp.source,
+                                                    destination:tripp.destination,
+                                                    members:tripp.members,  
+                                                    start:tripp.startTime,
+                                                    end:tripp.endTime
+                                                }}
+                                            />
+                                            </Col>
+                                        })} 
+                                        {trips.length == 0 && (
+                                            <h5>It seems you have not created a trip yet !</h5>
+                                        )}
+                                    
+                                    
+                                    
                                 </Row>}
                             </Container>
                         </Col>
