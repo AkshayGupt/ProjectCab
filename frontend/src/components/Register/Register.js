@@ -1,6 +1,6 @@
 import React,{useState} from 'react';
 import {Redirect} from 'react-router-dom';
-import {Row,Col,Container,Form,Button,Badge,Spinner} from 'react-bootstrap';
+import {Row,Col,Container,Form,Button,Badge,Spinner, Nav} from 'react-bootstrap';
 import './Register.css';
 import TimeSlot from './TimeSlot';
 import Confirm from './Confirm';
@@ -13,11 +13,13 @@ const Register=() =>{
         source:"Manipal Jaipur",
         destination:"Select",
         cabSize:2,
-        genderAllowed:"any",
+        genderAllowed:0,
         error:"",
+        startTime:"",
+        endTime:"",
         success:false
     });
-    const{source,destination,cabSize,genderAllowed,success,error} = values;
+    const{source,destination,cabSize,genderAllowed,startTime,endTime,success,error} = values;
 
     const handleChange = name=>event=>{
         setValues({...values,error:false,[name]:event.target.value})
@@ -56,6 +58,7 @@ const Register=() =>{
     const handleStart =(str)=> {
         // console.log(str);
         var date = new Date(str);
+        setValues({...values,error:false,startTime:date})
         const splitted =date.toString().split(" ");
         const time = (splitted[4]);
         const res =time.split(":");
@@ -70,6 +73,7 @@ const Register=() =>{
 
      const handleEnd = (str) => {
         var date = new Date(str);
+        setValues({...values,error:false,endTime:date})
         const splitted =date.toString().split(" ");
         const time = (splitted[4]);
         const res =time.split(":");
@@ -88,12 +92,10 @@ const Register=() =>{
             alert("Please fill all the entries!");
             return;
         }
-        const membersNeeded =cabSize;
-        const startTime = start;
-        const endTime =end;
+        const minCapacity =cabSize;
         const members =[];
-        members.push(localStorage.getItem("UID"));
-        const obj={source,destination,membersNeeded,members,genderAllowed,startTime,endTime};
+        members.push(localStorage.getItem("id"));
+        const obj={source,destination,minCapacity,members,genderAllowed,startTime,endTime};
 
         console.log(obj);
         // setConfirm(true);
@@ -139,24 +141,25 @@ const Register=() =>{
             window.setTimeout(function(){
 
                 // Move to a new location or you can do something else
-                window.location.href = "http://localhost:3000/status";
+                window.location.href = "http://localhost:3000/dashboard";
         
             }, 3000);
             // return <Redirect to="/status"/>
         }
     }
     const register = () =>{
-        return (<div>
-        <div className="body">
+        return (
+        <div>
+            <Navigation/>
+            <div className="body">
                 <div className="mb-3">
                     <h1 className="text-center register-heading text-light">  <h1 className="text-center text-light display-3">Create new Trip <i class="fa fa-pencil" aria-hidden="true"></i></h1></h1>
                 </div>
-               
                 <Container>
                 <Row>
                     <Col sm='3'>
                         <div style={{float:"right",margin:10}}>
-                                    <a href="/status" className="btn btn-info btn-lg"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</a>
+                                    <a href="/dashboard" className="btn btn-info btn-lg"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</a>
                         </div>
                            
                     </Col>
@@ -188,9 +191,9 @@ const Register=() =>{
                             <Form.Group>
                                 <Form.Label>Gender Allowed <i class="fa " aria-hidden="true"></i></Form.Label>
                                 <Form.Control as="select" value={genderAllowed} onChange={handleChange("genderAllowed")}>
-                                    <option value="any">Any</option>
-                                    <option value="male">Only male</option>
-                                    <option value="female">Only female</option>
+                                    <option value="0">Any</option>
+                                    <option value="1">Only male</option>
+                                    <option value="2">Only female</option>
                                 </Form.Control>
                                 <Form.Text>**Selecting particular gender might lower the chances of matching.</Form.Text>
                             </Form.Group>

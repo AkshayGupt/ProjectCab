@@ -1,6 +1,6 @@
 "use strict";
 
-const User = require("../models/user");
+const User = require("../models/User");
 const { validationResult } = require("express-validator");
 var jwt = require("jsonwebtoken");
 var expressJwt = require("express-jwt");
@@ -37,7 +37,13 @@ exports.signin = (req, res) => {
     if (err || !user) {
       return res
         .status(400)
-        .json({ error: "User email and password do not match!" });
+        .json({ error: "USER not found!" });
+    }
+
+    if(!user.authenticate(password)){
+      return res.status(400).json({
+          error:"USER email and password do not match!"
+      })
     }
 
     // Create Token

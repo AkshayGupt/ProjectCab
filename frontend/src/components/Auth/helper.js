@@ -10,7 +10,7 @@ return fetch(`http://localhost:5000/authStatus`,{
 
 
 export const isSignedIn = () =>{
-    if(localStorage.getItem("UID")) {
+    if(localStorage.getItem("id")) {
       return true;
     }else{
       return false;
@@ -23,6 +23,5 @@ export const signOut = () =>{
     });
     localStorage.removeItem("name");
     localStorage.removeItem("email");
-    localStorage.removeItem("UID");
-    localStorage.removeItem("image");
+    localStorage.removeItem("id");
 }

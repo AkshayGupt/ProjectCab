@@ -10,8 +10,10 @@ const User = require("../models/User");
 exports.createNewTrip = (req, res) => {
   const userID = req.body.members[0];
   const trip = new Trip(req.body);
+  console.log(trip);
   trip.save((err, trip) => {
     if (err) {
+      console.log("ERROR",err);
       return res.status(400).json({ error: "Cannot create a new trip!" });
     } else {
       console.log(trip);
@@ -50,9 +52,10 @@ exports.getTripById = (req, res) => {
  * Return All Trips where [userID] is a member
  */
 exports.getTripsByUserId = (req, res) => {
-  const userID = req.body.userID;
+  const userID = req.query.id;
   Trip.find({ members: { $all: [userID] } })
-    .populate("members")
+    .lean()
+    .populate("members","firstName")
     .exec((err, trips) => {
       if (err) {
         return res.status(400).json({ error: "Cannot fetch trips!" });

@@ -22,20 +22,24 @@ const Navigation = () => {
         <div>
             {redirectToLandingPage()}
             <nav className="navbar bg-light">
-            <a className="navbar-brand text-dark" href="/">ProjectCab</a>
+            <a className="navbar-brand text-dark text-bold" href="/">Pool It</a>  
             <div className="sign-in">
                             
                 <form className="form-inline">
                           <div className="sign-in">
-                                {!isSignedIn()?(""): (
+                                {
+                                    !isSignedIn()
+                                    ?
+                                    (""): 
+                                    (
                                     <div className="d-flex justify-content-center">  
-                                        <p className="text-white mx-1 my-2 btn btn-dark "><a href="/profile" style={{textDecoration:"none",color:"white"}}> Profile</a></p>
+                                        <p className="text-white mx-1 my-2 btn btn-dark "><a href="/dashboard" style={{textDecoration:"none",color:"white"}}> Dashboard</a></p>
+                                        <p className="text-white mx-1 my-2 btn btn-dark "><a href="/about" style={{textDecoration:"none",color:"white"}}> About us</a></p>
                                         <p className="text-light mx-1 my-2 btn btn-dark" onClick={()=>signout()}>Logout </p>
                                     </div>
-                                )}
+                                    )
+                                }
                             </div>
-                    
-                
                 </form>
             </div>
             </nav>

@@ -25,7 +25,9 @@ router.get("/getFutureTrips", getFutureTrips);
 
 router.get("/getTripsByUserId", getTripsByUserId);
 
-router.post("/createNewTrip", checkExistingTrips, createNewTrip);
+router.post("/createNewTrip",
+            // checkExistingTrips,
+            createNewTrip);
 
 // Export module to enable imports
 module.exports = router;
