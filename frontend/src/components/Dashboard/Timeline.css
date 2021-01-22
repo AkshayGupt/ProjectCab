@@ -1,0 +1,6 @@
+.vertical-timeline.vertical-timeline-custom-line::before {
+  background: black;
+}
+.dateStyle {
+    color: black;
+}
