@@ -1,6 +1,9 @@
 const express = require("express");
 const { ensureAuth } = require("../middleware/auth");
-const { checkExistingTrips } = require("../middleware/db");
+const {
+  checkExistingTrips,
+  checkOverlappingTrips,
+} = require("../middleware/db");
 const {
   createNewTrip,
   getTripById,
@@ -25,9 +28,12 @@ router.get("/getFutureTrips", getFutureTrips);
 
 router.get("/getTripsByUserId", getTripsByUserId);
 
-router.post("/createNewTrip",
-            checkExistingTrips,
-            createNewTrip);
+router.post(
+  "/createNewTrip",
+  checkOverlappingTrips,
+  checkExistingTrips,
+  createNewTrip
+);
 
 // Export module to enable imports
 module.exports = router;

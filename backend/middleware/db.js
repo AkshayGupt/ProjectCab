@@ -6,10 +6,40 @@ const User = require("../models/User");
  * If exists, add the user in that trip.
  */
 module.exports = {
+  checkOverlappingTrips: function (req, res, next) {
+    const userID = req.body.members[0];
+    const trip = new Trip(req.body);
+
+    // Find trips of user with overlapping times
+    Trip.findOne({
+      members: { $in: [userID] },
+      startTime: { $lt: trip.endTime },
+      endTime: { $gt: trip.startTime },
+    }).exec((err, existingTrip) => {
+      if (err) {
+        console.log("Some error occured!");
+        console.log(err);
+        return res.status(400).json({ error: err });
+      } else {
+        if (existingTrip == null) {
+          console.log(
+            "No overlapping trips found! Continue on to find existing trips"
+          );
+          return next();
+        } else {
+          return res.status(400).json({
+            error: "Possible one or more trips with overlapping time",
+          });
+        }
+      }
+    });
+  },
+
   checkExistingTrips: function (req, res, next) {
     const userID = req.body.members[0];
     const trip = new Trip(req.body);
 
+    // Find any existing trips with the same time
     Trip.findOne({
       isFilled: 0,
       members: { $nin: [userID] },
@@ -56,7 +86,7 @@ module.exports = {
                     .json({ error: "Cannot add trip to user array" });
                 }
               });
-              res.status(200).json({ message: "Existing trip found!" });
+              return res.status(200).json({ message: "Existing trip found!" });
             }
           });
         }
