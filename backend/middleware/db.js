@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
-const Trip = require("../models/trip");
-const User = require("../models/user");
+const Trip = require("../models/Trip");
+const User = require("../models/User");
 /**
  * Check if an existing trip already exists with the given parameters.
  * If exists, add the user in that trip.
