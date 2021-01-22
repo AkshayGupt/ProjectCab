@@ -55,7 +55,7 @@ exports.getTripsByUserId = (req, res) => {
   const userID = req.query.id;
   Trip.find({ members: { $all: [userID] } })
     .lean()
-    .populate("members", "firstName")
+    .populate("members", "firstName lastName")
     .exec((err, trips) => {
       if (err) {
         return res.status(400).json({ error: "Cannot fetch trips!" });

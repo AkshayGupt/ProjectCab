@@ -52,7 +52,7 @@ const Dashboard =()=> {
             {redirectToLandingPage()}
             <Navigation/>
             <Row>
-                <Col md lg="2" className="sidebar mb-5">
+                <Col md="12" lg="2" className="sidebar mb-5">
                     <h2 className="text-center mt-5">Dashboard</h2>
                         <div className="mt-5">
                             <Nav defaultActiveKey="/home" className="flex-column text-center">
@@ -77,7 +77,7 @@ const Dashboard =()=> {
                             </Nav>
                         </div>
                 </Col>
-                <Col md lg="10">
+                <Col md="12" lg="10">
                    {component === "trips"  && <Trips/>}
                    {component === "profile" && <Profile/>}
                    {component === "contact" && <Contact/>}

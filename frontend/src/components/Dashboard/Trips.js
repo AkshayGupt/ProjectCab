@@ -11,7 +11,7 @@ const Trips = () => {
     const [value, onChange] = useState(new Date());
     const[loading,setLoading] =useState(true);
     const[trips,setTrips] =useState([]);    
-    const[mark,setMark] = useState([]);
+    const[dates,setDates] = useState([]);
 
     const getTrips = () =>{
         const UID =localStorage.getItem("id");
@@ -23,6 +23,14 @@ const Trips = () => {
             else{
                 console.log("Data",data);
                 setTrips(data);
+                let dates=[]
+                {data.map((trip)=>{
+                   
+                    dates.push(moment(trip.startTime).format("DD-MM-YYYY"))
+                    
+                })}
+                console.log(dates)
+                setDates(dates);
                 console.log("TRIPS",trips);
                 setLoading(false);
             }
@@ -43,7 +51,7 @@ const Trips = () => {
         <div className="mx-auto mt-5">
            
            <Row>
-                <Col md lg="8">
+                <Col md="12" lg="8">
                 <h1 className="text-center mb-5 ">Trips <a href="/register"><i style={{fontSize:"50px",marginLeft:"5px"}} className="fa fa-plus-square-o" aria-hidden="true" ></i></a></h1>
                 {/* <p className="ml-3 text-center">Create a new Trip <a href="/register"><i style={{fontSize:"50px",marginLeft:"20px"}} className="fa fa-plus-square-o" aria-hidden="true" ></i></a></p> */}
                 <div>
@@ -61,16 +69,16 @@ const Trips = () => {
                                 </div>
                                 :
                                 <Row>
-                                    {/* {JSON.stringify(trips[0])} */}
                                         {trips.length>0 &&(trips).map((tripp)=>{
-                                            return   <Col md="4 text-center mb-2" lg="6">
+                                            return   <Col md="12 text-center mb-2" lg="6">
                                             <TripCard
                                                 trip={{
                                                     source:tripp.source,
                                                     destination:tripp.destination,
                                                     members:tripp.members,  
                                                     start:tripp.startTime,
-                                                    end:tripp.endTime
+                                                    end:tripp.endTime,
+                                                    gender:tripp.genderAllowed
                                                 }}
                                             />
                                             </Col>
@@ -87,20 +95,21 @@ const Trips = () => {
                         {/* <Col sm="1"></Col> */}
                     </Row>
                 </Container>
-            </div>
+                </div>
                 </Col>
-                <Col md lg="3">
-                <h1 className="text-center mb-5 mx-auto">Your Dates</h1>
+                <Col md="12" lg="3">
+                <h1 className="text-center mb-5 mx-auto"><i class="fa fa-calendar" aria-hidden="true"></i></h1>
                     <Calendar
-                        className="mr-1 mx-auto"
-                        style={{ height: 500 }}
+
+                        className=" mx-auto"
+                        style={{ height: "400"}}
                         onChange={onChange}
                         value={value}
                         tileClassName={({ date, view }) => {
-                        if(mark.find(x=> x === moment(date).format("DD-MM-YYYY"))){
-                        return  'highlight'
-                        }
-                        }}
+                            if(dates.find(x=>x===moment(date).format("DD-MM-YYYY"))){
+                             return  'highlight'
+                            }
+                          }}
                         tileDisabled={({ date }) => date.getDay() === 0}
                         minDate={
                         new Date()
