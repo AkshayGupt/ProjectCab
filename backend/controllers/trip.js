@@ -3,7 +3,7 @@ const User = require("../models/User");
 
 /**
  * Create a new trip
- *
+ * 
  * Gets a [Trip] object.
  * Saves that object in the database.
  */
@@ -30,6 +30,7 @@ exports.createNewTrip = (req, res) => {
   });
 };
 
+
 /**
  * Return a Trip using its tripID
  * Searches in collection 'trips'
@@ -47,6 +48,7 @@ exports.getTripById = (req, res) => {
       }
     });
 };
+
 
 /**
  * Return All Trips where [userID] is a member

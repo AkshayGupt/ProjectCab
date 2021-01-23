@@ -48,7 +48,11 @@ exports.signin = (req, res) => {
 
     // Create Token
     const token = jwt.sign({ _id: user._id }, process.env.SECRET);
-    res.cookie("token", { expire: new Date() + 9999 });
+
+    //Put token in cookie
+    res.cookie("token", token,{ expire: new Date() + 30 });
+
+    //Send response to Front End
     return res.status(200).json({
       message: "User signed up successfully!",
       token: token,
@@ -56,6 +60,7 @@ exports.signin = (req, res) => {
         _id: user._id,
         email: user.email,
         firstName: user.firstName,
+        lastName: user.lastName
       },
     });
   });
@@ -65,3 +70,21 @@ exports.signout = (req, res) => {
   res.clearCookie("token");
   res.status(200).json({ message: "User signed out successfully!" });
 };
+
+//protected routes
+exports.isSignedIn = expressJwt({
+  secret: 'MYSECRET',/* Same as that in Config File*/
+  algorithms:['HS256'],
+  userProperty: "auth"
+})
+
+//Authenticated routes
+exports.isAuthenticated = (req,res,next) =>{
+  let checker = req.profile && req.auth && req.profile._id === req.auth._id;
+  if(!checker){
+    return res.status(403).json({
+      error:"ACCESS DENIED"
+    })
+  }
+  next();
+} 

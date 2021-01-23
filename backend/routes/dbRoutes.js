@@ -1,5 +1,7 @@
 const express = require("express");
-const { ensureAuth } = require("../middleware/auth");
+const {
+  isSignedIn
+} = require("../controllers/auth");;
 const {
   checkExistingTrips,
   checkOverlappingTrips,
@@ -18,22 +20,23 @@ const { getUserById } = require("../controllers/user");
 const router = express.Router();
 
 /* USER ROUTES */
-router.get("/getUserById", getUserById);
+router.get("/getUserById",isSignedIn, getUserById);
 
 /* TRIP ROUTES */
-router.get("/getTripById", getTripById);
-router.get("/getPastTrips", getPastTrips);
-router.get("/getOngoingTrips", getOngoingTrips);
-router.get("/getFutureTrips", getFutureTrips);
+router.get("/getTripById",isSignedIn, getTripById);
+router.get("/getPastTrips",isSignedIn, getPastTrips);
+router.get("/getOngoingTrips",isSignedIn, getOngoingTrips);
+router.get("/getFutureTrips",isSignedIn, getFutureTrips);
 
-router.get("/getTripsByUserId", getTripsByUserId);
+router.get("/getTripsByUserId",isSignedIn, getTripsByUserId);
 
 router.post(
-  "/createNewTrip",
+  "/createNewTrip",isSignedIn,
   checkOverlappingTrips,
   checkExistingTrips,
   createNewTrip
 );
+
 
 // Export module to enable imports
 module.exports = router;

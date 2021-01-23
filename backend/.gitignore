@@ -164,7 +164,7 @@ $RECYCLE.BIN/
 # End of https://www.toptal.com/developers/gitignore/api/visualstudiocode,node,windows,firebase
 
 # Config File
-controllers/config/config.js
+controllers/config/config.env
 
 # Babel generatad dist folder
 dist
