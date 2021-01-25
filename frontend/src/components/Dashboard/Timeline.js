@@ -13,13 +13,17 @@ const Timeline = ({ trips }) => {
     trips.length > 0 &&
     trips.map((trip) => {
       let { source, destination, members, startTime, endTime } = trip;
+      const now =moment(new Date()).format("MMMM Do YYYY").toString();
       const startDate = moment(startTime).format("MMMM Do YYYY").toString();
       const endDate = moment(endTime).format("MMMM Do YYYY").toString();
       const timeline =
         startDate == endDate ? startDate : startDate + " - " + endDate;
       startTime = moment(startTime).format("h:mm a").toString();
       endTime = moment(endTime).format("h:mm a").toString();
+
+      if(true){
       return (
+      
         <VerticalTimelineElement
           className="vertical-timeline-element"
           contentStyle={{ background: "rgb(33, 150, 243)", color: "#fff" }}
@@ -45,6 +49,7 @@ const Timeline = ({ trips }) => {
           )}
         </VerticalTimelineElement>
       );
+          }
     });
   return (
     <VerticalTimeline className="vertical-timeline-custom-line">

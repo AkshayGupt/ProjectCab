@@ -10,7 +10,7 @@ const TripCard =({trip})=> {
     console.log(moment(start).format('MMMM Do YYYY, h:mm:ss a').toString());
     return (
         <div>
-            <div className="card text-white bg-dark mb-3 ml-5 mx-auto" style={{width:"250px",height:"300px"}}>
+            <div className="card text-white bg-dark mb-3 ml-5 mx-auto" style={{width:"290px",height:"300px"}}>
             <div className="card-header text-light">
             <p><i className="fa fa-home mt-2" aria-hidden="true"></i>{' '}{source} </p>
             <p><i className="fa fa-map-marker" aria-hidden="true"></i>{' '}{destination}</p>

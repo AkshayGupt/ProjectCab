@@ -84,7 +84,7 @@ const Dashboard =()=> {
                    {component === "contact" && <Contact/>}
                 </Col>
             </Row>
-            
+           
         </div>
     )
 }

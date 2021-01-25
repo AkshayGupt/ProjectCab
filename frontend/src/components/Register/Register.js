@@ -97,12 +97,9 @@ const Register=() =>{
         members.push(localStorage.getItem("id"));
         const obj={source,destination,minCapacity,members,genderAllowed,startTime,endTime};
 
-        console.log(obj);
-        // setConfirm(true);
-        //temporary to redirect to status page
-        // setValues({...values,success:true})        
-
-        createNewTrip(obj)
+        console.log(obj); 
+        const jwt =JSON.parse(localStorage.getItem("jwt"));
+        createNewTrip(obj,jwt.token)
         .then(data=>{
             if(data.error){
                 console.log("Error"+data.error);

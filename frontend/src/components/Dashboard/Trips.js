@@ -24,15 +24,17 @@ const Trips = () => {
         } else {
           console.log("Data", data);
           setTrips(data);
+          const date =new Date();
           let dates = [];
           {
-            data.map((trip) => {
+            data.map((trip) => 
+            {
               dates.push(moment(trip.startTime).format("DD-MM-YYYY"));
             });
           }
-          console.log(dates);
+         
           setDates(dates);
-          console.log("TRIPS", trips);
+         
           setLoading(false);
         }
       })
@@ -50,7 +52,7 @@ const Trips = () => {
   return (
     <div className="mx-auto mt-5">
       <Row>
-        <Col md="12" lg="8">
+        <Col md="12" lg="8" className="border-right">
           <h1 className="text-center mb-5 ">
             Trips{" "}
             <a href="/register">
@@ -62,7 +64,7 @@ const Trips = () => {
             </a>
           </h1>
           <div>
-            <Container>
+            <Container >
               <Row>
                 <Col>
                   <Container>
@@ -105,8 +107,14 @@ const Trips = () => {
               </Row>
             </Container>
           </div>
+          {trips.length>0 && (
+          <>
+           <h1 className="text-center my-5">My Timeline</h1>
+           <Timeline trips={trips}></Timeline>
+           </>
+      )}
         </Col>
-        <Col md="12" lg="3">
+        <Col md="12" lg="4">
           <h1 className="text-center mb-5 mx-auto">
             <i class="fa fa-calendar" aria-hidden="true"></i>
           </h1>
@@ -123,11 +131,12 @@ const Trips = () => {
             tileDisabled={({ date }) => date.getDay() === 0}
             minDate={new Date()}
           ></Calendar>
+          
         </Col>
         <Col md lg="1"></Col>
       </Row>
-      <h1>Timeline View</h1>
-      <Timeline trips={trips}></Timeline>
+     
+     
     </div>
   );
 };
