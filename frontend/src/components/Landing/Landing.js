@@ -4,7 +4,7 @@ import './Landing.css';
 import Loading from '../../Loading';
 import Navigation from '../Navigation/Navigation'
 import {Redirect} from 'react-router-dom';
-import { signInUser,signUpUser } from './helper';
+import { signInUser,signUpUser,authenticate } from '../Auth/helper';
 
 
 const Landing = ()  =>{
@@ -61,11 +61,10 @@ const Landing = ()  =>{
                 console.log(data.error);
             }
             else{
-                localStorage.setItem("id",data.user._id);
-                localStorage.setItem("email",data.user.email);
-                localStorage.setItem("name",data.user.firstName);
-                setRedirect(true);
-                console.log(data);
+                console.log(data)
+                authenticate(data,()=> {
+                    setRedirect(true);
+                });
             }
         })
         .catch(err=>console.log(err));

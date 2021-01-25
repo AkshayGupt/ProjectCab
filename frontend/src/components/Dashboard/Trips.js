@@ -14,8 +14,10 @@ const Trips = () => {
   const [dates, setDates] = useState([]);
 
   const getTrips = () => {
-    const UID = localStorage.getItem("id");
-    getTripsOfUser(UID)
+    const jwt = JSON.parse(localStorage.getItem("jwt"));
+    console.log("Data from Trips",jwt.token);
+    const UID=jwt.user._id;
+    getTripsOfUser(UID,jwt.token)
       .then((data) => {
         if (data.error) {
           console.log(data.error);
@@ -59,7 +61,6 @@ const Trips = () => {
               ></i>
             </a>
           </h1>
-          {/* <p className="ml-3 text-center">Create a new Trip <a href="/register"><i style={{fontSize:"50px",marginLeft:"20px"}} className="fa fa-plus-square-o" aria-hidden="true" ></i></a></p> */}
           <div>
             <Container>
               <Row>

@@ -1,6 +1,6 @@
 import React from 'react';
 import {Route,Redirect} from 'react-router-dom';
-import {  isSignedIn } from "./helper";
+import {  isAuthenticated } from "./helper";
 
 
 
@@ -10,7 +10,7 @@ const PrivateRoute = ({component:Component, ...rest})=>{
     <Route
     {...rest}
     render={(props)=>
-        isSignedIn()?
+        isAuthenticated()?
         (<Component {...props}/>)
         :(
             <Redirect to={{ pathname: "/", state: {from: props.location}}}/>

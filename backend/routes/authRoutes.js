@@ -3,7 +3,7 @@
 const express = require("express");
 const router = express.Router();
 const { check } = require("express-validator");
-const { signup, signin, signout } = require("../controllers/auth");
+const { signup, signin, signout, isSignedIn } = require("../controllers/auth");
 
 
 router.post(

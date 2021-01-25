@@ -8,6 +8,7 @@ import Profile from './Profile';
 import './Dashboard.css';
 import Navigation from '../Navigation/Navigation';    
 import {isAuthenticated, signOut} from '../Auth/helper';
+
 const Dashboard =()=> {
 
     const [authenticated,setAuthenticated] = useState(false);

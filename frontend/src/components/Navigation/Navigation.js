@@ -3,7 +3,7 @@ import {Redirect} from 'react-router-dom';
 import {Nav,Navbar,Button,FormControl,Form} from 'react-bootstrap';
 import LoginWithGoogle from '../Navigation/Navigation';
 import "./Navigation.css";
-import {signOut, isSignedIn} from '../Auth/helper';
+import {signOut, isSignedIn, isAuthenticated} from '../Auth/helper';
 const Navigation = () => {
     const[redirect,setRedirect] = useState(false);
     const signout = () =>{
@@ -28,7 +28,7 @@ const Navigation = () => {
                 <form className="form-inline">
                           <div className="sign-in">
                                 {
-                                    !isSignedIn()
+                                    !isAuthenticated()
                                     ?
                                     (""): 
                                     (
