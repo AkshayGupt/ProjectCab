@@ -37,12 +37,12 @@ exports.signin = (req, res) => {
     if (err || !user) {
       return res
         .status(400)
-        .json({ error: "USER not found!" });
+        .json({ error: "User not found!" });
     }
 
     if(!user.authenticate(password)){
       return res.status(400).json({
-          error:"USER email and password do not match!"
+          error:"User email and password do not match!"
       })
     }
 

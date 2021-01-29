@@ -1,10 +1,11 @@
 import React,{useState} from 'react';
-import {Row,Col,Form} from 'react-bootstrap';
+import {Row,Col,Form,Carousel} from 'react-bootstrap';
 import './Landing.css';
 import Loading from '../../Loading';
 import Navigation from '../Navigation/Navigation'
 import {Redirect,Link} from 'react-router-dom';
 import { signInUser,signUpUser,authenticate } from '../Auth/helper';
+import { auto } from '@popperjs/core';
 
 
 const Landing = ()  =>{
@@ -91,7 +92,7 @@ const Landing = ()  =>{
     const signInErrorMessage = ()=>{
         return(
             <div className="row">
-                <div className="col-md-6 offset-3">
+                <div className="col-md-12 offset">
                     <div className="alert alert-danger"
                      style={{display:  signInData.error ? "":"none"}}>
                         { signInData.error}
@@ -136,7 +137,7 @@ const Landing = ()  =>{
         
         return(
             <div className="row">
-                <div className="col-md-6 offset-3">
+                <div className="col-md-12 ">
                 <div className="alert alert-success" style={{display: signUpData.success ? "":"none"}}>
                     <p>Successfully created your account. <a className="text-primary" onClick={()=>setNewUser(false)}>Login Here</a></p>
                 </div>       
@@ -147,7 +148,7 @@ const Landing = ()  =>{
     const signUpErrorMessage = ()=>{ 
         return(
             <div className="row">
-                <div className="col-md-6 offset-3">
+                <div className="col-md-12 ">
                     <div className="alert alert-danger" style={{display: signUpData.error ? "":"none"}}>
                         <p>{signUpData.error}</p>
                     </div>
@@ -173,7 +174,7 @@ const Landing = ()  =>{
                         <Form.Control type="password" name="password" id="password" value={signInData.password} placeholder="Enter password" onChange={handleSignInChange("password")}/>
                     </Form.Group>
                     <div className="text-center ">
-                        <p className="btn btn-info btn-md" onClick={()=>signin()}>Submit</p>
+                        <p className="btn btn-info btn-md btn-lg" onClick={()=>signin()}>Submit</p>
                     </div>    
                 </Form>
             </div>
@@ -210,7 +211,7 @@ const Landing = ()  =>{
                     <div className="text-center">
                         {signUpData.password === signUpData.retypedPassword
                             ?
-                            (<p className="btn btn-info btn-md" onClick={()=>signup()}>Submit </p>)
+                            (<p className="btn btn-info btn-lg" onClick={()=>signup()}>Submit </p>)
                             :
                             ( <p className="text-danger">Password does not match ! </p>)
                         }
@@ -220,25 +221,59 @@ const Landing = ()  =>{
         )
     }
 
+    const slideShow = () =>{
+        return(
+            <Carousel>
+                <Carousel.Item interval={200}>
+                    <img
+                    className="d-block w-100"
+                    src="https://thumbs.dreamstime.com/b/carpool-banner-set-modern-taxi-flat-illustration-commercial-service-vehicle-transportation-cooperation-transitional-geo-point-143648884.jpg"
+                    alt="First slide"
+                    />
+                    <Carousel.Caption>
+                    
+                    </Carousel.Caption>
+                </Carousel.Item>
+                <Carousel.Item interval={500}>
+                    <img
+                    className="d-block w-100"
+                    src="https://cdn4.vectorstock.com/i/1000x1000/07/78/friends-in-a-car-vector-21380778.jpg"
+                    alt="Third slide"
+                    />
+                    <Carousel.Caption>
+                    </Carousel.Caption>
+                </Carousel.Item>
+                <Carousel.Item>
+                    <img
+                    className="d-block w-100"
+                    src="https://static.vecteezy.com/system/resources/previews/000/143/153/non_2x/carpool-vector.jpg"
+                    alt="Third slide"
+                    />
+                    <Carousel.Caption>
+                </Carousel.Caption>
+            </Carousel.Item>
+            </Carousel>
+        )
+    }
 
     return(
         <>
         {redirectToHomePage()}
         <Navigation/>
         <div className="container">
-            <Row style={{marginTop:"2rem"}} className="justify-content-md-center mx-auto">
-                <Col md lg="6" >
+            <Row style={{marginTop:"2rem"}} className="mx-auto ">
+                <Col md lg="6" className="image mb-5 " >
                     <div className="mx-auto">
-                        <img className="image" src="https://cdn4.vectorstock.com/i/1000x1000/17/68/dark-cab-silhouette-with-taxi-sign-vector-1111768.jpg" style={{width:"100%",height:"500px"}}></img>
-                    </div>
+                        {slideShow()}
+                       </div>
                 </Col>
-                <Col md lg="6 border-left" >
-                    <Row className="text-center bg-light p-2" style={{  width:"100%"}}>
-                        <Col><h5 className={newUser?"btn btn-light":"btn btn-primary"} onClick={()=>{setNewUser(false)}}>SignIn</h5></Col>
-                        <Col><h5 className={!newUser?"btn btn-light":"btn btn-primary"} onClick={()=>{setNewUser(true)}}>SignUp</h5></Col>
+                <Col md="12" lg="6" className="border-left border-right border-top border-bottom mb-3 " >
+                    <Row className="text-center bg-light p-2 mx-auto" style={{  width:"100%"}}>
+                        <Col className="border-right"><h5 className={newUser?"btn btn-light":"btn btn-info px-1"} onClick={()=>{setNewUser(false)}}>SignIn</h5></Col>
+                        <Col><h5 className={!newUser?"btn btn-light":"btn btn-info px-1"} onClick={()=>{setNewUser(true)}}>SignUp</h5></Col>
                     </Row>
                     
-                    <div style={{borderStyle:"",height:"auto",width:"100%"}} className="p-3 mx-auto">
+                    <div style={{height:"auto",width:"100%"}} className="p-3 mx-auto">
                             {newUser?signUp():signIn()}
                     </div>
                      

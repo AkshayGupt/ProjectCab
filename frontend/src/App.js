@@ -4,6 +4,7 @@ import Cookies from 'js-cookie';
 import Navigation from './components/Navigation/Navigation';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import PrivateRoute from './components/Auth/PrivateRoute';
+import GuestRoute from './components/Auth/GuestRoute';
 import Loading from './Loading';
 import Dashboard from './components/Dashboard/Dashboard';
 const Landing = lazy(()=>import("./components/Landing/Landing"));
@@ -17,8 +18,9 @@ function App() {
         {/* To-do: Navigation Bar */}
         <Router>
           <Switch>
-              <Route exact  path="/" component={Landing} />
+              <GuestRoute exact  path="/" component={Landing} />
               <PrivateRoute path="/register" exact component={Register} />
+              <PrivateRoute path="/profile" exact component={Profile} />
               <PrivateRoute path="/dashboard" exact component={Dashboard} />
               <PrivateRoute path="/profile" exact component={Profile} />
               <PrivateRoute path="/about" exact component={About} />

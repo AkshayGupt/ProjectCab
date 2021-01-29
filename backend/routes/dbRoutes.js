@@ -14,7 +14,7 @@ const {
   getOngoingTrips,
   getFutureTrips,
 } = require("../controllers/trip");
-const { getUserById } = require("../controllers/user");
+const { getUserById,updateUserBio } = require("../controllers/user");
 
 //Define router
 const router = express.Router();
@@ -36,6 +36,7 @@ router.post(
   checkExistingTrips,
   createNewTrip
 );
+router.put("/updateUserBio",isSignedIn,updateUserBio);
 
 
 // Export module to enable imports

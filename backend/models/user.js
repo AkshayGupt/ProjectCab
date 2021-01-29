@@ -22,6 +22,9 @@ const User = new Schema(
       trim: 32,
       unique: true,
     },
+    bio:{
+      type:String
+    },
     encrypted_password: {
       type: String,
       required: true,

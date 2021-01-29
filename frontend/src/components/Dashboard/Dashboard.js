@@ -4,10 +4,11 @@ import './Status.scss';
 import {Redirect} from 'react-router-dom';
 import Trips from './Trips';
 import Contact from './Contact';
-import Profile from './Profile';
+import Profile from '../Profile/Profile';
 import './Dashboard.css';
 import Navigation from '../Navigation/Navigation';    
 import {isAuthenticated, signOut} from '../Auth/helper';
+import {User} from './TripCard';
 
 const Dashboard =()=> {
 
@@ -79,8 +80,17 @@ const Dashboard =()=> {
                         </div>
                 </Col>
                 <Col md="12" lg="10">
-                   {component === "trips"  && <Trips/>}
-                   {component === "profile" && <Profile/>}
+                   {component === "trips"  && 
+                    <>  
+                      <Trips/>
+                      
+                    </>
+                   }
+                   {
+                    component === "profile" 
+                    && 
+                    <Profile editAllowed={isAuthenticated()} userId={JSON.parse(localStorage.getItem("jwt")).user._id}/>
+                   }
                    {component === "contact" && <Contact/>}
                 </Col>
             </Row>

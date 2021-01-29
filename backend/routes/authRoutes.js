@@ -11,7 +11,7 @@ router.post(
   [
     check(
       "firstName",
-      "Name must consists of only Alphabets and mst be atleast 3 characters long"
+      "Name must consists of only Alphabets and must be atleast 3 characters long"
     )
       .notEmpty()
       .isString()
@@ -19,7 +19,7 @@ router.post(
         min: 3,
       }),
     check("email", "Enter a valid email").normalizeEmail().isEmail(),
-    check("password", "Password must be atleat 8 characters long").isLength({
+    check("password", "Password must be atleast 8 characters long").isLength({
       min: 8,
     }),
   ],
@@ -30,7 +30,7 @@ router.post(
   "/signIn",
   [
     check("email", "Enter a valid email").normalizeEmail().isEmail(),
-    check("password", "Password must be atleat 8 characters long").isLength({
+    check("password", "Password must be atleast 8 characters long").isLength({
       min: 8,
     }),
   ],

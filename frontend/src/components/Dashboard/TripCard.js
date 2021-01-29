@@ -1,11 +1,13 @@
 import React,{useState} from 'react';
 import {Modal,Button,Badge, Container,Row,Col} from 'react-bootstrap';
 import moment from 'moment';
+import Profile from '../Profile/Profile';
 
 const TripCard =({trip})=> {
 
     const [modalShow,setModalShow] = useState(false);
-
+    const [user,setUser] = useState('');
+    
     const {source,destination,members,start,end} =trip;
     console.log(moment(start).format('MMMM Do YYYY, h:mm:ss a').toString());
     return (
@@ -22,8 +24,18 @@ const TripCard =({trip})=> {
                 <Details
                     trip={trip}
                     show={modalShow}
+                    setUser={setUser}
                     onHide={()=>setModalShow(false)}
                 />
+                <div >
+                <User
+                    userId ={user}
+                    show={user !== ''}
+                    onHide={()=>setUser('')}
+                />
+                </div>
+               
+                
 
                </div>
             </div>
@@ -32,10 +44,16 @@ const TripCard =({trip})=> {
     )
 }
 const Details = (props) => {
+
+  const [showProfileModal,setshowProfileModal] = useState(false);
+ 
+
     const trip =props.trip;
     const {source,destination,members,start,end,gender} =trip;
     console.log(gender == "0");
     return (
+      <>
+     
       <Modal
         {...props}
         size="md"
@@ -61,7 +79,7 @@ const Details = (props) => {
                     {members.map((member) =>{
                             return (
                                 <div className="mb-1">
-                                    <a href="#" key={member._id} className="text-dark">
+                                    <a href="#" key={member._id} className="text-dark" onClick={()=>props.setUser(member._id)}>
                                         <i class="fa fa-user" aria-hidden="true"></i> {
                                              ' '
                                         }
@@ -80,10 +98,25 @@ const Details = (props) => {
                     
                 </Row>
             </Container>
-         
-         
         </Modal.Body>
         <Modal.Footer>
+          <Button onClick={props.onHide}>Close</Button>
+        </Modal.Footer>
+      </Modal>
+      </>
+    );
+  }
+
+ export const User = (props) =>{
+    console.log(props.userId)
+    return (
+      <Modal
+        {...props}
+        size="xl"
+        centered
+      >
+          <Profile userId={props.userId}/>
+           <Modal.Footer>
           <Button onClick={props.onHide}>Close</Button>
         </Modal.Footer>
       </Modal>

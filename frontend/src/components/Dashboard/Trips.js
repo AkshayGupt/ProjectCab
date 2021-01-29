@@ -7,11 +7,14 @@ import { Row, Col, Container } from "react-bootstrap";
 import TripCard from "./TripCard";
 import { getTripsOfUser } from "./helper";
 import Timeline from "./Timeline";
+
 const Trips = () => {
   const [value, onChange] = useState(new Date());
   const [loading, setLoading] = useState(true);
   const [trips, setTrips] = useState([]);
   const [dates, setDates] = useState([]);
+
+
 
   const getTrips = () => {
     const jwt = JSON.parse(localStorage.getItem("jwt"));
@@ -78,6 +81,7 @@ const Trips = () => {
                         </div>
                       </div>
                     ) : (
+                      <>
                       <Row>
                         {trips.length > 0 &&
                           trips.map((tripp) => {
@@ -97,9 +101,10 @@ const Trips = () => {
                             );
                           })}
                         {trips.length == 0 && (
-                          <h5>It seems you have not created a trip yet !</h5>
+                          <h5  className="text-center mx-auto">It seems you have not created a trip yet !</h5>
                         )}
                       </Row>
+                      </>
                     )}
                   </Container>
                 </Col>
@@ -115,10 +120,13 @@ const Trips = () => {
       )}
         </Col>
         <Col md="12" lg="4">
-          <h1 className="text-center mb-5 mx-auto">
+         
+          {trips.length>0 && (
+          <>
+           <h1 className="text-center mb-5 mx-auto">
             <i class="fa fa-calendar" aria-hidden="true"></i>
-          </h1>
-          <Calendar
+          </h1> 
+           <Calendar
             className=" mx-auto"
             style={{ height: "400" }}
             onChange={onChange}
@@ -131,6 +139,9 @@ const Trips = () => {
             tileDisabled={({ date }) => date.getDay() === 0}
             minDate={new Date()}
           ></Calendar>
+           </>
+      )}
+          
           
         </Col>
         <Col md lg="1"></Col>
