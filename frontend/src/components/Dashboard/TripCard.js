@@ -27,6 +27,7 @@ const TripCard =({trip})=> {
                     setUser={setUser}
                     onHide={()=>setModalShow(false)}
                 />
+                b1c9916491cf00cd0dff1ff77fa4dfb4220265d7
                 <div >
                 <User
                     userId ={user}
