@@ -7,6 +7,7 @@ const TripCard = ({ trip }) => {
   const [modalShow, setModalShow] = useState(false);
   const [user, setUser] = useState("");
   const { source, destination, members, start, end } = trip;
+  const completed = moment(end).diff(moment(), "hours") < 0;
   const timeLeft = moment(start).diff(moment(), "hours"); // TODO: FIX THIS! Check if the trip is ongoing or not!
   const daysLeft = (timeLeft / 24) >> 0;
   const hoursLeft = timeLeft % 24;
@@ -27,12 +28,13 @@ const TripCard = ({ trip }) => {
           </p>
           <p className="text-info ">
             <i class="fa fa-clock-o" aria-hidden="true"></i>{" "}
-            {timeLeft < 0
+            {completed
               ? "Completed"
-              : daysLeft == 0
-              ? hoursLeft + " hours left"
-              : daysLeft + "days " + hoursLeft + " hours left"}
-            {/* {moment({ startTime }).startOf("hour").fromNow().toString()} */}
+              : timeLeft > 0
+              ? daysLeft == 0
+                ? hoursLeft + " hours left"
+                : daysLeft + " days " + hoursLeft + " hours left"
+              : "ONGOING"}
           </p>
         </div>
         <div className="card-body bg-light">
