@@ -183,7 +183,7 @@ const Landing = ()  =>{
                     </Form.Group>
                     <a href="#" className="">Forgot Password?</a>
                     <div className="text-center ">
-                        <p className="btn btn-info btn-md " onClick={()=>signin()}>Submit</p>
+                        <p className="btn btn-info btn-md" onClick={()=>signin()}>Submit</p>
                        
                     </div>    
                 </Form>

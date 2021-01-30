@@ -33,9 +33,9 @@ const Navigation = () => {
                                     (""): 
                                     (
                                     <div className="d-flex justify-content-center">  
-                                        <p className="text-white mx-1 my-2 btn btn-dark "><a href="/dashboard" style={{textDecoration:"none",color:"white"}}> Dashboard</a></p>
-                                        <p className="text-white mx-1 my-2 btn btn-dark "><a href="/register" style={{textDecoration:"none",color:"white"}}> Create new Trip</a></p>
-                                        <p className="text-light mx-1 my-2 btn btn-dark" onClick={()=>signout()}>Logout </p>
+                                        <p className="text-white mx-1 my-2 btn btn-dark "><a href="/dashboard" style={{textDecoration:"none",color:"white"}}> Dashboard <i class="fa fa-television" aria-hidden="true"></i></a></p>
+                                        <p className="text-white mx-1 my-2 btn btn-dark "><a href="/register" style={{textDecoration:"none",color:"white"}}> New Trip <i class="fa fa-plus" aria-hidden="true"></i></a></p>
+                                        <p className="text-light mx-1 my-2 btn btn-dark" onClick={()=>signout()}>Logout <i class="fa fa-sign-out" aria-hidden="true"></i></p>
                                     </div>
                                     )
                                 }
