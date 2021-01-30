@@ -1,6 +1,6 @@
 import React,{useState,useEffect} from 'react';
 import Navigation from '../Navigation/Navigation';  
-import {getUser } from './helper';  
+import {getUser, updateUserBio } from './helper';  
 import {isAuthenticated} from '../Auth/helper';
 import './Profile.css';
 import Loading from '../../Loading';
@@ -13,8 +13,10 @@ const Profile =({editAllowed=false,userId})=> {
         trips:[],
         loading:true,
         error:"",
-        bio:"Ad sdsdsddd"
+        bio:""
     });
+
+
     const[ editBio, setEditBio ] =useState(false);
 
     const {firstName,lastName,email,trips,loading,error,bio} = profile;
@@ -36,6 +38,7 @@ const Profile =({editAllowed=false,userId})=> {
                     firstName:data.firstName,
                     lastName:data.lastName,
                     trips:data.trips,
+                    bio:data.bio,
                     loading:false
                 })
                 console.log(data);
@@ -66,6 +69,22 @@ const Profile =({editAllowed=false,userId})=> {
         /**
          * API CALL: To update User profile
          */
+        const jwt = JSON.parse(localStorage.getItem("jwt"));
+        const {user,token} =jwt;
+        console.log(bio);
+       
+        updateUserBio(user._id,token,bio)
+        .then(data=>{
+            if(data.error){
+                console.err(data.error);
+            }
+            else{
+                console.log(data);
+            }
+        })
+        .catch(err=>{
+            console.err(err);
+        })
     }
 
     const profileF = () =>{

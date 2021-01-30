@@ -18,7 +18,7 @@ exports.signup = (req, res) => {
   const user = new User(req.body);
   user.save((err, user) => {
     if (err) return res.status(400).json({ error: err.message });
-    return res.status(200).json({ name: user.firstName, email: user.email });
+    return res.status(200).json({ name: user.firstName, email: user.email, bio:user.bio });
   });
 };
 

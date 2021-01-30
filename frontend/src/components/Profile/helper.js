@@ -4,7 +4,7 @@ export const getUser =(userId,token)=>{
         method:"GET",
         headers:{
             Accept:"application/json",
-            'Content-Type':'application-json',
+            'Content-Type':'application/json',
             Authorization:`Bearer ${token}`
         },
     })
@@ -16,3 +16,23 @@ export const getUser =(userId,token)=>{
         console.log(err);
     })
 }
+
+export const updateUserBio =(userId,token,data)=>{
+    console.log("data",data);
+    return fetch(`http://localhost:5000/db/updateUserBio?userId=${userId}`,{
+         method:"PUT",
+         headers:{
+             Accept:'application/json',
+             'Content-Type':'application/json',
+             Authorization:`Bearer ${token}`
+         },
+         body:JSON.stringify({bio:data})
+     })
+     .then(res=>{
+         return res.json();
+     })
+     .catch(err=>{
+         return err;
+         console.log(err);
+     })
+ }

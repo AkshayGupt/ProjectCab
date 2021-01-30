@@ -31,18 +31,30 @@ exports.getUserById = (req, res) => {
         delete user.encrypted_password;
         delete user.salt;
         delete user.updatedAt;
-        console.log(user);
+        // console.log(user);
         return res.status(200).json(user);
       }
     });
 };
 
 exports.updateUserBio = (req,res) =>{
-  const userId =req.query.userID;
+  const userId =req.query.userId;
   const newBio =req.body.bio;
-  User.update({_id:userId},{
-    bio:newBio
-  },(err,affected,res)=>{
-      console.log(res);
-  })
+  console.log(req.body);
+  User.findByIdAndUpdate(userId, { bio: newBio }, 
+                            function (err, docs) { 
+    if (err){ 
+        return res.status(400).json({
+          error:err
+        })
+       
+    } 
+    else{ 
+        return res.status(200).json({
+          message:"Successfully Updated"
+        })
+        
+    } 
+}); 
+  
 }
