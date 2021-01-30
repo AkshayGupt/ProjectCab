@@ -13,7 +13,7 @@ const Timeline = ({ trips }) => {
     trips.length > 0 &&
     trips.map((trip) => {
       let { source, destination, members, startTime, endTime } = trip;
-      const now =moment(new Date()).format("MMMM Do YYYY").toString();
+      const now = moment(new Date()).format("MMMM Do YYYY").toString();
       const startDate = moment(startTime).format("MMMM Do YYYY").toString();
       const endDate = moment(endTime).format("MMMM Do YYYY").toString();
       const timeline =
@@ -21,9 +21,7 @@ const Timeline = ({ trips }) => {
       startTime = moment(startTime).format("h:mm a").toString();
       endTime = moment(endTime).format("h:mm a").toString();
 
-      if(true){
       return (
-      
         <VerticalTimelineElement
           className="vertical-timeline-element"
           contentStyle={{ background: "rgb(33, 150, 243)", color: "#fff" }}
@@ -38,9 +36,8 @@ const Timeline = ({ trips }) => {
             {source} to {destination}
           </h3>
           <h6>
-            <i class="fa fa-clock-o" aria-hidden="true"></i>
-            {" "}
-            {startTime} - {endTime}
+            <i class="fa fa-clock-o" aria-hidden="true"></i> {startTime} -{" "}
+            {endTime}
           </h6>
           {members.length == 1 ? (
             <p>Traveling alone!</p>
@@ -49,7 +46,6 @@ const Timeline = ({ trips }) => {
           )}
         </VerticalTimelineElement>
       );
-          }
     });
   return (
     <VerticalTimeline className="vertical-timeline-custom-line">

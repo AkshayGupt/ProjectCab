@@ -14,30 +14,27 @@ const Trips = () => {
   const [trips, setTrips] = useState([]);
   const [dates, setDates] = useState([]);
 
-
-
   const getTrips = () => {
     const jwt = JSON.parse(localStorage.getItem("jwt"));
-    console.log("Data from Trips",jwt.token);
-    const UID=jwt.user._id;
-    getTripsOfUser(UID,jwt.token)
+    console.log("Data from Trips", jwt.token);
+    const UID = jwt.user._id;
+    getTripsOfUser(UID, jwt.token)
       .then((data) => {
         if (data.error) {
           console.log(data.error);
         } else {
           console.log("Data", data);
           setTrips(data);
-          const date =new Date();
+          const date = new Date();
           let dates = [];
           {
-            data.map((trip) => 
-            {
+            data.map((trip) => {
               dates.push(moment(trip.startTime).format("DD-MM-YYYY"));
             });
           }
-         
+
           setDates(dates);
-         
+
           setLoading(false);
         }
       })
@@ -52,12 +49,40 @@ const Trips = () => {
     }, 1000);
   }, []);
 
+  const tripCardElements =
+    trips.length > 0 &&
+    trips.map((trip) => {
+      let {
+        source,
+        destination,
+        members,
+        startTime,
+        endTime,
+        genderAllowed,
+      } = trip;
+
+      return (
+        <Col md="12 text-center mb-2" lg="6">
+          <TripCard
+            trip={{
+              source: source,
+              destination: destination,
+              members: members,
+              start: startTime,
+              end: endTime,
+              gender: genderAllowed,
+            }}
+          />
+        </Col>
+      );
+    });
+
   return (
     <div className="mx-auto mt-5">
       <Row>
         <Col md="12" lg="8" className="border-right">
           <h1 className="text-center mb-5 ">
-            Trips{" "}
+            Trips
             <a href="/register">
               <i
                 style={{ fontSize: "50px", marginLeft: "5px" }}
@@ -67,7 +92,7 @@ const Trips = () => {
             </a>
           </h1>
           <div>
-            <Container >
+            <Container>
               <Row>
                 <Col>
                   <Container>
@@ -82,28 +107,31 @@ const Trips = () => {
                       </div>
                     ) : (
                       <>
-                      <Row>
-                        {trips.length > 0 &&
-                          trips.map((tripp) => {
-                            return (
-                              <Col md="12 text-center mb-2" lg="6">
-                                <TripCard
-                                  trip={{
-                                    source: tripp.source,
-                                    destination: tripp.destination,
-                                    members: tripp.members,
-                                    start: tripp.startTime,
-                                    end: tripp.endTime,
-                                    gender: tripp.genderAllowed,
-                                  }}
-                                />
-                              </Col>
-                            );
-                          })}
-                        {trips.length == 0 && (
-                          <h5  className="text-center mx-auto">It seems you have not created a trip yet !</h5>
-                        )}
-                      </Row>
+                        <Row>
+                          {trips.length > 0 && tripCardElements}
+                          {/* {trips.length > 0 &&
+                            trips.map((tripp) => {
+                              return (
+                                <Col md="12 text-center mb-2" lg="6">
+                                  <TripCard
+                                    trip={{
+                                      source: tripp.source,
+                                      destination: tripp.destination,
+                                      members: tripp.members,
+                                      start: tripp.startTime,
+                                      end: tripp.endTime,
+                                      gender: tripp.genderAllowed,
+                                    }}
+                                  />
+                                </Col>
+                              );
+                            })} */}
+                          {trips.length == 0 && (
+                            <h5 className="text-center mx-auto">
+                              It seems you have not created a trip yet !
+                            </h5>
+                          )}
+                        </Row>
                       </>
                     )}
                   </Container>
@@ -112,42 +140,39 @@ const Trips = () => {
               </Row>
             </Container>
           </div>
-          {trips.length>0 && (
-          <>
-           <h1 className="text-center my-5">My Timeline</h1>
-           <Timeline trips={trips}></Timeline>
-           </>
-      )}
+          {trips.length > 0 && (
+            <>
+              <h1 className="text-center my-5">My Timeline</h1>
+              <Timeline trips={trips}></Timeline>
+            </>
+          )}
         </Col>
         <Col md="12" lg="4">
-         
-          {trips.length>0 && (
-          <>
-           <h1 className="text-center mb-5 mx-auto">
-            <i class="fa fa-calendar" aria-hidden="true"></i>
-          </h1> 
-           <Calendar
-            className=" mx-auto"
-            style={{ height: "400" }}
-            onChange={onChange}
-            value={value}
-            tileClassName={({ date, view }) => {
-              if (dates.find((x) => x === moment(date).format("DD-MM-YYYY"))) {
-                return "highlight";
-              }
-            }}
-            tileDisabled={({ date }) => date.getDay() === 0}
-            minDate={new Date()}
-          ></Calendar>
-           </>
-      )}
-          
-          
+          {trips.length > 0 && (
+            <>
+              <h1 className="text-center mb-5 mx-auto">
+                <i class="fa fa-calendar" aria-hidden="true"></i>
+              </h1>
+              <Calendar
+                className=" mx-auto"
+                style={{ height: "400" }}
+                onChange={onChange}
+                value={value}
+                tileClassName={({ date, view }) => {
+                  if (
+                    dates.find((x) => x === moment(date).format("DD-MM-YYYY"))
+                  ) {
+                    return "highlight";
+                  }
+                }}
+                tileDisabled={({ date }) => date.getDay() === 0}
+                minDate={new Date()}
+              ></Calendar>
+            </>
+          )}
         </Col>
         <Col md lg="1"></Col>
       </Row>
-     
-     
     </div>
   );
 };

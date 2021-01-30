@@ -72,6 +72,7 @@ exports.signout = (req, res) => {
 };
 
 //protected routes
+// const secret = process.env.SECRET.toString();
 exports.isSignedIn = expressJwt({
   secret: 'MYSECRET',/* Same as that in Config File*/
   algorithms:['HS256'],
