@@ -62,19 +62,19 @@ const Dashboard =()=> {
                                     className={component === "trips"?"bg-dark text-white mx-3":"text-dark"}
                                     onClick={()=>{setComponent("trips")}}
                                 >
-                                    Trips
+                                    Trips{' '} <i className="fa fa-suitcase ml-4 " aria-hidden="true" ></i>
                                 </Nav.Link>
                                 <Nav.Link 
                                     className={component === "profile"?"bg-dark text-white mx-3":"text-dark"}
                                     onClick={()=>{setComponent("profile")}}
                                 >
-                                    Profile
+                                    Profile{' '} <i className="fa fa-pencil ml-3" aria-hidden="true"></i>
                                 </Nav.Link>
                                 <Nav.Link 
                                     className={component === "contact"?"bg-dark text-white mx-3":"text-dark"}
                                     onClick={()=>{setComponent("contact")}}
                                 >
-                                    Contact
+                                    Contact{' '} <i className="fa fa-address-book ml-2" aria-hidden="true"></i>
                                 </Nav.Link>
                             </Nav>
                         </div>

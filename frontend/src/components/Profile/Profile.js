@@ -13,13 +13,14 @@ const Profile =({editAllowed=false,userId})=> {
         trips:[],
         loading:true,
         error:"",
-        bio:""
+        bio:"",
+        success:false
     });
 
 
     const[ editBio, setEditBio ] =useState(false);
 
-    const {firstName,lastName,email,trips,loading,error,bio} = profile;
+    const {firstName,lastName,email,trips,loading,error,bio, success} = profile;
 
     const setDetails =(userId) =>{
         const jwt =isAuthenticated();
@@ -39,7 +40,7 @@ const Profile =({editAllowed=false,userId})=> {
                     lastName:data.lastName,
                     trips:data.trips,
                     bio:data.bio,
-                    loading:false
+                    loading:false,
                 })
                 console.log(data);
             }
@@ -76,9 +77,24 @@ const Profile =({editAllowed=false,userId})=> {
         updateUserBio(user._id,token,bio)
         .then(data=>{
             if(data.error){
-                console.err(data.error);
+                setProfile({
+                    ...profile,
+                    error:data.error
+                })
+                setTimeout(
+                    () => setProfile({ ...profile,error:"" }), 
+                    3000
+                );
             }
             else{
+                setProfile({
+                    ...profile,
+                    success:true
+                })
+                setTimeout(
+                    () => setProfile({ ...profile,success:false }), 
+                    3000
+                );
                 console.log(data);
             }
         })
@@ -86,10 +102,36 @@ const Profile =({editAllowed=false,userId})=> {
             console.err(err);
         })
     }
+    const updateSuccessMessage = ()=>{
+        return(
+            <div className="row">
+                <div className="col-md-12 ">
+                <div className="alert alert-success" style={{display: success ? "":"none"}}>
+                    <p>Successfully updated your bio.</p>
+                </div>       
+                </div>
+            </div>
+           );
+    }
+    const updateErrorMessage = ()=>{ 
+        return(
+            <div className="row">
+                <div className="col-md-12 ">
+                    <div className="alert alert-danger" style={{display: error ? "":"none"}}>
+                        <p>{error}</p>
+                    </div>
+                 </div>
+            </div>
+        );
+    }
 
     const profileF = () =>{
         return(
+            <>    
+                {updateSuccessMessage()}
+                {updateErrorMessage()}
                  <div className="card user-card-full">
+                    
                     <div className="row m-l-0 m-r-0">
                         <div className="col-sm-4 bg-c-lite-green user-profile">
                             <div className="card-block text-center text-white ">
@@ -117,11 +159,13 @@ const Profile =({editAllowed=false,userId})=> {
                                     <textarea className="form-control" id="exampleFormControlTextarea1"  name="bio"  onChange={handleChange("bio")}  value={bio} rows="3" disabled={!editBio} ></textarea>
                                 </div>
                                 <br></br>
-                                <p className={editBio?"btn btn-sm btn-info":"d-none"} onClick={()=>updateProfile()} >Update</p>
+                                <p className={editBio?"btn btn-sm btn-info mx-2":"d-none"} onClick={()=>updateProfile()} >Update</p>
+                                <p className={editBio?"btn btn-sm btn-danger mx-2":"d-none"} onClick={()=>setEditBio(false)} >Cancel</p>
                             </div>
                         </div>
                     </div>
                 </div>
+                </>
         )
     }
 

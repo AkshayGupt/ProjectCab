@@ -68,6 +68,10 @@ const Landing = ()  =>{
                    ...signInData,
                    error:data.error
                })
+               setTimeout(
+                () => setSignInData({ ...signInData,error:"" }), 
+                3000
+            );
             }
             else{
                 console.log(data)
@@ -117,6 +121,10 @@ const Landing = ()  =>{
                     retypedPassword:"",
                     error:data.error
                 })
+                setTimeout(
+                    () => setSignUpData({ ...signUpData,error:"" }), 
+                    3000
+                );
             }
             else{
                 setSignUpData({
@@ -170,13 +178,18 @@ const Landing = ()  =>{
                         <Form.Control type="email" name="email" value={signInData.email} id="email" placeholder="abc@xyz.com" onChange={handleSignInChange("email")}/>
                     </Form.Group>
                     <Form.Group>
-                        <Form.Label>Password</Form.Label>
+                        <Form.Label>Password </Form.Label>
                         <Form.Control type="password" name="password" id="password" value={signInData.password} placeholder="Enter password" onChange={handleSignInChange("password")}/>
                     </Form.Group>
+                    <a href="#" className="">Forgot Password?</a>
                     <div className="text-center ">
-                        <p className="btn btn-info btn-md btn-lg" onClick={()=>signin()}>Submit</p>
+                        <p className="btn btn-info btn-md " onClick={()=>signin()}>Submit</p>
+                       
                     </div>    
                 </Form>
+                
+                <h6>Don't have an account ?<a href="#" className="text-primary" onClick={()=>setNewUser(true)}> signup here</a></h6> 
+
             </div>
         )
     }
@@ -211,13 +224,15 @@ const Landing = ()  =>{
                     <div className="text-center">
                         {signUpData.password === signUpData.retypedPassword
                             ?
-                            (<p className="btn btn-info btn-lg" onClick={()=>signup()}>Submit </p>)
+                            (<p className="btn btn-info btn-md" onClick={()=>signup()}>Submit </p>)
                             :
                             ( <p className="text-danger">Password does not match ! </p>)
                         }
                     </div>    
-                </Form>  
+                </Form>   
+                <h6>Already have an account ?<a href="#" className="text-primary" onClick={()=>setNewUser(false)}> signin here</a></h6> 
             </div> 
+
         )
     }
 
@@ -267,13 +282,13 @@ const Landing = ()  =>{
                         {slideShow()}
                        </div>
                 </Col>
-                <Col md="12" lg="6" className="border-left border-right border-top border-bottom mb-3 " >
+                <Col md="12" lg="6" className="border-left border-right border-top border-bottom mb-3 shadow rounded " >
                     <Row className="text-center bg-light p-2 mx-auto" style={{  width:"100%"}}>
                         <Col className="border-right"><h5 className={newUser?"btn btn-light":"btn btn-info px-1"} onClick={()=>{setNewUser(false)}}>SignIn</h5></Col>
                         <Col><h5 className={!newUser?"btn btn-light":"btn btn-info px-1"} onClick={()=>{setNewUser(true)}}>SignUp</h5></Col>
                     </Row>
                     
-                    <div style={{height:"auto",width:"100%"}} className="p-3 mx-auto">
+                    <div style={{height:"auto",width:"100%"}} className="p-3 mx-auto ">
                             {newUser?signUp():signIn()}
                     </div>
                      
