@@ -123,20 +123,24 @@ const Trips = () => {
         </Col>
       );
     });
+    const refresh = () =>{
+      setLoading(true);
+      getTrips();
+    }
 
   return (
-    <div className="mx-auto mt-5">
+    <div className="mx-auto mt-5" style={{marginBottom:"100px"}}>
       <Row>
         <Col md="12" lg="8" className="border-right">
           <h1 className="text-center mb-5 ">
             Trips
-            <a href="/register">
+            {/* <a href="/register">
               <i
                 style={{ fontSize: "50px", marginLeft: "5px" }}
                 className="fa fa-plus-square-o"
                 aria-hidden="true"
               ></i>
-            </a>
+            </a> */}
           </h1>
           <div>
             <Container>
@@ -154,7 +158,9 @@ const Trips = () => {
                       </div>
                     ) : (
                       <>
-                      <h2 className="my-5">Ongoing Trips</h2>
+                      <h2 className="my-5">Ongoing Trips  <a href="#" style={{float:"right",marginRight:""}} onClick={()=>refresh()}><i class="fa fa-refresh" aria-hidden="true"></i></a>
+         </h2>
+                      
                       <Row>
                           {ongoingTrips.length > 0 && ongoingTripCardElements}
                           {ongoingTrips.length == 0 && (

@@ -7,10 +7,12 @@ import PrivateRoute from './components/Auth/PrivateRoute';
 import GuestRoute from './components/Auth/GuestRoute';
 import Loading from './Loading';
 import Dashboard from './components/Dashboard/Dashboard';
+import Footer from './components/Footer/Footer';
 const Landing = lazy(()=>import("./components/Landing/Landing"));
 const Register = lazy(()=>import('./components/Register/Register'));
-const Profile = lazy(()=>import('./components/Profile/Profile'));
 const About = lazy(()=>import('./components/Dashboard/About'));
+const Profile = lazy(()=>import('./components/Profile/Profile'));
+// const Footer = lazy(()=>import('./components/Footer/Footer'));
 function App() {
   return (
     <>
@@ -27,6 +29,7 @@ function App() {
           </Switch>
       </Router>
     </Suspense>
+    <Footer/>
     </>
   );
 }
