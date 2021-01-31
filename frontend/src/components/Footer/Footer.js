@@ -7,7 +7,7 @@ function Footer() {
 <footer className="mainfooter" role="contentinfo">
   <div className="footer-middle">
   <div className="container">
-    <div className="row mb-2 mx-auto d-flex justify-content-around">  
+    <div className="row mb-1 mx-auto d-flex justify-content-around">  
         <div className="footer-pad">
           <ul className="list-unstyled">
             <li><a href="#"></a></li>

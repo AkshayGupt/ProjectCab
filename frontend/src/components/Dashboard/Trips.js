@@ -134,13 +134,6 @@ const Trips = () => {
         <Col md="12" lg="8" className="border-right">
           <h1 className="text-center mb-5 ">
             Trips
-            {/* <a href="/register">
-              <i
-                style={{ fontSize: "50px", marginLeft: "5px" }}
-                className="fa fa-plus-square-o"
-                aria-hidden="true"
-              ></i>
-            </a> */}
           </h1>
           <div>
             <Container>
@@ -186,7 +179,7 @@ const Trips = () => {
               </Row>
             </Container>
           </div>
-          {futureTrips.length > 0 && (
+          {!loading && futureTrips.length > 0 && (
             <>
               <h1 className="text-center my-5">My Timeline</h1>
               <Timeline trips={futureTrips}></Timeline>
@@ -194,7 +187,7 @@ const Trips = () => {
           )}
         </Col>
         <Col md="12" lg="4">
-          {futureTrips.length > 0 && (
+          {!loading && futureTrips.length > 0 && (
             <>
               <h1 className="text-center mb-5 mx-auto">
                 <i class="fa fa-calendar" aria-hidden="true"></i>

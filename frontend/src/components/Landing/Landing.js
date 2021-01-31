@@ -1,7 +1,7 @@
 import React,{useState} from 'react';
 import {Row,Col,Form,Carousel} from 'react-bootstrap';
 import './Landing.css';
-import Loading from '../../Loading';
+import Loading from '../../Loading/Loading';
 import Navigation from '../Navigation/Navigation'
 import {Redirect,Link} from 'react-router-dom';
 import { signInUser,signUpUser,authenticate } from '../Auth/helper';
@@ -10,7 +10,7 @@ import { auto } from '@popperjs/core';
 
 const Landing = ()  =>{
 
-    const [load,setLoad] = useState(false);
+    // const [load,setLoad] = useState(false);
     const [newUser,setNewUser] = useState(false);
     const [signUpData,setSignUpData] = useState({
         firstName:"",
@@ -24,10 +24,10 @@ const Landing = ()  =>{
     const [signInData,setSignInData] = useState({
         email:"test@hotmail.com",
         password:"12345678",
-        loading:false,
         error:""
     });
     const [redirect,setRedirect] = useState(false);
+    const [loading,setLoading] = useState(false);
 
 
     const handleSignInChange = name=>event=>{
@@ -36,23 +36,6 @@ const Landing = ()  =>{
     const handleSignUpChange = name=>event=>{
         setSignUpData({...signUpData,[name]:event.target.value})
     }
-
-
-    const toggleLoading = () =>{
-        setLoad(!load);
-    }
-
-    const loading = () =>{
-         return <Loading/>
-    }
-
-    const loginPage = () =>{
-        return(
-            <>
-          
-            </>
-        );
-    }
     const redirectToHomePage = () =>{
         if(redirect){
             return <Redirect to="/dashboard"/>
@@ -60,10 +43,12 @@ const Landing = ()  =>{
     }
 
     const signin = () =>{
+        setLoading(true);
         const {email,password} =signInData;
         signInUser({email,password})
         .then(data=>{
             if(data.error){
+                setLoading(false);
                setSignInData({
                    ...signInData,
                    error:data.error
@@ -71,11 +56,13 @@ const Landing = ()  =>{
                setTimeout(
                 () => setSignInData({ ...signInData,error:"" }), 
                 3000
-            );
+                );
             }
             else{
                 console.log(data)
+               
                 authenticate(data,()=> {
+                    setLoading(false);
                     setRedirect(true);
                 });
             }
@@ -85,10 +72,10 @@ const Landing = ()  =>{
 
     const loadingMessage = ()=>{   
         return(
-                signInData.loading && (
-                    <div className="alert alert-info">
-                        <h2>Loading...</h2>
-                    </div>
+                loading && (
+                    // <div className="alert alert-info">
+                       <Loading/>
+                    // </div>
                 )
            );   
     }
@@ -168,7 +155,6 @@ const Landing = ()  =>{
     const signIn = () =>{
         return (
             <div> 
-               {loadingMessage()}
                {signInErrorMessage()}
                 {/* {JSON.stringify({signInData})} */}
                 <Form style={{width:"auto",height:"auto"}}>
@@ -274,6 +260,7 @@ const Landing = ()  =>{
     return(
         <>
         {redirectToHomePage()}
+        {loadingMessage()}
         <Navigation/>
         <div className="container">
             <Row style={{marginTop:"2rem"}} className="mx-auto ">
