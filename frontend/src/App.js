@@ -5,7 +5,7 @@ import Navigation from './components/Navigation/Navigation';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import PrivateRoute from './components/Auth/PrivateRoute';
 import GuestRoute from './components/Auth/GuestRoute';
-import Loading from './Loading';
+import Loading from './Loading/Loading';
 import Dashboard from './components/Dashboard/Dashboard';
 import Footer from './components/Footer/Footer';
 const Landing = lazy(()=>import("./components/Landing/Landing"));
@@ -16,8 +16,8 @@ const Profile = lazy(()=>import('./components/Profile/Profile'));
 function App() {
   return (
     <>
+    {/* <Loading/> */}
     <Suspense fallback={<Loading/>}>
-        {/* To-do: Navigation Bar */}
         <Router>
           <Switch>
               <GuestRoute exact  path="/" component={Landing} />
@@ -28,8 +28,8 @@ function App() {
               <PrivateRoute path="/about" exact component={About} />
           </Switch>
       </Router>
-    </Suspense>
-    <Footer/>
+     </Suspense>
+     <Footer/>
     </>
   );
 }

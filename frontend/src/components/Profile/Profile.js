@@ -3,7 +3,7 @@ import Navigation from '../Navigation/Navigation';
 import {getUser, updateUserBio } from './helper';  
 import {isAuthenticated} from '../Auth/helper';
 import './Profile.css';
-import Loading from '../../Loading';
+import Loading from '../../Loading/Loading';
 const Profile =({editAllowed=false,userId})=> {
 
     const [profile,setProfile] =useState({
@@ -55,7 +55,7 @@ const Profile =({editAllowed=false,userId})=> {
     const loadingF = () =>{
         if(loading){
             return(
-                <h1>Loading....</h1>
+                <Loading/>
             )
         }
     }
