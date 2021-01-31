@@ -1,0 +1,15 @@
+.container-custom {
+  text-align: left;
+  padding-top: 0.5rem;
+  padding-bottom: 2rem;
+  width: 20rem;
+  height: auto;
+}
+
+.subtitle {
+  color: grey;
+  font-weight: 500;
+  font-size: medium;
+  padding-top: 1%;
+  padding-bottom: 2%;
+}
