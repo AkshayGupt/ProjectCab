@@ -58,7 +58,7 @@ exports.cancelTrip = (req, res) => {
       newTrip["isFilled"] = 0;
       newTrip["memberCount"] -= 1;
 
-      if (newTrip['memberCount'] == 0) {
+      if (newTrip["memberCount"] == 0) {
         //Delete the trip
         Trip.findByIdAndDelete(tripID).exec((err, trip) => {
           if (err) {
@@ -101,6 +101,7 @@ exports.getTripById = (req, res) => {
   const tripId = req.body.tripID;
   Trip.findById(tripId)
     .populate("members")
+    .sort("startTime")
     .exec((err, trip) => {
       if (err) {
         return res.status(400).json({ error: "Cannot fetch trip" });
@@ -119,6 +120,7 @@ exports.getTripsByUserId = (req, res) => {
   Trip.find({ members: { $all: [userID] } })
     .lean()
     .populate("members", "firstName lastName")
+    .sort("startTime")
     .exec((err, trips) => {
       if (err) {
         return res.status(400).json({ error: "Cannot fetch trips!" });
@@ -137,6 +139,7 @@ exports.getPastTrips = (req, res) => {
   const currentDateTime = new Date().toISOString();
   Trip.find({ members: { $all: [userID] }, endTime: { $lte: currentDateTime } })
     .populate("members", "firstName lastName image")
+    .sort("startTime")
     .exec((err, trips) => {
       if (err) {
         return res.status(400).json({ error: "Cannot fetch past trips!" });
@@ -159,6 +162,7 @@ exports.getOngoingTrips = (req, res) => {
     endTime: { $gte: currentDateTime },
   })
     .populate("members", "firstName lastName image")
+    .sort("startTime")
     .exec((err, trips) => {
       if (err) {
         return res.status(400).json({ error: "Cannot fetch ongoing trips!" });
@@ -180,6 +184,7 @@ exports.getFutureTrips = (req, res) => {
     startTime: { $gt: currentDateTime },
   })
     .populate("members", "firstName lastName image")
+    .sort("startTime")
     .exec((err, trips) => {
       if (err) {
         return res.status(400).json({ error: "Cannot fetch future trips!" });
