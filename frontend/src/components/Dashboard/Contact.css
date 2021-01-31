@@ -1,14 +1,11 @@
-.container-custom {
-  text-align: left;
-  padding-top: 0.5rem;
+.custom-padding {
   padding-bottom: 2rem;
-  width: 20rem;
-  height: auto;
+  background-color: rgb(231, 221, 128);
 }
 
 .subtitle {
   color: grey;
-  font-weight: 500;
+  font-weight: bold;
   font-size: medium;
   padding-top: 1%;
   padding-bottom: 2%;
