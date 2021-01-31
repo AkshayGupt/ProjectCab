@@ -7,11 +7,11 @@ function Footer() {
 <footer className="mainfooter" role="contentinfo">
   <div className="footer-middle">
   <div className="container">
-    <div className="row mb-2 mx-auto d-flex justify-content-center">  
+    <div className="row mb-3 mx-auto d-flex justify-content-center">  
       <div className="row footer-pad mr-1">
         <div className ="col-md-4 col-12"><a href="#">About</a></div>
         <div className ="col-md-4 col-12"><a href="#">FAQs</a></div>
-        <div className ="col-md-4 col-12"><a href="#">Contact</a></div>
+        <div className ="col-md-4 col-12"><a href="/contact">Contact</a></div>
       </div>
 
         <div className="row">

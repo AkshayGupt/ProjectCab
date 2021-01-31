@@ -8,6 +8,7 @@ import GuestRoute from './components/Auth/GuestRoute';
 import Loading from './Loading/Loading';
 import Dashboard from './components/Dashboard/Dashboard';
 import Footer from './components/Footer/Footer';
+import Contact from './components/Dashboard/Contact';
 const Landing = lazy(()=>import("./components/Landing/Landing"));
 const Register = lazy(()=>import('./components/Register/Register'));
 const About = lazy(()=>import('./components/Dashboard/About'));
@@ -20,6 +21,7 @@ function App() {
     <Suspense fallback={<Loading/>}>
         <Router>
           <Switch>
+              <Route exact path="/contact" component={Contact} />
               <GuestRoute exact  path="/" component={Landing} />
               <PrivateRoute path="/register" exact component={Register} />
               <PrivateRoute path="/profile" exact component={Profile} />

@@ -1,22 +1,22 @@
 
-/* @media only screen and (min-width: 768px) { */
+@media only screen and (min-width: 768px) {
     /* For desktop: */
-   /* .sidebar{
-       height:"60rem";
-       margin-bottom: "60rem";
-   } */
-  /* } */
+   .sidebar{
+       min-height:100vh;
+   }
+  }
   
 
 .sidebar{
     /* background: #16222A; */
+    
     background: #EFEFBB;  /*fallback for old browsers */
     background: -webkit-linear-gradient(to bottom, #D4D3DD, #EFEFBB);  /*Chrome 10-25, Safari 5.1-6*/
     background: linear-gradient(to bottom, #D4D3DD, #EFEFBB); /*W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+*/
 }
 
-    /* @media only screen and (max-width: 800px) {
-        .sidebar {
-        height:"50rem";
-        }
-    } */
+        /* @media only screen and (max-width: 800px) {
+            .sidebar {
+            height:"50rem";
+            }
+        } */

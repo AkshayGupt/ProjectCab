@@ -7,13 +7,14 @@ footer {
     background: -webkit-linear-gradient(59deg, #3A6073, #16222A);
     background: linear-gradient(59deg, #3A6073, #16222A);
     color: white;
-    margin-top:auto;
     position:inherit;;
     left: 0;
     bottom: 0;
     width: 100%;
     min-height: 100px;
-    clear:both
+    /* width:; */
+    clear:both;
+
   }
   
   footer a {
