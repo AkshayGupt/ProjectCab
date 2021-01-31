@@ -72,7 +72,7 @@ exports.getTripsByUserId = (req, res) => {
  * @param {String} req: UserID
  */
 exports.getPastTrips = (req, res) => {
-  const userID = req.body.userID;
+  const userID = req.query.userId;
   const currentDateTime = new Date().toISOString();
   Trip.find({ members: { $all: [userID] }, endTime: { $lte: currentDateTime } })
     .populate("members", "firstName lastName image")
@@ -90,7 +90,7 @@ exports.getPastTrips = (req, res) => {
  * @param {String} req: UserID
  */
 exports.getOngoingTrips = (req, res) => {
-  const userID = req.body.userID;
+  const userID = req.query.userId;
   const currentDateTime = new Date().toISOString();
   Trip.find({
     members: { $all: [userID] },
@@ -112,7 +112,7 @@ exports.getOngoingTrips = (req, res) => {
  * @param {String} req: UserID
  */
 exports.getFutureTrips = (req, res) => {
-  const userID = req.body.userID;
+  const userID = req.query.userId;
   const currentDateTime = new Date().toISOString();
   Trip.find({
     members: { $all: [userID] },

@@ -15,7 +15,7 @@ const TripCard = ({ trip }) => {
   return (
     <div>
       <div
-        className="card text-white bg-dark mb-3 ml-5 mx-auto"
+        className="card text-white bg-dark mb-3 ml-5 mx-auto shadow"
         style={{ width: "290px", height: "300px" }}
       >
         <div className="card-header text-light">

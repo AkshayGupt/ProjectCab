@@ -5,26 +5,27 @@ import "react-calendar/dist/Calendar.css";
 import "./Trip.css";
 import { Row, Col, Container } from "react-bootstrap";
 import TripCard from "./TripCard";
-import { getTripsOfUser } from "./helper";
+import { getFutureTrips, getOngoingTrips } from "./helper";
 import Timeline from "./Timeline";
 
 const Trips = () => {
   const [value, onChange] = useState(new Date());
   const [loading, setLoading] = useState(true);
-  const [trips, setTrips] = useState([]);
+  const [futureTrips, setFutureTrips] = useState([]);
+  const [ongoingTrips,setOngoingTrips] = useState([]);
   const [dates, setDates] = useState([]);
 
   const getTrips = () => {
     const jwt = JSON.parse(localStorage.getItem("jwt"));
     console.log("Data from Trips", jwt.token);
     const UID = jwt.user._id;
-    getTripsOfUser(UID, jwt.token)
+    getFutureTrips(UID, jwt.token)
       .then((data) => {
         if (data.error) {
           console.log(data.error);
         } else {
           console.log("Data", data);
-          setTrips(data);
+          setFutureTrips(data);
           const date = new Date();
           let dates = [];
           {
@@ -32,9 +33,28 @@ const Trips = () => {
               dates.push(moment(trip.startTime).format("DD-MM-YYYY"));
             });
           }
-
           setDates(dates);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
 
+      getOngoingTrips(UID, jwt.token)
+      .then((data) => {
+        if (data.error) {
+          console.log(data.error);
+        } else {
+          console.log("Data", data);
+          setOngoingTrips(data);
+          const date = new Date();
+          let newDates = dates;
+          {
+            data.map((trip) => {
+              newDates.push(moment(trip.startTime).format("DD-MM-YYYY"));
+            });
+          }
+          setDates(newDates);
           setLoading(false);
         }
       })
@@ -49,9 +69,36 @@ const Trips = () => {
     }, 1000);
   }, []);
 
-  const tripCardElements =
-    trips.length > 0 &&
-    trips.map((trip) => {
+  const futureTripCardElements =
+  futureTrips.length > 0 &&
+    futureTrips.map((trip) => {
+      let {
+        source,
+        destination,
+        members,
+        startTime,
+        endTime,
+        genderAllowed,
+      } = trip;
+
+      return (
+        <Col md="12 text-center mb-2" lg="6">
+          <TripCard
+            trip={{
+              source: source,
+              destination: destination,
+              members: members,
+              start: startTime,
+              end: endTime,
+              gender: genderAllowed,
+            }}
+          />
+        </Col>
+      );
+    });
+  const ongoingTripCardElements =
+  ongoingTrips.length > 0 &&
+  ongoingTrips.map((trip) => {
       let {
         source,
         destination,
@@ -107,26 +154,20 @@ const Trips = () => {
                       </div>
                     ) : (
                       <>
+                      <h2 className="my-5">Ongoing Trips</h2>
+                      <Row>
+                          {ongoingTrips.length > 0 && ongoingTripCardElements}
+                          {ongoingTrips.length == 0 && (
+                            <h5 className="text-center mx-auto">
+                              It seems you have no ongoing trips !
+                            </h5>
+                          )}
+                        </Row>
+                      
+                      <h2  className="my-5">Upcoming Trips</h2>
                         <Row>
-                          {trips.length > 0 && tripCardElements}
-                          {/* {trips.length > 0 &&
-                            trips.map((tripp) => {
-                              return (
-                                <Col md="12 text-center mb-2" lg="6">
-                                  <TripCard
-                                    trip={{
-                                      source: tripp.source,
-                                      destination: tripp.destination,
-                                      members: tripp.members,
-                                      start: tripp.startTime,
-                                      end: tripp.endTime,
-                                      gender: tripp.genderAllowed,
-                                    }}
-                                  />
-                                </Col>
-                              );
-                            })} */}
-                          {trips.length == 0 && (
+                          {futureTrips.length > 0 && futureTripCardElements}
+                          {futureTrips.length == 0 && (
                             <h5 className="text-center mx-auto">
                               It seems you have not created a trip yet !
                             </h5>
@@ -136,19 +177,18 @@ const Trips = () => {
                     )}
                   </Container>
                 </Col>
-                {/* <Col sm="1"></Col> */}
               </Row>
             </Container>
           </div>
-          {trips.length > 0 && (
+          {futureTrips.length > 0 && (
             <>
               <h1 className="text-center my-5">My Timeline</h1>
-              <Timeline trips={trips}></Timeline>
+              <Timeline trips={futureTrips}></Timeline>
             </>
           )}
         </Col>
         <Col md="12" lg="4">
-          {trips.length > 0 && (
+          {futureTrips.length > 0 && (
             <>
               <h1 className="text-center mb-5 mx-auto">
                 <i class="fa fa-calendar" aria-hidden="true"></i>

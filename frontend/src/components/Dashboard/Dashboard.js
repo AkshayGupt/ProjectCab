@@ -3,8 +3,10 @@ import { Container,Row,Col,Badge,Button,Nav } from 'react-bootstrap';
 import './Status.scss';
 import {Redirect} from 'react-router-dom';
 import Trips from './Trips';
+import PastTrips from './PastTrips';
 import Contact from './Contact';
 import Profile from '../Profile/Profile';
+
 import './Dashboard.css';
 import Navigation from '../Navigation/Navigation';    
 import {isAuthenticated, signOut} from '../Auth/helper';
@@ -65,6 +67,12 @@ const Dashboard =()=> {
                                     Trips{' '} <i className="fa fa-suitcase ml-4 " aria-hidden="true" ></i>
                                 </Nav.Link>
                                 <Nav.Link 
+                                    className={component === "pastTrips"?"bg-dark text-white mx-3":"text-dark"}
+                                    onClick={()=>{setComponent("pastTrips")}}
+                                >
+                                    History{' '} <i class="fa fa-history ml-2" aria-hidden="true"></i>
+                                </Nav.Link>
+                                <Nav.Link 
                                     className={component === "profile"?"bg-dark text-white mx-3":"text-dark"}
                                     onClick={()=>{setComponent("profile")}}
                                 >
@@ -80,15 +88,11 @@ const Dashboard =()=> {
                         </div>
                 </Col>
                 <Col md="12" lg="10">
-                   {component === "trips"  && 
-                    <>  
-                      <Trips/>
-                      
-                    </>
-                   }
+                   {component === "trips"  && <Trips/> }
+                   {component === "pastTrips"  && <PastTrips/> }
                    {
                     component === "profile" 
-                    && 
+                     && 
                     <Profile editAllowed={isAuthenticated()} userId={JSON.parse(localStorage.getItem("jwt")).user._id}/>
                    }
                    {component === "contact" && <Contact/>}
