@@ -5,10 +5,11 @@ import "./ContactUs.css";
 const Contact = () => {
   return (
     <Row className="custom-padding">
-      <Col className="d-none d-lg-block">
+      <Col className=" d-lg-block my-2">
         <Image
           src="https://images.unsplash.com/photo-1489824904134-891ab64532f1"
           fluid
+          style={{height:"80vh",width:"100%"}}
         />
       </Col>
       <Col>
