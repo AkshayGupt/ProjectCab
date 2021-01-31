@@ -48,6 +48,7 @@ const PastTrips =() => {
     pastTrips.length > 0 &&
     pastTrips.map((trip) => {
       let {
+        _id,
         source,
         destination,
         members,
@@ -55,7 +56,7 @@ const PastTrips =() => {
         endTime,
         genderAllowed,
       } = trip;
-
+      // console.log(trip);
       return (
         <Col md="12 text-center mb-2" lg="6">
           <TripCard
@@ -66,6 +67,7 @@ const PastTrips =() => {
               start: startTime,
               end: endTime,
               gender: genderAllowed,
+              tripId: _id
             }}
           />
         </Col>

@@ -6,7 +6,7 @@ import Profile from "../Profile/Profile";
 const TripCard = ({ trip }) => {
   const [modalShow, setModalShow] = useState(false);
   const [user, setUser] = useState("");
-  const { source, destination, members, start, end } = trip;
+  const { source, destination, members, start, end, tripId} = trip;
   const completed = moment(end).diff(moment(), "hours") < 0;
   const timeLeft = moment(start).diff(moment(), "hours"); // TODO: FIX THIS! Check if the trip is ongoing or not!
   const daysLeft = (timeLeft / 24) >> 0;
@@ -50,6 +50,7 @@ const TripCard = ({ trip }) => {
           </p>
           <p
             className={completed ? "d-none" : "btn btn-sm btn-danger mx-1 p-2"}
+              onClick={()=>trip.cancelTrip(tripId)}
           >
             Cancel Trip
           </p>

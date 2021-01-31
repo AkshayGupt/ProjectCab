@@ -37,8 +37,8 @@ exports.createNewTrip = (req, res) => {
  * @param {JSON} res:  400 -> error, 200 -> success
  */
 exports.cancelTrip = (req, res) => {
-  const userID = req.body.userID;
-  const tripID = req.body.tripID;
+  const userID = req.query.userId;
+  const tripID = req.body.tripId;
   let newTrip;
 
   // Fetch the referenced trip

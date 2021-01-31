@@ -19,7 +19,7 @@ footer {
   footer a {
     /* color: #fff; */
     color:#fff;
-    font-size: 14px;
+    font-size: 12px;
     transition-duration: 0.2s;
   }
   
@@ -30,12 +30,12 @@ footer {
   
   .copy {
     font-size: 12px;
-    padding: 10px;
+    padding: 5px 5px 0px 5px;
     border-top: 1px solid #FFFFFF;
   }
   
   .footer-middle {
-    padding-top: 2em;
+    padding-top: 1em;
     color: white;
   }
   

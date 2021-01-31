@@ -5,7 +5,7 @@ import "react-calendar/dist/Calendar.css";
 import "./Trip.css";
 import { Row, Col, Container } from "react-bootstrap";
 import TripCard from "./TripCard";
-import { getFutureTrips, getOngoingTrips } from "./helper";
+import { getFutureTrips, getOngoingTrips, cancelTheTrip } from "./helper";
 import Timeline from "./Timeline";
 
 const Trips = () => {
@@ -69,6 +69,23 @@ const Trips = () => {
     }, 1000);
   }, []);
 
+
+  const cancelTrip = (tripId) =>{
+
+    const jwt =JSON.parse(localStorage.getItem("jwt"));
+    const {user,token} =jwt;
+    
+      cancelTheTrip(user._id,token,tripId)
+      .then(data=>{
+        if(data.error){
+          console.log(data.error);
+        }
+        else{
+          refresh();
+        }
+      })
+  }
+
   const futureTripCardElements =
   futureTrips.length > 0 &&
     futureTrips.map((trip) => {
@@ -79,6 +96,7 @@ const Trips = () => {
         startTime,
         endTime,
         genderAllowed,
+        _id
       } = trip;
 
       return (
@@ -91,6 +109,8 @@ const Trips = () => {
               start: startTime,
               end: endTime,
               gender: genderAllowed,
+              tripId: _id,
+              cancelTrip:cancelTrip
             }}
           />
         </Col>
@@ -106,8 +126,9 @@ const Trips = () => {
         startTime,
         endTime,
         genderAllowed,
+        _id
       } = trip;
-
+     
       return (
         <Col md="12 text-center mb-2" lg="6">
           <TripCard
@@ -118,6 +139,7 @@ const Trips = () => {
               start: startTime,
               end: endTime,
               gender: genderAllowed,
+              tripId: _id
             }}
           />
         </Col>

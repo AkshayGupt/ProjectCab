@@ -49,3 +49,21 @@ export const getPastTrips = (id, token) =>{
         console.log(err);
     })
 }
+export const cancelTheTrip = (id, token,tripId) =>{
+    console.log("Called API : "+id);
+    return fetch(`http://localhost:5000/db/cancelTrip?userId=${id}`,{
+        method:"POST",
+        headers:{
+            Accept:'application/json',
+            'Content-Type':'application/json',
+            Authorization: `Bearer ${token}`
+        },
+        body:JSON.stringify({tripId:tripId})
+    })
+    .then(res=>{
+        return res.json();
+    })
+    .catch(err=>{
+        console.log(err);
+    })
+}
