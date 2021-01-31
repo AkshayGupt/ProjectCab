@@ -42,10 +42,15 @@ const TripCard = ({ trip }) => {
             <i class="fa fa-users" aria-hidden="true"></i> {members.length}
           </p>
 
-          <p className="btn btn-sm btn-info p-2" onClick={() => setModalShow(true)}>
+          <p
+            className="btn btn-sm btn-info p-2"
+            onClick={() => setModalShow(true)}
+          >
             View More
           </p>
-          <p className={completed?"d-none":"btn btn-sm btn-danger mx-1 p-2"} >
+          <p
+            className={completed ? "d-none" : "btn btn-sm btn-danger mx-1 p-2"}
+          >
             Cancel Trip
           </p>
           <Details
