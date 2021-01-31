@@ -3,7 +3,7 @@ const User = require("../models/User");
 
 /**
  * Create a new trip
- * 
+ *
  * Gets a [Trip] object.
  * Saves that object in the database.
  */
@@ -30,6 +30,68 @@ exports.createNewTrip = (req, res) => {
   });
 };
 
+/**
+ *  Cancel Trip. Remove user from a trip.
+ *
+ * @param {{String, String}} req: TripId, UserId
+ * @param {JSON} res:  400 -> error, 200 -> success
+ */
+exports.cancelTrip = (req, res) => {
+  const userID = req.body.userID;
+  const tripID = req.body.tripID;
+  let newTrip;
+
+  // Fetch the referenced trip
+  Trip.findById(tripID).exec((err, trip) => {
+    if (err) {
+      return res.status(400).json({ error: "Some error occured! " });
+    } else {
+      newTrip = trip;
+      console.log(newTrip);
+
+      console.log(newTrip["memberCount"]);
+
+      // Remove the user
+      const membersList = newTrip["members"];
+      membersList.splice(membersList.indexOf(userID), 1);
+      newTrip["members"] = membersList;
+      newTrip["isFilled"] = 0;
+      newTrip["memberCount"] -= 1;
+
+      if (newTrip['memberCount'] == 0) {
+        //Delete the trip
+        Trip.findByIdAndDelete(tripID).exec((err, trip) => {
+          if (err) {
+            return res
+              .status(400)
+              .json({ error: "Some error occured. Cannot delete file!" });
+          } else {
+            return res
+              .status(200)
+              .json({ message: "Trip Cancelled successfully!" });
+          }
+        });
+      } else {
+        // Update the trip
+        Trip.findOneAndUpdate(tripID, {
+          members: membersList,
+          isFilled: 0,
+          memberCount: newTrip.memberCount,
+        }).exec((err, trip) => {
+          if (err) {
+            return res
+              .status(400)
+              .json({ error: "Some error occured. Cannot remove user" });
+          } else {
+            return res
+              .status(200)
+              .json({ message: "Removed user successfully!" });
+          }
+        });
+      }
+    }
+  });
+};
 
 /**
  * Return a Trip using its tripID
@@ -48,7 +110,6 @@ exports.getTripById = (req, res) => {
       }
     });
 };
-
 
 /**
  * Return All Trips where [userID] is a member
