@@ -8,7 +8,7 @@ const Contact = ({fromDashboard=false}) => {
     <>
       {!fromDashboard && <Navigation/>}
     <Row className="custom-padding">
-      <Col className=" d-lg-block my-2">
+      <Col className="d-none d-lg-block my-2">
         <Image
           src="https://images.unsplash.com/photo-1489824904134-891ab64532f1"
           fluid
