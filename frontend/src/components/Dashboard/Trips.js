@@ -12,7 +12,7 @@ const Trips = () => {
   const [value, onChange] = useState(new Date());
   const [loading, setLoading] = useState(true);
   const [futureTrips, setFutureTrips] = useState([]);
-  const [ongoingTrips,setOngoingTrips] = useState([]);
+  const [ongoingTrips, setOngoingTrips] = useState([]);
   const [dates, setDates] = useState([]);
 
   const getTrips = () => {
@@ -40,7 +40,7 @@ const Trips = () => {
         console.log(err);
       });
 
-      getOngoingTrips(UID, jwt.token)
+    getOngoingTrips(UID, jwt.token)
       .then((data) => {
         if (data.error) {
           console.log(data.error);
@@ -69,25 +69,21 @@ const Trips = () => {
     }, 1000);
   }, []);
 
+  const cancelTrip = (tripId) => {
+    const jwt = JSON.parse(localStorage.getItem("jwt"));
+    const { user, token } = jwt;
 
-  const cancelTrip = (tripId) =>{
-
-    const jwt =JSON.parse(localStorage.getItem("jwt"));
-    const {user,token} =jwt;
-    
-      cancelTheTrip(user._id,token,tripId)
-      .then(data=>{
-        if(data.error){
-          console.log(data.error);
-        }
-        else{
-          refresh();
-        }
-      })
-  }
+    cancelTheTrip(user._id, token, tripId).then((data) => {
+      if (data.error) {
+        console.log(data.error);
+      } else {
+        refresh();
+      }
+    });
+  };
 
   const futureTripCardElements =
-  futureTrips.length > 0 &&
+    futureTrips.length > 0 &&
     futureTrips.map((trip) => {
       let {
         source,
@@ -96,7 +92,7 @@ const Trips = () => {
         startTime,
         endTime,
         genderAllowed,
-        _id
+        _id,
       } = trip;
 
       return (
@@ -110,15 +106,16 @@ const Trips = () => {
               end: endTime,
               gender: genderAllowed,
               tripId: _id,
-              cancelTrip:cancelTrip
+              cancelTrip: cancelTrip,
+              status: "Future",
             }}
           />
         </Col>
       );
     });
   const ongoingTripCardElements =
-  ongoingTrips.length > 0 &&
-  ongoingTrips.map((trip) => {
+    ongoingTrips.length > 0 &&
+    ongoingTrips.map((trip) => {
       let {
         source,
         destination,
@@ -126,9 +123,9 @@ const Trips = () => {
         startTime,
         endTime,
         genderAllowed,
-        _id
+        _id,
       } = trip;
-     
+
       return (
         <Col md="12 text-center mb-2" lg="6">
           <TripCard
@@ -139,24 +136,23 @@ const Trips = () => {
               start: startTime,
               end: endTime,
               gender: genderAllowed,
-              tripId: _id
+              tripId: _id,
+              status: "ONGOING",
             }}
           />
         </Col>
       );
     });
-    const refresh = () =>{
-      setLoading(true);
-      getTrips();
-    }
+  const refresh = () => {
+    setLoading(true);
+    getTrips();
+  };
 
   return (
-    <div className="mx-auto mt-5" style={{marginBottom:"100px"}}>
+    <div className="mx-auto mt-5" style={{ marginBottom: "100px" }}>
       <Row>
         <Col md="12" lg="8" className="border-right">
-          <h1 className="text-center mb-5 ">
-            Trips
-          </h1>
+          <h1 className="text-center mb-5 ">Trips</h1>
           <div>
             <Container>
               <Row>
@@ -173,10 +169,18 @@ const Trips = () => {
                       </div>
                     ) : (
                       <>
-                      <h2 className="my-5">Ongoing Trips  <a href="#" style={{float:"right",marginRight:""}} onClick={()=>refresh()}><i class="fa fa-refresh" aria-hidden="true"></i></a>
-         </h2>
-                      
-                      <Row>
+                        <h2 className="my-5">
+                          Ongoing Trips{" "}
+                          <a
+                            href="#"
+                            style={{ float: "right", marginRight: "" }}
+                            onClick={() => refresh()}
+                          >
+                            <i class="fa fa-refresh" aria-hidden="true"></i>
+                          </a>
+                        </h2>
+
+                        <Row>
                           {ongoingTrips.length > 0 && ongoingTripCardElements}
                           {ongoingTrips.length == 0 && (
                             <h5 className="text-center mx-auto">
@@ -184,8 +188,8 @@ const Trips = () => {
                             </h5>
                           )}
                         </Row>
-                      
-                      <h2  className="my-5">Upcoming Trips</h2>
+
+                        <h2 className="my-5">Upcoming Trips</h2>
                         <Row>
                           {futureTrips.length > 0 && futureTripCardElements}
                           {futureTrips.length == 0 && (
@@ -228,7 +232,7 @@ const Trips = () => {
                 }}
                 tileDisabled={({ date }) => date.getDay() === 0}
                 minDate={new Date()}
-              ></Calendar>
+              />
             </>
           )}
         </Col>

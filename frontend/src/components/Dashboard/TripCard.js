@@ -6,11 +6,32 @@ import Profile from "../Profile/Profile";
 const TripCard = ({ trip }) => {
   const [modalShow, setModalShow] = useState(false);
   const [user, setUser] = useState("");
-  const { source, destination, members, start, end, tripId} = trip;
-  const completed = moment(end).diff(moment(), "hours") < 0;
-  const timeLeft = moment(start).diff(moment(), "hours"); // TODO: FIX THIS! Check if the trip is ongoing or not!
-  const daysLeft = (timeLeft / 24) >> 0;
-  const hoursLeft = timeLeft % 24;
+  const { source, destination, members, start, tripId, status } = trip;
+
+  let timeLeft = 0,
+    daysLeft = 0,
+    hoursLeft = 0,
+    minutesLeft = 0;
+  let tripStatus = status;
+
+  if (status === "Future") {
+    timeLeft = moment(start).diff(moment(), "minutes");
+    minutesLeft = ((timeLeft+1) % 60);
+    timeLeft = timeLeft / 60;
+    daysLeft = (timeLeft / 24) >> 0;
+    hoursLeft = timeLeft % 24 >> 0;
+    tripStatus = "";
+    if (daysLeft !== 0) {
+      tripStatus += "" + daysLeft + " days ";
+    }
+    if (hoursLeft !== 0) {
+      tripStatus += "" + hoursLeft + " hours ";
+    }
+    if (minutesLeft !== 0) {
+      tripStatus += "" + minutesLeft + " minutes ";
+    }
+    tripStatus += "left";
+  }
 
   return (
     <div>
@@ -27,14 +48,7 @@ const TripCard = ({ trip }) => {
             {destination}
           </p>
           <p className="text-info ">
-            <i class="fa fa-clock-o" aria-hidden="true"></i>{" "}
-            {completed
-              ? "Completed"
-              : timeLeft > 0
-              ? daysLeft == 0
-                ? hoursLeft + " hours left"
-                : daysLeft + " days " + hoursLeft + " hours left"
-              : "ONGOING"}
+            <i class="fa fa-clock-o" aria-hidden="true"></i> {tripStatus}
           </p>
         </div>
         <div className="card-body bg-light">
@@ -49,8 +63,12 @@ const TripCard = ({ trip }) => {
             View More
           </p>
           <p
-            className={completed ? "d-none" : "btn btn-sm btn-danger mx-1 p-2"}
-              onClick={()=>trip.cancelTrip(tripId)}
+            className={
+              status === "Completed"
+                ? "d-none"
+                : "btn btn-sm btn-danger mx-1 p-2"
+            }
+            onClick={() => trip.cancelTrip(tripId)}
           >
             Cancel Trip
           </p>
