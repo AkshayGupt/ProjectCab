@@ -17,7 +17,6 @@ const Profile = lazy(()=>import('./components/Profile/Profile'));
 function App() {
   return (
     <>
-    {/* <Loading/> */}
     <Suspense fallback={<Loading/>}>
         <Router>
           <Switch>

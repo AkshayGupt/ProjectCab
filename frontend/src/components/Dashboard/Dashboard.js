@@ -56,7 +56,7 @@ const Dashboard =()=> {
             {redirectToLandingPage()}
             <Navigation/>
             <Row>
-                <Col md="12" lg="2" className="sidebar mb-5">
+                <Col md="12" lg="2" className="sidebar">
                     <h2 className="text-center mt-5">Dashboard</h2>
                         <div className="mt-5">
                             <Nav defaultActiveKey="/home" className="flex-column text-center">
@@ -80,7 +80,9 @@ const Dashboard =()=> {
                                 </Nav.Link>
                                 <Nav.Link 
                                     className={component === "contact"?"bg-dark text-white mx-3":"text-dark"}
-                                    onClick={()=>{setComponent("contact")}}
+                                    onClick={()=>{setComponent("contact")}
+                                    
+                                }
                                 >
                                     Contact{' '} <i className="fa fa-address-book ml-2" aria-hidden="true"></i>
                                 </Nav.Link>
@@ -95,7 +97,7 @@ const Dashboard =()=> {
                      && 
                     <Profile editAllowed={isAuthenticated()} userId={JSON.parse(localStorage.getItem("jwt")).user._id}/>
                    }
-                   {component === "contact" && <Contact/>}
+                   {component === "contact" && <Contact fromDashboard={true}/>}
                 </Col>
             </Row>
            

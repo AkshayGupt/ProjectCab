@@ -1,9 +1,12 @@
 import React from "react";
 import { Container, Form, Row, Col, Button, Image } from "react-bootstrap";
 import "./Contact.css";
+import Navigation from '../Navigation/Navigation'
 
-const Contact = () => {
+const Contact = ({fromDashboard=false}) => {
   return (
+    <>
+      {!fromDashboard && <Navigation/>}
     <Row className="custom-padding">
       <Col className=" d-lg-block my-2">
         <Image
@@ -52,7 +55,8 @@ const Contact = () => {
           </Button>
         </Container>
       </Col>
-    </Row>
+    </Row> 
+    </>
   );
 };
 
