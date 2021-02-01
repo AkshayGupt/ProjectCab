@@ -1,7 +1,7 @@
 import React from "react";
 import { Container, Form, Row, Col, Button, Image } from "react-bootstrap";
-import "./Contact.css";
-import Navigation from '../Navigation/Navigation'
+import "./ContactUs.css";
+import Navigation from '../../Navigation/Navigation'
 
 const Contact = ({fromDashboard=false}) => {
   return (

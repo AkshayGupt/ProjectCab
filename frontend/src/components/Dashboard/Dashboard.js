@@ -4,7 +4,7 @@ import './Status.scss';
 import {Redirect} from 'react-router-dom';
 import Trips from './Trips';
 import PastTrips from './PastTrips';
-import Contact from './Contact';
+import Contact from './ContactUs/ContactUs';
 import Profile from '../Profile/Profile';
 
 import './Dashboard.css';
@@ -37,10 +37,9 @@ const Dashboard =()=> {
 
     //Temp
     const checkAuthentication = () =>{
-
         isAuthenticated()
         .then(data=>{
-            if(data.status === true){
+            if(data.status === true){   
                 console.log(data);
                 setAuthenticated(true);
             }
@@ -56,7 +55,7 @@ const Dashboard =()=> {
             {redirectToLandingPage()}
             <Navigation/>
             <Row>
-                <Col md="12" lg="2" className="sidebar">
+                <Col md="12" lg="2" className="sidebar  ">
                     <h2 className="text-center mt-5">Dashboard</h2>
                         <div className="mt-5">
                             <Nav defaultActiveKey="/home" className="flex-column text-center">

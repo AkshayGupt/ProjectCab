@@ -8,16 +8,17 @@ import GuestRoute from './components/Auth/GuestRoute';
 import Loading from './Loading/Loading';
 import Dashboard from './components/Dashboard/Dashboard';
 import Footer from './components/Footer/Footer';
-import Contact from './components/Dashboard/Contact';
+import Contact from './components/Dashboard/ContactUs/ContactUs';
 const Landing = lazy(()=>import("./components/Landing/Landing"));
 const Register = lazy(()=>import('./components/Register/Register'));
-const About = lazy(()=>import('./components/Dashboard/About'));
+const About = lazy(()=>import('./components/Dashboard/AboutUs/AboutUs'));
 const Profile = lazy(()=>import('./components/Profile/Profile'));
 // const Footer = lazy(()=>import('./components/Footer/Footer'));
 function App() {
   return (
     <>
-    <Suspense fallback={<Loading/>}>
+      {/* <Loading/> */}
+      <Suspense fallback={<Loading />}>
         <Router>
           <Switch>
               <Route exact path="/contact" component={Contact} />
@@ -28,9 +29,9 @@ function App() {
               <PrivateRoute path="/profile" exact component={Profile} />
               <PrivateRoute path="/about" exact component={About} />
           </Switch>
-      </Router>
-     </Suspense>
-     <Footer/>
+        </Router>
+      </Suspense>
+      <Footer />
     </>
   );
 }
