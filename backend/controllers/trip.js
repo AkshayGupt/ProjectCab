@@ -10,13 +10,10 @@ const User = require("../models/User");
 exports.createNewTrip = (req, res) => {
   const userID = req.body.members[0];
   const trip = new Trip(req.body);
-  console.log(trip);
   trip.save((err, trip) => {
     if (err) {
-      console.log("ERROR", err);
       return res.status(400).json({ error: "Cannot create a new trip!" });
     } else {
-      console.log(trip);
       User.findOneAndUpdate(
         { _id: userID },
         { $push: { trips: trip.id } }
@@ -41,24 +38,31 @@ exports.cancelTrip = (req, res) => {
   const tripID = req.body.tripId;
   let newTrip;
 
+  User.findById(userID).exec((err,user)=>{
+    if(err){
+      return res.status(400).json({ error: "Some error occured! " });
+    }
+    else{
+      const trips =user.trips;
+      trips.splice(trips.indexOf(tripID),1);
+      user.trips= trips;
+      user.save();
+    }
+  })
+
   // Fetch the referenced trip
-  Trip.findById(tripID).exec((err, trip) => {
+  Trip.findById(tripID).exec((err, 
+    trip) => {
     if (err) {
       return res.status(400).json({ error: "Some error occured! " });
     } else {
-      newTrip = trip;
-      console.log(newTrip);
-
-      console.log(newTrip["memberCount"]);
-
       // Remove the user
-      const membersList = newTrip["members"];
+      const membersList = trip["members"];
       membersList.splice(membersList.indexOf(userID), 1);
-      newTrip["members"] = membersList;
-      newTrip["isFilled"] = 0;
-      newTrip["memberCount"] -= 1;
-
-      if (newTrip["memberCount"] == 0) {
+      trip["members"] = membersList;
+      trip["isFilled"] = 0;
+      trip["memberCount"] -= 1;
+      if (trip["memberCount"] == 0) {
         //Delete the trip
         Trip.findByIdAndDelete(tripID).exec((err, trip) => {
           if (err) {
@@ -72,22 +76,7 @@ exports.cancelTrip = (req, res) => {
           }
         });
       } else {
-        // Update the trip
-        Trip.findOneAndUpdate(tripID, {
-          members: membersList,
-          isFilled: 0,
-          memberCount: newTrip.memberCount,
-        }).exec((err, trip) => {
-          if (err) {
-            return res
-              .status(400)
-              .json({ error: "Some error occured. Cannot remove user" });
-          } else {
-            return res
-              .status(200)
-              .json({ message: "Removed user successfully!" });
-          }
-        });
+        trip.save();
       }
     }
   });
@@ -98,7 +87,7 @@ exports.cancelTrip = (req, res) => {
  * Searches in collection 'trips'
  */
 exports.getTripById = (req, res) => {
-  const tripId = req.body.tripID;
+  const tripId = req.query.tripID;
   Trip.findById(tripId)
     .populate("members")
     .sort("startTime")
@@ -106,7 +95,6 @@ exports.getTripById = (req, res) => {
       if (err) {
         return res.status(400).json({ error: "Cannot fetch trip" });
       } else {
-        console.log(trip);
         return res.status(200).json(trip);
       }
     });

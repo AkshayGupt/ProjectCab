@@ -17,14 +17,9 @@ module.exports = {
       endTime: { $gt: trip.startTime },
     }).exec((err, existingTrip) => {
       if (err) {
-        console.log("Some error occured!");
-        console.log(err);
         return res.status(400).json({ error: err });
       } else {
         if (existingTrip == null) {
-          console.log(
-            "No overlapping trips found! Continue on to find existing trips"
-          );
           return next();
         } else {
           return res.status(400).json({
@@ -51,16 +46,14 @@ module.exports = {
       minCapacity: trip.minCapacity,
     }).exec((err, newTrip) => {
       if (err) {
-        console.log("No existing trips found!");
+     
         return next();
       } else {
         if (newTrip == null) {
-          console.log("No existing trip found!");
+        
           return next();
         } else {
-          console.log("Trip Found!");
-          console.log(newTrip);
-
+        
           let newMemberCount = newTrip.memberCount + 1;
 
           let newIsFilled = 0;
@@ -75,7 +68,7 @@ module.exports = {
             if (err) {
               return next();
             } else {
-              console.log(updatedTrip);
+             
               User.findOneAndUpdate(
                 { _id: userID },
                 { $push: { trips: newTrip.id } }
