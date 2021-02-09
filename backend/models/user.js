@@ -37,6 +37,7 @@ const User = new Schema(
     image: {
       data: Buffer,
       contentType: String,
+      default: ""
     },
     trips: [{ type: ObjectId, ref: "Trip" }],
     createdAt: {

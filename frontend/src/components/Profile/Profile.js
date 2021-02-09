@@ -44,8 +44,8 @@ const Profile = ({ editAllowed = false, userId }) => {
         if (data.error) {
           console.log(data.error);
         } else {
-          var photo;
-          if (data.image !== "") {
+          var photo = DEFAULT_IMAGE;
+          if (data.image) {
             // Convert from base64 to image
             photo = `data:${data.image.contentType};base64,` + data.image.data;
           }
