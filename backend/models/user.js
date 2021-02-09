@@ -35,7 +35,8 @@ const User = new Schema(
       type: String,
     },
     image: {
-      type: String,
+      data: Buffer,
+      contentType: String,
     },
     trips: [{ type: ObjectId, ref: "Trip" }],
     createdAt: {
@@ -60,7 +61,7 @@ User.virtual("password")
   });
 
 /**
- * 'Authenticate': Resash password and check for equality of hashes
+ * 'authenticate': Rehash password and check for equality of hashes
  * 'securePassword': Hash the plain text password and store the salt and the
  * encrypted password in the database.
  */

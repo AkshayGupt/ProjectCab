@@ -13,7 +13,11 @@ const {
   getFutureTrips,
   cancelTrip,
 } = require("../controllers/trip");
-const { getUserById, updateUserBio } = require("../controllers/user");
+const {
+  getUserById,
+  updateUserBio,
+  updateUserDP,
+} = require("../controllers/user");
 
 //Define router
 const router = express.Router();
@@ -38,6 +42,7 @@ router.post(
 );
 router.post("/cancelTrip", isSignedIn, cancelTrip);
 router.put("/updateUserBio", isSignedIn, updateUserBio);
+router.put("/updateUserDP", isSignedIn, updateUserDP);
 
 // Export module to enable imports
 module.exports = router;

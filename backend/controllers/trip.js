@@ -36,23 +36,20 @@ exports.createNewTrip = (req, res) => {
 exports.cancelTrip = (req, res) => {
   const userID = req.query.userId;
   const tripID = req.body.tripId;
-  let newTrip;
 
-  User.findById(userID).exec((err,user)=>{
-    if(err){
+  User.findById(userID).exec((err, user) => {
+    if (err) {
       return res.status(400).json({ error: "Some error occured! " });
-    }
-    else{
-      const trips =user.trips;
-      trips.splice(trips.indexOf(tripID),1);
-      user.trips= trips;
+    } else {
+      const trips = user.trips;
+      trips.splice(trips.indexOf(tripID), 1);
+      user.trips = trips;
       user.save();
     }
-  })
+  });
 
   // Fetch the referenced trip
-  Trip.findById(tripID).exec((err, 
-    trip) => {
+  Trip.findById(tripID).exec((err, trip) => {
     if (err) {
       return res.status(400).json({ error: "Some error occured! " });
     } else {
