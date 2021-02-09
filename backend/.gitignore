@@ -171,3 +171,4 @@ dist
 
 # Environment Variables
 *.env
+"sendgrid.env" 

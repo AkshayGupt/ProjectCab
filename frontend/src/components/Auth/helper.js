@@ -59,7 +59,6 @@ export const isAuthenticated = ()=>{
 };
 
 export const signOut = (next) =>{
-
     if(typeof window !== "undefined"){
         localStorage.removeItem("jwt");
         // next();
@@ -70,4 +69,20 @@ export const signOut = (next) =>{
         .then( res => console.log("Signout Success"))
         .catch(err => console.log(err))
     }   
+}
+
+export const activateUserEmail =(token)=>{
+    return fetch(`http://localhost:5000/auth/email-verify?token=${token}`,{
+        method:"GET",
+        headers:{
+            Accept: "application/json",
+            'Content-Type':'application/json'
+        }
+    })
+    .then(res=>{
+        return res.json();
+    })
+    .catch(err=>{
+        console.log(err);
+    })
 }
