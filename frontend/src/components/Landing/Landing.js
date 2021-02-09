@@ -5,12 +5,9 @@ import Loading from '../../Loading/Loading';
 import Navigation from '../Navigation/Navigation'
 import {Redirect,Link} from 'react-router-dom';
 import { signInUser,signUpUser,authenticate } from '../Auth/helper';
-import { auto } from '@popperjs/core';
 
 
 const Landing = ()  =>{
-
-    // const [load,setLoad] = useState(false);
     const [newUser,setNewUser] = useState(false);
     const [signUpData,setSignUpData] = useState({
         firstName:"",
@@ -110,7 +107,7 @@ const Landing = ()  =>{
                 })
                 setTimeout(
                     () => setSignUpData({ ...signUpData,error:"" }), 
-                    3000
+                    5000
                 );
             }
             else{
@@ -123,18 +120,22 @@ const Landing = ()  =>{
                     retypedPassword:"",
                     success:true
                 })
+                setTimeout(
+                    () => setSignUpData({ ...signUpData,success:false}), 
+                    9000
+                );
                 console.log(data);
             }
         })
         .catch(err=>console.log(err));
     }
     const signUpSuccessMessage = ()=>{
-        
         return(
             <div className="row">
                 <div className="col-md-12 ">
                 <div className="alert alert-success" style={{display: signUpData.success ? "":"none"}}>
-                    <p>Successfully created your account. <a className="text-primary" onClick={()=>setNewUser(false)}>Login Here</a></p>
+                    <p>Activation Link Sent to your account!</p>
+                    <p className="font-weight-bold">Please Verify.</p>
                 </div>       
                 </div>
             </div>
