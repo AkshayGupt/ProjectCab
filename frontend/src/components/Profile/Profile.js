@@ -1,9 +1,15 @@
 import React, { useState, useEffect } from "react";
 import Navigation from "../Navigation/Navigation";
-import { getUser, updateUserBio, updateUserDP } from "./helper";
+import {
+  getUser,
+  updateUserBio,
+  updateUserDP,
+  updateUserPassword,
+} from "./helper";
 import { isAuthenticated } from "../Auth/helper";
 import "./Profile.css";
 import Loading from "../../Loading/Loading";
+import { Form } from "react-bootstrap";
 
 const DEFAULT_IMAGE = "https://img.icons8.com/bubbles/100/000000/user.png";
 
@@ -21,6 +27,12 @@ const Profile = ({ editAllowed = false, userId }) => {
   });
 
   const [editBio, setEditBio] = useState(false);
+
+  const [newPassword, setNewPassword] = useState({
+    oldPassword: "",
+    newPassword: "",
+    confirmNewPassword: "",
+  });
 
   const {
     firstName,
@@ -75,27 +87,77 @@ const Profile = ({ editAllowed = false, userId }) => {
     }
   };
 
-  const handleChange = (name) => (event) => {
-    if (name === "image") {
-      const image = event.target.files[0];
+  /**
+   * Handle changes to newPassword Container
+   * @param {string} name - Field name
+   */
+  const handleUpdatePasswordChange = (name) => (event) => {
+    setNewPassword({ ...newPassword, [name]: event.target.value });
+  };
 
-      if (image.size > 2500000) {
-        setProfile({
-          ...profile,
-          error: "Image size too big! Upload another image.",
-        });
-      } else {
-        updateUserProfileDP(image);
+  /**
+   * Check if newPassword and confirmNewPassword follow basic rules.
+   * Then, call API to update the user password.
+   */
+  const onSubmitNewPassword = () => {
+    // ! TODO: NEEDS STATUS BAR SUPPORT
 
-        // ! TODO: NEEDS STATUS UPDATE!!
-
-        setTimeout(() => {
-          setDetails(userId);
-        }, 1000);
-      }
+    if (newPassword.oldPassword === "") {
+      console.log("Password cannot be empty");
+    } else if (newPassword.oldPassword === newPassword.newPassword) {
+      console.log("New password cannot be equal to Old password");
+    } else if (newPassword.newPassword.length < 8) {
+      console.log("INVALID LENGTH!");
+    } else if (newPassword.confirmNewPassword !== newPassword.newPassword) {
+      console.log("PASSWORDS DO NOT MATCH");
     } else {
-      setProfile({ ...profile, [name]: event.target.value });
+      const jwt = JSON.parse(localStorage.getItem("jwt"));
+      const { user, token } = jwt;
+
+      updateUserPassword(
+        user._id,
+        token,
+        newPassword.oldPassword,
+        newPassword.newPassword
+      )
+        .then((data) => {
+          if (data.error) {
+            console.log(data.error);
+          } else {
+            console.log("SUCCESS! Password Changed");
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
+  };
+
+  /**
+   * Handle Image uploaded by the user.
+   * @param {File} event - Image uploaded by the user.
+   */
+  const handleImageChange = (event) => {
+    const image = event.target.files[0];
+
+    if (image.size > 2500000) {
+      setProfile({
+        ...profile,
+        error: "Image size too big! Upload another image.",
+      });
+    } else {
+      updateUserProfileDP(image);
+
+      // ! TODO: NEEDS STATUS UPDATE!!
+
+      setTimeout(() => {
+        setDetails(userId);
+      }, 1000);
+    }
+  };
+
+  const handleChange = (name) => (event) => {
+    setProfile({ ...profile, [name]: event.target.value });
   };
 
   /**
@@ -211,7 +273,8 @@ const Profile = ({ editAllowed = false, userId }) => {
                 <p>{trips.length} trips</p>
                 <div className="form-group">
                   <input
-                    onChange={handleChange("image")}
+                    className={editAllowed ? "" : "d-none"}
+                    onChange={handleImageChange}
                     type="file"
                     name="image"
                     accept=".jpg,.jpeg,.png"
@@ -277,6 +340,48 @@ const Profile = ({ editAllowed = false, userId }) => {
               </div>
             </div>
           </div>
+        </div>
+        <div className={editAllowed ? "" : "d-none"}>
+          <Form style={{ width: "auto", height: "auto" }}>
+            <Form.Group>
+              <Form.Label>Old Password</Form.Label>
+              <Form.Control
+                type="password"
+                name="password"
+                value={newPassword.oldPassword}
+                id="oldPassword"
+                onChange={handleUpdatePasswordChange("oldPassword")}
+              />
+            </Form.Group>
+            <Form.Group>
+              <Form.Label>New Password</Form.Label>
+              <Form.Control
+                type="password"
+                name="password"
+                value={newPassword.newPassword}
+                id="newPassword"
+                onChange={handleUpdatePasswordChange("newPassword")}
+              />
+            </Form.Group>
+            <Form.Group>
+              <Form.Label>Confirm New Password</Form.Label>
+              <Form.Control
+                type="password"
+                name="password"
+                value={newPassword.confirmNewPassword}
+                id="confirmNewPassword"
+                onChange={handleUpdatePasswordChange("confirmNewPassword")}
+              />
+            </Form.Group>
+            <div className="text-center ">
+              <p
+                className="btn btn-info btn-md"
+                onClick={() => onSubmitNewPassword()}
+              >
+                Submit
+              </p>
+            </div>
+          </Form>
         </div>
       </>
     );

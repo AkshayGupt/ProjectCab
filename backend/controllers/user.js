@@ -1,6 +1,25 @@
 const User = require("../models/User");
 const fs = require("fs");
 const formidable = require("formidable");
+const crypto = require("crypto");
+
+/**
+ * Encrypt the plain text password using pre-defined salt.
+ * @param {string} salt - Secret for password hashing
+ * @param {string} plainPassword - Plain text password
+ */
+const passwordHashing = (salt, plainPassword) => {
+  try {
+    return crypto
+      .createHmac("sha256", salt)
+      .update(plainPassword)
+      .digest("hex");
+  } catch (err) {
+    console.log(err);
+    return "";
+  }
+};
+
 /**
  * Get User by ID
  */
@@ -90,6 +109,49 @@ exports.updateUserDP = (req, res) => {
           });
         }
       });
+    }
+  });
+};
+
+/**
+ * Update user password in the database
+ * @param {string} req - UserId, oldPassword, newPassword
+ * @param {json} res - success/error
+ */
+exports.updatePassword = (req, res) => {
+  const userId = req.query.userId;
+  const { oldPassword, newPassword } = req.body;
+
+  User.findById(userId).exec((err, user) => {
+    if (err) {
+      return res.status(400).json({
+        error: "Some error occured. Cannot change password at this time.",
+      });
+    } else {
+      const salt = user.salt;
+      const encryptedOldPassword = passwordHashing(salt, oldPassword);
+      if (user.encrypted_password !== encryptedOldPassword) {
+        return res.status(400).json({ error: "Incorrect old password" });
+      } else {
+        const encryptedNewPassword = passwordHashing(salt, newPassword);
+        if (encryptedNewPassword === "") {
+          return res.status(400).json({
+            error: "Some error occured. Cannot change password at this time.",
+          });
+        }
+        user.encrypted_password = encryptedNewPassword;
+        user.save((err, user) => {
+          if (err) {
+            return res.status(400).json({
+              error: "Some error occured. Cannot change password at this time.",
+            });
+          } else {
+            return res
+              .status(200)
+              .json({ message: "Password Changed successfully!" });
+          }
+        });
+      }
     }
   });
 };

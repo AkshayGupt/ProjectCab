@@ -3,8 +3,13 @@
 const express = require("express");
 const router = express.Router();
 const { check } = require("express-validator");
-const { signup, signin, signout, isSignedIn, verifyEmail } = require("../controllers/auth");
-
+const {
+  signup,
+  signin,
+  signout,
+  isSignedIn,
+  verifyEmail,
+} = require("../controllers/auth");
 
 router.post(
   "/signUp",
@@ -45,6 +50,6 @@ router.get("/authStatus", isSignedIn, (req, res) => {
   });
 });
 
-router.get("/email-verify",verifyEmail);
+router.get("/email-verify", verifyEmail);
 
 module.exports = router;

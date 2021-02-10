@@ -17,6 +17,7 @@ const {
   getUserById,
   updateUserBio,
   updateUserDP,
+  updatePassword,
 } = require("../controllers/user");
 
 //Define router
@@ -24,13 +25,15 @@ const router = express.Router();
 
 /* USER ROUTES */
 router.get("/getUserById", isSignedIn, getUserById);
+router.put("/updateUserBio", isSignedIn, updateUserBio);
+router.put("/updateUserDP", isSignedIn, updateUserDP);
+router.put("/updatePassword", isSignedIn, updatePassword);
 
 /* TRIP ROUTES */
 router.get("/getTripById", isSignedIn, getTripById);
 router.get("/getPastTrips", isSignedIn, getPastTrips);
 router.get("/getOngoingTrips", isSignedIn, getOngoingTrips);
 router.get("/getFutureTrips", isSignedIn, getFutureTrips);
-
 router.get("/getTripsByUserId", isSignedIn, getTripsByUserId);
 
 router.post(
@@ -41,8 +44,6 @@ router.post(
   createNewTrip
 );
 router.post("/cancelTrip", isSignedIn, cancelTrip);
-router.put("/updateUserBio", isSignedIn, updateUserBio);
-router.put("/updateUserDP", isSignedIn, updateUserDP);
 
 // Export module to enable imports
 module.exports = router;
