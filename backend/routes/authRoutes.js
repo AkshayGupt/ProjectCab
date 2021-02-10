@@ -9,6 +9,8 @@ const {
   signout,
   isSignedIn,
   verifyEmail,
+  forgotPassword,
+  resetPassword
 } = require("../controllers/auth");
 
 router.post(
@@ -51,5 +53,7 @@ router.get("/authStatus", isSignedIn, (req, res) => {
 });
 
 router.get("/email-verify", verifyEmail);
+router.put("/forgotPassword",forgotPassword);
+router.put("/resetPassword",resetPassword);
 
 module.exports = router;

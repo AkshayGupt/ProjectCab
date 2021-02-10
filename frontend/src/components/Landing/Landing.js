@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import { Row, Col, Form, Carousel } from "react-bootstrap";
+import { Row, Col, Form, Carousel,Modal,Container,Button } from "react-bootstrap";
 import "./Landing.css";
 import Loading from "../../Loading/Loading";
 import Navigation from "../Navigation/Navigation";
 import { Redirect, Link } from "react-router-dom";
 import { signInUser, signUpUser, authenticate } from "../Auth/helper";
+import { forgotUserPassword } from './helper';
 
 const Landing = () => {
   const [newUser, setNewUser] = useState(false);
@@ -24,6 +25,10 @@ const Landing = () => {
   });
   const [redirect, setRedirect] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [forgotPasswordEmail,setForgotPasswordEmail] =useState("");
+  const [forgotPasswordError,setForgotPasswordError] =useState("");
+  const [forgotPasswordSuccess,setForgotPasswordSuccess] =useState(false);
+  const [forgotPasswordModalShow, setForgotPasswordModalShow] = useState(false);
 
   const handleSignInChange = (name) => (event) => {
     setSignInData({ ...signInData, [name]: event.target.value });
@@ -31,6 +36,31 @@ const Landing = () => {
   const handleSignUpChange = (name) => (event) => {
     setSignUpData({ ...signUpData, [name]: event.target.value });
   };
+
+  const handleForgotPasswordEmailChange= (name) => (event) =>{
+    setForgotPasswordEmail({ ...forgotPasswordEmail, [name]: event.target.value });
+  }
+
+  const handleForgotPasswordEmailSubmit =() =>{
+      forgotUserPassword({email:forgotPasswordEmail})
+      .then(data=>{
+        if(data.error){
+          setForgotPasswordEmail("");
+          setForgotPasswordModalShow(false);
+          setForgotPasswordError(data.error);
+          setTimeout(() => setForgotPasswordError(""), 5000);
+          
+        }
+        else{
+          setForgotPasswordEmail("");
+          setForgotPasswordModalShow(false);
+          setForgotPasswordSuccess(true);
+          setTimeout(() => setForgotPasswordSuccess(false), 5000);
+        }
+      })
+  }
+
+
   const redirectToHomePage = () => {
     if (redirect) {
       return <Redirect to="/dashboard" />;
@@ -80,6 +110,35 @@ const Landing = () => {
             style={{ display: signInData.error ? "" : "none" }}
           >
             {signInData.error}
+          </div>
+        </div>
+      </div>
+    );
+  };
+  const forgotPasswordErrorMessge = () => {
+    return (
+      <div className="row">
+        <div className="col-md-12 offset">
+          <div
+            className="alert alert-danger"
+            style={{ display: forgotPasswordError ? "" : "none" }}
+          >
+            {forgotPasswordError}
+          </div>
+        </div>
+      </div>
+    );
+  };
+  const forgotPasswordSucessMessge = () => {
+    return (
+      <div className="row">
+        <div className="col-md-12 offset">
+          <div
+            className="alert alert-success"
+            style={{ display: forgotPasswordSuccess ? "" : "none" }}
+          >
+            <p>Password reset Link sent to your account!</p>
+            <p className="font-weight-bold">Please follow the instructions.</p>
           </div>
         </div>
       </div>
@@ -151,10 +210,16 @@ const Landing = () => {
     );
   };
 
+  const handleForgotPassword = () =>{
+
+  }
+
   const signIn = () => {
     return (
       <div>
         {signInErrorMessage()}
+        {forgotPasswordErrorMessge()}
+        {forgotPasswordSucessMessge()}
         {/* {JSON.stringify({signInData})} */}
         <Form style={{ width: "auto", height: "auto" }}>
           <h1 className="text-center pb-5">Sign In</h1>
@@ -180,7 +245,7 @@ const Landing = () => {
               onChange={handleSignInChange("password")}
             />
           </Form.Group>
-          <a href="#" className="">
+          <a href="#" className="" onClick={()=>setForgotPasswordModalShow(true)}>
             Forgot Password?
           </a>
           <div className="text-center ">
@@ -197,6 +262,14 @@ const Landing = () => {
             signup here
           </a>
         </h6>
+        <ForgotPassword
+            show={forgotPasswordModalShow}
+            forgotPasswordEmail={forgotPasswordEmail}
+            onHide={() => setForgotPasswordModalShow(false)}
+            handleForgotPasswordEmailChange={handleForgotPasswordEmailChange}
+            handleForgotPasswordEmailSubmit={handleForgotPasswordEmailSubmit}
+            setForgotPasswordEmail={setForgotPasswordEmail}
+        />
       </div>
     );
   };
@@ -372,5 +445,49 @@ const Landing = () => {
     </>
   );
 };
+
+const ForgotPassword = (props) => {
+
+  const {handleForgotPasswordEmailSubmit,forgotPasswordEmail,setForgotPasswordEmail} =props; 
+  return (
+    <>
+      <Modal
+        {...props}
+        size="md"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Header closeButton>
+          Forgot password
+        </Modal.Header>
+        <Modal.Body>
+          <Container>
+            <Row>
+              <Col md="12" lg="10">
+                <div className="form-group">
+                    <label for="exampleInputPassword1">Enter email address</label>
+                    <input type="email"
+                       className="form-control" 
+                       name="forgotPasswordEmail" 
+                       value={forgotPasswordEmail} 
+                       onChange={e => setForgotPasswordEmail(e.target.value)}
+                       id="email" 
+                       placeholder="Email"
+                    />
+                </div>
+                <div><p  className="btn btn-primary" onClick={()=>handleForgotPasswordEmailSubmit()}>Submit</p></div>
+              </Col>
+              
+            </Row>
+          </Container>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button onClick={props.onHide}>Close</Button>
+        </Modal.Footer>
+      </Modal>
+    </>
+  );
+};
+
 
 export default Landing;

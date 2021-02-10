@@ -59,7 +59,7 @@ const EmailActivation = () => {
     },[])
     return (
         <div>
-            <h1 className="text-center my-auto bg-info py-5 text-light" >Activation Page</h1>
+            <h1 className="text-center mb-4 jumbotron" >Activation Page</h1>
             {loading && <Loading/>}
             {activationErrorMessage()}
             {activationSuccessMessage()}

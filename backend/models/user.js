@@ -44,6 +44,10 @@ const User = new Schema(
       type: Date,
       default: Date.now,
     },
+    resetLink:{
+      data:String,
+      default:''
+    }
   },
   { timestamps: true }
 );

@@ -10,6 +10,7 @@ import Dashboard from './components/Dashboard/Dashboard';
 import Footer from './components/Footer/Footer';
 import Contact from './components/Dashboard/ContactUs/ContactUs';
 import EmailActivation from './components/Auth/EmailActivation';
+import ResetPassword from './components/Auth/ResetPassword';
 const Landing = lazy(()=>import("./components/Landing/Landing"));
 const Register = lazy(()=>import('./components/Register/Register'));
 const About = lazy(()=>import('./components/Dashboard/AboutUs/AboutUs'));
@@ -23,6 +24,7 @@ function App() {
           <Switch>
               <Route exact path="/contact" component={Contact} />
               <Route exact path="/authentication/activate/:token" component={EmailActivation} />
+              <Route exact path="/reset/password/:resetLink" component={ResetPassword} />
               <GuestRoute exact  path="/" component={Landing} />
               <PrivateRoute path="/register" exact component={Register} />
               <PrivateRoute path="/profile" exact component={Profile} />
