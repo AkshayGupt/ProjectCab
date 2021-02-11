@@ -4,7 +4,7 @@ import "./Status.scss";
 import { Redirect } from "react-router-dom";
 import Trips from "./Trips";
 import PastTrips from "./PastTrips";
-import Contact from "./ContactUs/ContactUs";
+import Contact from "../Contact/Contact";
 import Profile from "../Profile/Profile";
 
 import "./Dashboard.css";
@@ -50,7 +50,7 @@ const Dashboard = () => {
     <div>
       {redirectToLandingPage()}
       <Navigation />
-      {/* <Row>
+      <Row>
         <Col md="12" lg="2" className="sidebar  ">
           <h2 className="text-center mt-5">Dashboard</h2>
           <div className="mt-5">
@@ -78,8 +78,7 @@ const Dashboard = () => {
                   setComponent("pastTrips");
                 }}
               >
-                History{" "}
-                <i className="fa fa-history ml-2" aria-hidden="true"></i>
+                History <i class="fa fa-history ml-2" aria-hidden="true"></i>
               </Nav.Link>
               <Nav.Link
                 className={
@@ -120,7 +119,7 @@ const Dashboard = () => {
           )}
           {component === "contact" && <Contact fromDashboard={true} />}
         </Col>
-      </Row> */}
+      </Row>
     </div>
   );
 };
