@@ -138,7 +138,16 @@ exports.verifyEmail = (req, res) => {
       }
       const { email, password, firstName, lastName } = decodedToken;
 
-      console.log("Inside Verify "+email+" "+password+" "+firstName+" "+lastName);
+      console.log(
+        "Inside Verify " +
+          email +
+          " " +
+          password +
+          " " +
+          firstName +
+          " " +
+          lastName
+      );
 
       User.findOne({ email }, (err, user) => {
         if (user) {
@@ -166,104 +175,101 @@ exports.verifyEmail = (req, res) => {
   }
 };
 
-exports.forgotPassword = (req,res) =>{
-  const {email} =req.body;
+exports.forgotPassword = (req, res) => {
+  const { email } = req.body;
   console.log(email);
-  User.findOne({email},(err,user)=>{
-      if(err || !user){
-        return res.status(400).json({
-          error:"User does not exists!"
-        })
-      }
+  User.findOne({ email }, (err, user) => {
+    if (err || !user) {
+      return res.status(400).json({
+        error: "User does not exists!",
+      });
+    }
 
-      const token = jwt.sign({_id:user._id},process.env.RESET_PASSWORD_KEY,{expiresIn:'15m'});
-      sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+    const token = jwt.sign({ _id: user._id }, process.env.RESET_PASSWORD_KEY, {
+      expiresIn: "15m",
+    });
+    sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
-      const msg = {
-        to: email, // Change to your recipient
-        from: "theberrytree.org@gmail.com", // Change to your verified sender
-        subject: "Password Reset Link:PoolIt",
-        html: `
+    const msg = {
+      to: email, // Change to your recipient
+      from: "theberrytree.org@gmail.com", // Change to your verified sender
+      subject: "Password Reset Link:PoolIt",
+      html: `
             <h2>Reset your password</h2>
             <p>Click this link to change your password</p>
             <p>${process.env.CLIENT_URL}/reset/password/${token}</p>
             <p>This link will expire in 15 minutes</p>
             <h6>PoolIt Team</h6>
           `,
-      };
-     
-        return user.updateOne ({resetLink: token},(err,success)=>{
-            if(err){
-              return res.status(400).json({
-                error: "reset password link error"
-              })
-            }
-            else{
-              sgMail
-              .send(msg)
-              .then(() => {
-                return res.status(200).json({
-                  message: "Reset Link Sent Successfully",
-                });
-              })
-              .catch((error) => {
-                return res.status(400).json({
-                  error: error,
-                });
-              });
+    };
 
-            }
-        })
-    });
-}
-
-exports.resetPassword = (req,res) =>{
-  const {resetLink, newPass} = req.body;
-  if(resetLink){
-
-      jwt.verify(resetLink,process.env.RESET_PASSWORD_KEY, (err,decodedData)=>{
-          if(err){
+    return user.updateOne({ resetLink: token }, (err, success) => {
+      if (err) {
+        return res.status(400).json({
+          error: "reset password link error",
+        });
+      } else {
+        sgMail
+          .send(msg)
+          .then(() => {
+            return res.status(200).json({
+              message: "Reset Link Sent Successfully",
+            });
+          })
+          .catch((error) => {
             return res.status(400).json({
-                error: "Incorrect token or it is expired"
-            })
+              error: error,
+            });
+          });
+      }
+    });
+  });
+};
+
+exports.resetPassword = (req, res) => {
+  const { resetLink, newPass } = req.body;
+  if (resetLink) {
+    jwt.verify(
+      resetLink,
+      process.env.RESET_PASSWORD_KEY,
+      (err, decodedData) => {
+        if (err) {
+          return res.status(400).json({
+            error: "Incorrect token or it is expired",
+          });
+        }
+
+        User.findOne({ resetLink }, (err, user) => {
+          if (err || !user) {
+            return res.status(400).json({
+              error: "User with this token does not exist.",
+            });
           }
 
-          User.findOne({resetLink}, (err,user) =>{
-              if(err || !user){
-                return res.status(400).json({
-                  error:"User with this token does not exist."
-                });
-              }
+          const obj = {
+            password: newPass,
+            resetLink: "",
+          };
 
-              const obj = {
-                password: newPass,
-                resetLink:""
-              }
+          user = _.extend(user, obj);
 
-              user = _.extend(user, obj);
-
-              user.save((err, result)=>{
-                  if(err){
-                    return res.status(400).json({
-                      error:"reset password error"
-                    });
-                  }
-                  else{
-                    return res.status(200).json({
-                      message:"Your password has been changed"
-                    });
-                  }
-              })
-
-          })
-
-
-      })
-
-  }else{
-      return res.status(401).json({
-        error:"Authentication error!!"
-      });
+          user.save((err, result) => {
+            if (err) {
+              return res.status(400).json({
+                error: "reset password error",
+              });
+            } else {
+              return res.status(200).json({
+                message: "Your password has been changed",
+              });
+            }
+          });
+        });
+      }
+    );
+  } else {
+    return res.status(401).json({
+      error: "Authentication error!!",
+    });
   }
-
-}
+};
