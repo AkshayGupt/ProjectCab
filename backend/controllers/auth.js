@@ -21,7 +21,7 @@ exports.signup = (req, res) => {
   const user = new User(req.body);
 
   const { email, password, firstName, lastName } = user;
-
+  console.log("Email received from express-validator"+email);
   User.findOne({ email }, (err, user) => {
     if (user) {
       return res.status(400).json({
@@ -167,7 +167,16 @@ exports.verifyEmail = (req, res) => {
 };
 
 exports.forgotPassword = (req,res) =>{
-  const {email} =req.body;
+
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({
+      error: errors.array()[0].msg,
+      parameter: errors.array()[0].param,
+    });
+  }
+
+  const { email } = req.body;
   console.log(email);
   User.findOne({email},(err,user)=>{
       if(err || !user){
@@ -218,6 +227,17 @@ exports.forgotPassword = (req,res) =>{
 }
 
 exports.resetPassword = (req,res) =>{
+
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({
+      error: errors.array()[0].msg,
+      parameter: errors.array()[0].param,
+    });
+  }
+
+  // const { email, password } = req.body;
+
   const {resetLink, newPass} = req.body;
   if(resetLink){
 
