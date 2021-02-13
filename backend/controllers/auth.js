@@ -236,7 +236,6 @@ exports.resetPassword = (req,res) =>{
     });
   }
 
-  // const { email, password } = req.body;
 
   const {resetLink, newPass} = req.body;
   if(resetLink){

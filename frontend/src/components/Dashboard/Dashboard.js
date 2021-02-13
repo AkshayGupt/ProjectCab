@@ -6,7 +6,6 @@ import Trips from './Trips';
 import PastTrips from './PastTrips';
 import Contact from './ContactUs/ContactUs';
 import Profile from '../Profile/Profile';
-
 import './Dashboard.css';
 import Navigation from '../Navigation/Navigation';    
 import {isAuthenticated, signOut} from '../Auth/helper';
@@ -34,8 +33,7 @@ const Dashboard =()=> {
             return <Redirect to ="/" />
         }
     }
-
-    //Temp
+    
     const checkAuthentication = () =>{
         isAuthenticated()
         .then(data=>{
@@ -79,10 +77,7 @@ const Dashboard =()=> {
                                 </Nav.Link>
                                 <Nav.Link 
                                     className={component === "contact"?"bg-dark text-white mx-3":"text-dark"}
-                                    onClick={()=>{setComponent("contact")}
-                                    
-                                }
-                                >
+                                    onClick={()=>{setComponent("contact")}}>
                                     Contact{' '} <i className="fa fa-address-book ml-2" aria-hidden="true"></i>
                                 </Nav.Link>
                             </Nav>
