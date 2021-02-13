@@ -4,9 +4,8 @@ import "./Status.scss";
 import { Redirect } from "react-router-dom";
 import Trips from "./Trips";
 import PastTrips from "./PastTrips";
-import Contact from "../Contact/Contact";
+import Contact from "./ContactUs/ContactUs";
 import Profile from "../Profile/Profile";
-
 import "./Dashboard.css";
 import Navigation from "../Navigation/Navigation";
 import { isAuthenticated, signOut } from "../Auth/helper";
@@ -32,7 +31,6 @@ const Dashboard = () => {
     }
   };
 
-  //Temp
   const checkAuthentication = () => {
     isAuthenticated()
       .then((data) => {
