@@ -21,7 +21,7 @@ exports.signup = (req, res) => {
   const user = new User(req.body);
 
   const { email, password, firstName, lastName } = user;
-  console.log("Email received from express-validator"+email);
+  console.log("Email received from express-validator" + email);
   User.findOne({ email }, (err, user) => {
     if (user) {
       return res.status(400).json({
@@ -175,11 +175,7 @@ exports.verifyEmail = (req, res) => {
   }
 };
 
-<<<<<<< HEAD
 exports.forgotPassword = (req, res) => {
-=======
-exports.forgotPassword = (req,res) =>{
-
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({
@@ -188,7 +184,6 @@ exports.forgotPassword = (req,res) =>{
     });
   }
 
->>>>>>> master
   const { email } = req.body;
   console.log(email);
   User.findOne({ email }, (err, user) => {
@@ -239,8 +234,15 @@ exports.forgotPassword = (req,res) =>{
   });
 };
 
-<<<<<<< HEAD
 exports.resetPassword = (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({
+      error: errors.array()[0].msg,
+      parameter: errors.array()[0].param,
+    });
+  }
+
   const { resetLink, newPass } = req.body;
   if (resetLink) {
     jwt.verify(
@@ -252,21 +254,6 @@ exports.resetPassword = (req, res) => {
             error: "Incorrect token or it is expired",
           });
         }
-=======
-exports.resetPassword = (req,res) =>{
-
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(400).json({
-      error: errors.array()[0].msg,
-      parameter: errors.array()[0].param,
-    });
-  }
-
-
-  const {resetLink, newPass} = req.body;
-  if(resetLink){
->>>>>>> master
 
         User.findOne({ resetLink }, (err, user) => {
           if (err || !user) {

@@ -53,20 +53,19 @@ router.get("/authStatus", isSignedIn, (req, res) => {
 });
 
 router.get("/email-verify", verifyEmail);
-<<<<<<< HEAD
-router.put("/forgotPassword", forgotPassword);
-router.put("/resetPassword", resetPassword);
-=======
-router.put("/forgotPassword",
-      [
-        check("email", "Enter a valid email").normalizeEmail().isEmail()
-      ]
-      ,forgotPassword);
-router.put("/resetPassword",[
-  check("newPass", "Password must be atleast 8 characters long").isLength({
-    min: 8,
-  })
-],resetPassword);
->>>>>>> master
+router.put(
+  "/forgotPassword",
+  [check("email", "Enter a valid email").normalizeEmail().isEmail()],
+  forgotPassword
+);
+router.put(
+  "/resetPassword",
+  [
+    check("newPass", "Password must be atleast 8 characters long").isLength({
+      min: 8,
+    }),
+  ],
+  resetPassword
+);
 
 module.exports = router;
