@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   getUser,
   updateUserBio,
@@ -9,23 +9,14 @@ import { isAuthenticated } from "../Auth/helper";
 import "./Profile.css";
 import Loading from "../../Loading/Loading";
 import { Form } from "react-bootstrap";
-
+import { ProfileContext } from "../Context/ProfileProvider";
 const DEFAULT_IMAGE = "https://img.icons8.com/bubbles/100/000000/user.png";
 
 const Profile = ({ editAllowed = false, userId }) => {
-  const [profile, setProfile] = useState({
-    firstName: "",
-    lastName: "",
-    image: "",
-    email: "",
-    trips: [],
-    loading: true,
-    error: "",
-    bio: "",
-    success: false,
-  });
+  const { userProfile, editUserBio } = useContext(ProfileContext);
 
-  const [editBio, setEditBio] = useState(false);
+  const [profile, setProfile] = userProfile;
+  const [editBio, setEditBio] = editUserBio;
 
   const [newPassword, setNewPassword] = useState({
     oldPassword: "",
@@ -44,6 +35,9 @@ const Profile = ({ editAllowed = false, userId }) => {
     bio,
     success,
   } = profile;
+
+  const [changePassword, setChangePassword] = useState(false);
+  const [changeImage, setChangeImage] = useState(false);
 
   const setDetails = (userId) => {
     const jwt = isAuthenticated();
@@ -123,6 +117,18 @@ const Profile = ({ editAllowed = false, userId }) => {
           if (data.error) {
             console.log(data.error);
           } else {
+            setProfile({
+              ...profile,
+              success: "password",
+            });
+
+            setNewPassword({
+              oldPassword: "",
+              newPassword: "",
+              confirmNewPassword: "",
+            });
+            setChangePassword(false);
+            setTimeout(() => setProfile({ ...profile, success: "" }), 3000);
             console.log("SUCCESS! Password Changed");
           }
         })
@@ -180,9 +186,9 @@ const Profile = ({ editAllowed = false, userId }) => {
         } else {
           setProfile({
             ...profile,
-            success: true,
+            success: "bio",
           });
-          setTimeout(() => setProfile({ ...profile, success: false }), 3000);
+          setTimeout(() => setProfile({ ...profile, success: "" }), 3000);
           console.log(data);
         }
       })
@@ -202,7 +208,7 @@ const Profile = ({ editAllowed = false, userId }) => {
             className="alert alert-success"
             style={{ display: success ? "" : "none" }}
           >
-            <p>Successfully updated your bio.</p>
+            <p>Successfully updated your {success}.</p>
           </div>
         </div>
       </div>
@@ -241,6 +247,11 @@ const Profile = ({ editAllowed = false, userId }) => {
           console.log(data.error);
         } else {
           console.log("IMAGE SUCCESS!!");
+          setProfile({
+            ...profile,
+            success: "profile picture",
+          });
+          setTimeout(() => setProfile({ ...profile, success: "" }), 3000);
         }
       })
       .catch((err) => {
@@ -266,11 +277,7 @@ const Profile = ({ editAllowed = false, userId }) => {
                     style={{ height: "150px" }}
                   />{" "}
                 </div>
-                <h6 className="f-w-600">
-                  {firstName} {lastName}
-                </h6>
-                <p>{trips.length} trips</p>
-                <div className="form-group">
+                <div className={changeImage ? "form-group" : "d-none"}>
                   <input
                     className={editAllowed ? "" : "d-none"}
                     onChange={handleImageChange}
@@ -280,7 +287,26 @@ const Profile = ({ editAllowed = false, userId }) => {
                     placeholder="choose a file"
                   />
                 </div>
+                <h6 className="f-w-600">
+                  {firstName} {lastName}
+                </h6>
+                <p>{trips.length} trips</p>
 
+                <a
+                  href="#"
+                  className="mx-1"
+                  onClick={() => setChangeImage(!changeImage)}
+                >
+                  <small>Update Image</small>
+                </a>
+                <br />
+                <a
+                  href="#"
+                  className=""
+                  onClick={() => setChangePassword(!changePassword)}
+                >
+                  <small>Update Password</small>
+                </a>
                 <i className=" mdi mdi-square-edit-outline feather icon-edit m-t-10 f-16"></i>
               </div>
             </div>
@@ -295,20 +321,15 @@ const Profile = ({ editAllowed = false, userId }) => {
                     <p className="m-b-10 f-w-600">Email</p>
                     <h6 className="text-muted f-w-400">{email}</h6>
                   </div>
-                  {/* <div className="col-sm-6">
-                                        <p className="m-b-10 f-w-600">Phone</p>
-                                        <h6 className="text-muted f-w-400"></h6>
-                                    </div> */}
                 </div>
                 <h6 className="m-b-20 m-t-40 p-b-5 b-b-default f-w-600">
                   Bio{" "}
                   <a
                     href="#"
                     className={editAllowed ? "" : "d-none"}
-                    style={{ fontSize: "12x" }}
                     onClick={() => setEditBio(true)}
                   >
-                    Edit
+                    <small>Edit</small>
                   </a>
                 </h6>
                 <div className="form-group">
@@ -341,46 +362,51 @@ const Profile = ({ editAllowed = false, userId }) => {
           </div>
         </div>
         <div className={editAllowed ? "" : "d-none"}>
-          <Form style={{ width: "auto", height: "auto" }}>
-            <Form.Group>
-              <Form.Label>Old Password</Form.Label>
-              <Form.Control
-                type="password"
-                name="password"
-                value={newPassword.oldPassword}
-                id="oldPassword"
-                onChange={handleUpdatePasswordChange("oldPassword")}
-              />
-            </Form.Group>
-            <Form.Group>
-              <Form.Label>New Password</Form.Label>
-              <Form.Control
-                type="password"
-                name="password"
-                value={newPassword.newPassword}
-                id="newPassword"
-                onChange={handleUpdatePasswordChange("newPassword")}
-              />
-            </Form.Group>
-            <Form.Group>
-              <Form.Label>Confirm New Password</Form.Label>
-              <Form.Control
-                type="password"
-                name="password"
-                value={newPassword.confirmNewPassword}
-                id="confirmNewPassword"
-                onChange={handleUpdatePasswordChange("confirmNewPassword")}
-              />
-            </Form.Group>
-            <div className="text-center ">
-              <p
-                className="btn btn-info btn-md"
-                onClick={() => onSubmitNewPassword()}
-              >
-                Submit
-              </p>
-            </div>
-          </Form>
+          {!changePassword ? (
+            ""
+          ) : (
+            <Form style={{ width: "auto", height: "auto" }}>
+              <h3 className="my-3">Change Password</h3>
+              <Form.Group>
+                <Form.Label>Old Password</Form.Label>
+                <Form.Control
+                  type="password"
+                  name="password"
+                  value={newPassword.oldPassword}
+                  id="oldPassword"
+                  onChange={handleUpdatePasswordChange("oldPassword")}
+                />
+              </Form.Group>
+              <Form.Group>
+                <Form.Label>New Password</Form.Label>
+                <Form.Control
+                  type="password"
+                  name="password"
+                  value={newPassword.newPassword}
+                  id="newPassword"
+                  onChange={handleUpdatePasswordChange("newPassword")}
+                />
+              </Form.Group>
+              <Form.Group>
+                <Form.Label>Confirm New Password</Form.Label>
+                <Form.Control
+                  type="password"
+                  name="password"
+                  value={newPassword.confirmNewPassword}
+                  id="confirmNewPassword"
+                  onChange={handleUpdatePasswordChange("confirmNewPassword")}
+                />
+              </Form.Group>
+              <div className="text-center ">
+                <p
+                  className="btn btn-info btn-md"
+                  onClick={() => onSubmitNewPassword()}
+                >
+                  Submit
+                </p>
+              </div>
+            </Form>
+          )}
         </div>
       </>
     );

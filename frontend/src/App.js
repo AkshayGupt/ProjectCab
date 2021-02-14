@@ -19,13 +19,13 @@ import ResetPassword from "./components/Auth/ResetPassword";
 /* CONTEXT API */
 import { PastTripProvider } from "./components/Context/PastTripProvider";
 import { CurrentPageProvider } from "./components/Context/CurrentPageContext";
+import { ProfileProvider } from "./components/Context/ProfileProvider";
 
 const Landing = lazy(() => import("./components/Landing/Landing"));
 const Register = lazy(() => import("./components/Register/Register"));
 const About = lazy(() => import("./components/About/About"));
 const Profile = lazy(() => import("./components/Profile/Profile"));
 
-// const Footer = lazy(()=>import('./components/Footer/Footer'));
 function App() {
   return (
     <>
@@ -46,11 +46,13 @@ function App() {
             <GuestRoute exact path="/" component={Landing} />
             <CurrentPageProvider>
               <PastTripProvider>
-                <PrivateRoute path="/register" exact component={Register} />
-                <PrivateRoute path="/profile" exact component={Profile} />
-                <PrivateRoute path="/dashboard" exact component={Dashboard} />
-                <PrivateRoute path="/profile" exact component={Profile} />
-                <PrivateRoute path="/about" exact component={About} />
+                <ProfileProvider>
+                  <PrivateRoute path="/register" exact component={Register} />
+                  <PrivateRoute path="/profile" exact component={Profile} />
+                  <PrivateRoute path="/dashboard" exact component={Dashboard} />
+                  <PrivateRoute path="/profile" exact component={Profile} />
+                  <PrivateRoute path="/about" exact component={About} />
+                </ProfileProvider>
               </PastTripProvider>
             </CurrentPageProvider>
           </Switch>
