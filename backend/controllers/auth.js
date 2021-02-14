@@ -21,7 +21,7 @@ exports.signup = (req, res) => {
   const user = new User(req.body);
 
   const { email, password, firstName, lastName } = user;
-  console.log("Email received from express-validator"+email);
+  console.log("Email received from express-validator" + email);
   User.findOne({ email }, (err, user) => {
     if (user) {
       return res.status(400).json({
@@ -175,8 +175,7 @@ exports.verifyEmail = (req, res) => {
   }
 };
 
-exports.forgotPassword = (req,res) =>{
-
+exports.forgotPassword = (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({
@@ -235,8 +234,7 @@ exports.forgotPassword = (req,res) =>{
   });
 };
 
-exports.resetPassword = (req,res) =>{
-
+exports.resetPassword = (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({
@@ -245,9 +243,18 @@ exports.resetPassword = (req,res) =>{
     });
   }
 
+  const { resetLink, newPass } = req.body;
+  if (resetLink) {
+    jwt.verify(
+      resetLink,
+      process.env.RESET_PASSWORD_KEY,
+      (err, decodedData) => {
+        if (err) {
+          return res.status(400).json({
+            error: "Incorrect token or it is expired",
+          });
+        }
 
-  const {resetLink, newPass} = req.body;
-  if(resetLink){
         User.findOne({ resetLink }, (err, user) => {
           if (err || !user) {
             return res.status(400).json({
@@ -257,7 +264,7 @@ exports.resetPassword = (req,res) =>{
 
           const obj = {
             password: newPass,
-            resetLink: "",
+            resetLink: ""
           };
 
           user = _.extend(user, obj);
@@ -274,7 +281,9 @@ exports.resetPassword = (req,res) =>{
             }
           });
         });
+    })
   } 
+
   else {
     return res.status(401).json({
       error: "Authentication error!!",
