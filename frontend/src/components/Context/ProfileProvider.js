@@ -22,33 +22,36 @@ export const ProfileProvider = (props) => {
 
   const setDetails = (userId) => {
     const jwt = isAuthenticated();
-    const { token } = jwt;
-    console.log("USER Id", userId);
-    getUser(userId, token)
-      .then((data) => {
-        console.log("Data -> ");
-        if (data.error) {
-          console.log(data.error);
-        } else {
-          var photo = DEFAULT_IMAGE;
-          if (data.image) {
-            // Convert from base64 to image
-            photo = `data:${data.image.contentType};base64,` + data.image.data;
+    if (jwt) {
+      const { token } = jwt;
+      console.log("USER Id", userId);
+      getUser(userId, token)
+        .then((data) => {
+          console.log("Data -> ");
+          if (data.error) {
+            console.log(data.error);
+          } else {
+            var photo = DEFAULT_IMAGE;
+            if (data.image) {
+              // Convert from base64 to image
+              photo =
+                `data:${data.image.contentType};base64,` + data.image.data;
+            }
+            setProfile({
+              ...profile,
+              email: data.email,
+              firstName: data.firstName,
+              lastName: data.lastName,
+              trips: data.trips,
+              bio: data.bio,
+              image: photo,
+              loading: false,
+            });
+            console.log(data);
           }
-          setProfile({
-            ...profile,
-            email: data.email,
-            firstName: data.firstName,
-            lastName: data.lastName,
-            trips: data.trips,
-            bio: data.bio,
-            image: photo,
-            loading: false,
-          });
-          console.log(data);
-        }
-      })
-      .catch((err) => console.log(err));
+        })
+        .catch((err) => console.log(err));
+    }
   };
 
   useEffect(() => {

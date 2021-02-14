@@ -9,6 +9,7 @@ import SignIn from "./SignIn";
 import SlideShow from "./SlideShow";
 import "./Landing.css";
 import NavBar from "../NavBar/NavBar";
+import { ProfileProvider } from "../Context/ProfileProvider";
 
 const Landing = () => {
   const [newUser, setNewUser] = useState(false);
@@ -129,8 +130,9 @@ const Landing = () => {
 
   return (
     <>
-        {redirectToHomePage()}
-        {loadingMessage()}
+      {redirectToHomePage()}
+      {loadingMessage()}
+      <ProfileProvider>
         <NavBar />
         <div className="container">
           <Row style={{ marginTop: "2rem" }} className="mx-auto ">
@@ -195,6 +197,7 @@ const Landing = () => {
             </Col>
           </Row>
         </div>
+      </ProfileProvider>
     </>
   );
 };
