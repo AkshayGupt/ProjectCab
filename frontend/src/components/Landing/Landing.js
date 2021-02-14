@@ -129,72 +129,72 @@ const Landing = () => {
 
   return (
     <>
-      {redirectToHomePage()}
-      {loadingMessage()}
-      <NavBar />
-      <div className="container">
-        <Row style={{ marginTop: "2rem" }} className="mx-auto ">
-          <Col md lg="6" className="image mb-5 ">
-            <div className="mx-auto">
-              <SlideShow />
-            </div>
-          </Col>
-          <Col
-            md="12"
-            lg="6"
-            className="border-left border-right border-top border-bottom mb-3 shadow rounded "
-          >
-            <div className="d-flex justify-content-around py-3">
-              <h5
-                className={newUser ? "btn btn-light" : "btn btn-info px-4"}
-                onClick={() => {
-                  setNewUser(false);
-                }}
-              >
-                SignIn
-              </h5>
-              <h5
-                className={!newUser ? "btn btn-light" : "btn btn-info px-4"}
-                onClick={() => {
-                  setNewUser(true);
-                }}
-              >
-                SignUp
-              </h5>
-            </div>
-            <div
-              style={{ height: "auto", width: "100%" }}
-              className="p-3 mx-auto "
+        {redirectToHomePage()}
+        {loadingMessage()}
+        <NavBar />
+        <div className="container">
+          <Row style={{ marginTop: "2rem" }} className="mx-auto ">
+            <Col md lg="6" className="image mb-5 ">
+              <div className="mx-auto">
+                <SlideShow />
+              </div>
+            </Col>
+            <Col
+              md="12"
+              lg="6"
+              className="border-left border-right border-top border-bottom mb-3 shadow rounded "
             >
-              {newUser ? (
-                <SignUp
-                  signUpData={signUpData}
-                  handleSignUpChange={handleSignUpChange}
-                  signup={signup}
-                  setNewUser={setNewUser}
-                />
-              ) : (
-                <SignIn
-                  signInData={signInData}
-                  forgotPasswordError={forgotPasswordError}
-                  forgotPasswordSuccess={forgotPasswordSuccess}
-                  forgotPasswordModalShow={forgotPasswordModalShow}
-                  handleSignInChange={handleSignInChange}
-                  setForgotPasswordEmail={setForgotPasswordEmail}
-                  handleForgotPasswordEmailChange={
-                    handleForgotPasswordEmailChange
-                  }
-                  handleForgotPasswordEmailSubmit={
-                    handleForgotPasswordEmailSubmit
-                  }
-                  signin={signin}
-                  setForgotPasswordModalShow={setForgotPasswordModalShow}
-                />
-              )}
-            </div>
-          </Col>
-        </Row>
-      </div>
+              <div className="d-flex justify-content-around py-3">
+                <h5
+                  className={newUser ? "btn btn-light" : "btn btn-info px-4"}
+                  onClick={() => {
+                    setNewUser(false);
+                  }}
+                >
+                  SignIn
+                </h5>
+                <h5
+                  className={!newUser ? "btn btn-light" : "btn btn-info px-4"}
+                  onClick={() => {
+                    setNewUser(true);
+                  }}
+                >
+                  SignUp
+                </h5>
+              </div>
+              <div
+                style={{ height: "auto", width: "100%" }}
+                className="p-3 mx-auto "
+              >
+                {newUser ? (
+                  <SignUp
+                    signUpData={signUpData}
+                    handleSignUpChange={handleSignUpChange}
+                    signup={signup}
+                    setNewUser={setNewUser}
+                  />
+                ) : (
+                  <SignIn
+                    signInData={signInData}
+                    forgotPasswordError={forgotPasswordError}
+                    forgotPasswordSuccess={forgotPasswordSuccess}
+                    forgotPasswordModalShow={forgotPasswordModalShow}
+                    handleSignInChange={handleSignInChange}
+                    setForgotPasswordEmail={setForgotPasswordEmail}
+                    handleForgotPasswordEmailChange={
+                      handleForgotPasswordEmailChange
+                    }
+                    handleForgotPasswordEmailSubmit={
+                      handleForgotPasswordEmailSubmit
+                    }
+                    signin={signin}
+                    setForgotPasswordModalShow={setForgotPasswordModalShow}
+                  />
+                )}
+              </div>
+            </Col>
+          </Row>
+        </div>
     </>
   );
 };

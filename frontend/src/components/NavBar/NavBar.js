@@ -18,7 +18,6 @@ const NavBar = () => {
   const { userProfile, editUserBio } = useContext(ProfileContext);
 
   const [profile, setProfile] = userProfile;
-  const [editBio, setEditBio] = editUserBio;
 
   // Redirect to Sign in page when logged out !
   const redirectToLandingPage = () => {
