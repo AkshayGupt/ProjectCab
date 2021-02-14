@@ -3,7 +3,8 @@ import { Redirect } from "react-router-dom";
 import { Navbar, NavDropdown, Image, Nav } from "react-bootstrap";
 import { signOut, isAuthenticated } from "../Auth/helper";
 import "./NavBar.css";
-import { CurrentPageContext } from "../Context/CurrentPageContext";
+import { CurrentPageContext } from "../Context/CurrentPageProvider";
+import { ProfileContext } from "../Context/ProfileProvider";
 
 // DISPLAY LOGO
 const Logo = () => {
@@ -12,7 +13,12 @@ const Logo = () => {
 
 const NavBar = () => {
   const [redirect, setRedirect] = useState(false);
+  
   const [currentPage, setCurrentPage] = useContext(CurrentPageContext);
+  const { userProfile, editUserBio } = useContext(ProfileContext);
+
+  const [profile, setProfile] = userProfile;
+  const [editBio, setEditBio] = editUserBio;
 
   // Redirect to Sign in page when logged out !
   const redirectToLandingPage = () => {
@@ -22,10 +28,6 @@ const NavBar = () => {
   const signout = () => {
     signOut();
     setRedirect(!redirect);
-  };
-
-  const handlePageChange = (page) => {
-    setCurrentPage(page);
   };
 
   return (
@@ -52,6 +54,7 @@ const NavBar = () => {
                 <Nav.Link>Profile</Nav.Link>
               </Nav>
               <Nav className="mr-auto">
+                <Nav.Link href="/register">Create Trip</Nav.Link>
                 <Nav.Link onClick={() => setCurrentPage("TRIPS")}>
                   Dashboard
                 </Nav.Link>
@@ -71,7 +74,7 @@ const NavBar = () => {
                   title={
                     <Image
                       className="user-avatar"
-                      src="https://img.icons8.com/bubbles/100/000000/user.png"
+                      src={profile.image}
                       roundedCircle
                     />
                   }

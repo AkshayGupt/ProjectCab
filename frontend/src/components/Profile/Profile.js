@@ -251,7 +251,6 @@ const Profile = ({ editAllowed = false, userId }) => {
             ...profile,
             success: "profile picture",
           });
-          setTimeout(() => setProfile({ ...profile, success: "" }), 3000);
         }
       })
       .catch((err) => {

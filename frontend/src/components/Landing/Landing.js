@@ -126,6 +126,7 @@ const Landing = () => {
       })
       .catch((err) => console.log(err));
   };
+
   return (
     <>
       {redirectToHomePage()}

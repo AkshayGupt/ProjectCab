@@ -17,15 +17,17 @@ import EmailActivation from "./components/Auth/EmailActivation";
 import ResetPassword from "./components/Auth/ResetPassword";
 
 /* CONTEXT API */
+
 import { PastTripProvider } from "./components/Context/PastTripProvider";
-import { CurrentPageProvider } from "./components/Context/CurrentPageContext";
 import { ProfileProvider } from "./components/Context/ProfileProvider";
+import { CurrentPageProvider } from "./components/Context/CurrentPageProvider";
 
 const Landing = lazy(() => import("./components/Landing/Landing"));
 const Register = lazy(() => import("./components/Register/Register"));
 const About = lazy(() => import("./components/About/About"));
 const Profile = lazy(() => import("./components/Profile/Profile"));
 
+// const Footer = lazy(()=>import('./components/Footer/Footer'));
 function App() {
   return (
     <>
