@@ -18,7 +18,7 @@ export const ProfileProvider = (props) => {
         loading: true,
         error: "",
         bio: "",
-        success: false,
+        success: "",
       });
     
     const [editBio, setEditBio] = useState(false);
