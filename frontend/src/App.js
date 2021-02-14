@@ -18,8 +18,9 @@ import EmailActivation from "./components/Auth/EmailActivation";
 import ResetPassword from "./components/Auth/ResetPassword";
 
 /* CONTEXT API */
-import {PastTripProvider} from './components/Context/PastTripProvider';
 
+import {PastTripProvider} from './components/Context/PastTripProvider';
+import {ProfileProvider} from './components/Context/ProfileProvider';
 
 const Landing = lazy(() => import("./components/Landing/Landing"));
 const Register = lazy(() => import("./components/Register/Register"));
@@ -46,11 +47,13 @@ function App() {
             />
             <GuestRoute exact path="/" component={Landing} />
             <PastTripProvider>
-            <PrivateRoute path="/register" exact component={Register} />
-            <PrivateRoute path="/profile" exact component={Profile} />
-            <PrivateRoute path="/dashboard" exact component={Dashboard} />
-            <PrivateRoute path="/profile" exact component={Profile} />
-            <PrivateRoute path="/about" exact component={About} />
+            <ProfileProvider>
+              <PrivateRoute path="/register" exact component={Register} />
+              <PrivateRoute path="/profile" exact component={Profile} />
+              <PrivateRoute path="/dashboard" exact component={Dashboard} />
+              <PrivateRoute path="/profile" exact component={Profile} />
+              <PrivateRoute path="/about" exact component={About} />
+            </ProfileProvider>
             </PastTripProvider>
           </Switch>
         </Router>

@@ -7,8 +7,11 @@ import { Row, Col, Container } from "react-bootstrap";
 import {PastTripContext} from '../Context/PastTripProvider';
 
 const PastTrips = () => {
-  const [pastTrips, setPastTrips] = useContext(PastTripContext);
-  const [loading, setLoading]=useState(false);
+
+  const {userPastTrips,isLoading} = useContext(PastTripContext);
+
+  const [pastTrips, setPastTrips] = userPastTrips;
+  const [loading, setLoading]=isLoading;
 
   const pastTripCardElements =
     pastTrips.length > 0 &&

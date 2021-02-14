@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Navigation from "../Navigation/Navigation";
 import {
   getUser,
@@ -10,23 +10,29 @@ import { isAuthenticated } from "../Auth/helper";
 import "./Profile.css";
 import Loading from "../../Loading/Loading";
 import { Form } from "react-bootstrap";
-
+import {ProfileContext} from '../Context/ProfileProvider';
 const DEFAULT_IMAGE = "https://img.icons8.com/bubbles/100/000000/user.png";
 
 const Profile = ({ editAllowed = false, userId }) => {
-  const [profile, setProfile] = useState({
-    firstName: "",
-    lastName: "",
-    image: "",
-    email: "",
-    trips: [],
-    loading: true,
-    error: "",
-    bio: "",
-    success: false,
-  });
 
-  const [editBio, setEditBio] = useState(false);
+  const {userProfile, editUserBio} =  useContext(ProfileContext);
+
+  const [profile,setProfile] = userProfile;
+  const [editBio, setEditBio] = editUserBio;
+
+  // const [profile, setProfile] = useState({
+  //   firstName: "",
+  //   lastName: "",
+  //   image: "",
+  //   email: "",
+  //   trips: [],
+  //   loading: true,
+  //   error: "",
+  //   bio: "",
+  //   success: false,
+  // });
+
+  // const [editBio, setEditBio] = useState(false);
 
   const [newPassword, setNewPassword] = useState({
     oldPassword: "",

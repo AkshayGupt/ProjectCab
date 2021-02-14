@@ -33,7 +33,7 @@ export const PastTripProvider = (props) => {
         getPastTripsOfUser(); 
     }, [])
     return (
-        <PastTripContext.Provider value={[pastTrips,setPastTrips]}>
+        <PastTripContext.Provider value={{userPastTrips:[pastTrips,setPastTrips],isLoading:[loading,setLoading]}}>
             {props.children}
         </PastTripContext.Provider>
     )
