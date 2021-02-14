@@ -22,7 +22,7 @@ const Navigation = () => {
       {redirectToLandingPage()}
       <nav className="navbar bg-light">
         <a className="navbar-brand text-dark text-bold" href="/">
-          <h3 style={{ fontStyle: "italic", fontFamily: "cursive" }}>
+          <h3>
             Pool It
           </h3>
         </a>

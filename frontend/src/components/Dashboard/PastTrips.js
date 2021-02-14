@@ -1,45 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useContext } from "react";
 import TripCard from "./TripCard";
 import "./Trip.css";
 import { getPastTrips } from "./helper";
 import moment from "moment";
 import { Row, Col, Container } from "react-bootstrap";
+import {PastTripContext} from '../Context/PastTripProvider';
 
 const PastTrips = () => {
-  const [pastTrips, setPastTrips] = useState([]);
-  const [dates, setDates] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  const getPastTripsOfUser = () => {
-    const jwt = JSON.parse(localStorage.getItem("jwt"));
-    console.log("Data from Trips", jwt.token);
-    const UID = jwt.user._id;
-    getPastTrips(UID, jwt.token)
-      .then((data) => {
-        if (data.error) {
-          console.log(data.error);
-        } else {
-          console.log("Data", data);
-          setPastTrips(data);
-          const date = new Date();
-          let dates = [];
-          {
-            data.map((trip) => {
-              dates.push(moment(trip.startTime).format("DD-MM-YYYY"));
-            });
-          }
-          setDates(dates);
-          setLoading(false);
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
-  useEffect(() => {
-    getPastTripsOfUser();
-  }, []);
+  const [pastTrips, setPastTrips] = useContext(PastTripContext);
+  const [loading, setLoading]=useState(false);
 
   const pastTripCardElements =
     pastTrips.length > 0 &&
@@ -53,7 +22,6 @@ const PastTrips = () => {
         endTime,
         genderAllowed,
       } = trip;
-      // console.log(trip);
       return (
         <Col md="12 text-center mb-2" lg="6">
           <TripCard

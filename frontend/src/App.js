@@ -16,14 +16,20 @@ import Footer from "./components/Footer/Footer";
 import Contact from "./components/Contact/Contact";
 import EmailActivation from "./components/Auth/EmailActivation";
 import ResetPassword from "./components/Auth/ResetPassword";
+
+/* CONTEXT API */
+import {PastTripProvider} from './components/Context/PastTripProvider';
+
+
 const Landing = lazy(() => import("./components/Landing/Landing"));
 const Register = lazy(() => import("./components/Register/Register"));
 const About = lazy(() => import("./components/About/About"));
 const Profile = lazy(() => import("./components/Profile/Profile"));
+
 // const Footer = lazy(()=>import('./components/Footer/Footer'));
 function App() {
-  return (
-    <>
+  return (   
+    <>  
       <Suspense fallback={<Loading />}>
         <Router>
           <Switch>
@@ -39,16 +45,18 @@ function App() {
               component={ResetPassword}
             />
             <GuestRoute exact path="/" component={Landing} />
+            <PastTripProvider>
             <PrivateRoute path="/register" exact component={Register} />
             <PrivateRoute path="/profile" exact component={Profile} />
             <PrivateRoute path="/dashboard" exact component={Dashboard} />
             <PrivateRoute path="/profile" exact component={Profile} />
             <PrivateRoute path="/about" exact component={About} />
+            </PastTripProvider>
           </Switch>
         </Router>
       </Suspense>
       <Footer />
-    </>
+      </>
   );
 }
 

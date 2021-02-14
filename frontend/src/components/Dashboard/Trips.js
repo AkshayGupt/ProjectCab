@@ -6,7 +6,8 @@ import "./Trip.css";
 import { Row, Col, Container } from "react-bootstrap";
 import TripCard from "./TripCard";
 import { getFutureTrips, getOngoingTrips, cancelTheTrip } from "./helper";
-import Timeline from "./Timeline";
+import Timeline from "./Timeline"; 
+
 
 const Trips = () => {
   const [value, onChange] = useState(new Date());
@@ -14,7 +15,6 @@ const Trips = () => {
   const [futureTrips, setFutureTrips] = useState([]);
   const [ongoingTrips, setOngoingTrips] = useState([]);
   const [dates, setDates] = useState([]);
-  const [cached,setCached] = useState(false);
 
   const getTrips = () => {
     const jwt = JSON.parse(localStorage.getItem("jwt"));
@@ -27,7 +27,6 @@ const Trips = () => {
         } else {
           
           console.log("Data", data);
-          setCached(true);
           setFutureTrips(data);
           const date = new Date();
           let dates = [];
