@@ -53,10 +53,6 @@ router.get("/authStatus", isSignedIn, (req, res) => {
 });
 
 router.get("/email-verify", verifyEmail);
-<<<<<<< HEAD
-router.put("/forgotPassword", forgotPassword);
-router.put("/resetPassword", resetPassword);
-=======
 router.put("/forgotPassword",
       [
         check("email", "Enter a valid email").normalizeEmail().isEmail()
@@ -67,6 +63,5 @@ router.put("/resetPassword",[
     min: 8,
   })
 ],resetPassword);
->>>>>>> master
 
 module.exports = router;

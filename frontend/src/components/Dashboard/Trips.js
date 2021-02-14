@@ -14,6 +14,7 @@ const Trips = () => {
   const [futureTrips, setFutureTrips] = useState([]);
   const [ongoingTrips, setOngoingTrips] = useState([]);
   const [dates, setDates] = useState([]);
+  const [cached,setCached] = useState(false);
 
   const getTrips = () => {
     const jwt = JSON.parse(localStorage.getItem("jwt"));
@@ -24,7 +25,9 @@ const Trips = () => {
         if (data.error) {
           console.log(data.error);
         } else {
+          
           console.log("Data", data);
+          setCached(true);
           setFutureTrips(data);
           const date = new Date();
           let dates = [];

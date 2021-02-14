@@ -175,9 +175,6 @@ exports.verifyEmail = (req, res) => {
   }
 };
 
-<<<<<<< HEAD
-exports.forgotPassword = (req, res) => {
-=======
 exports.forgotPassword = (req,res) =>{
 
   const errors = validationResult(req);
@@ -188,7 +185,6 @@ exports.forgotPassword = (req,res) =>{
     });
   }
 
->>>>>>> master
   const { email } = req.body;
   console.log(email);
   User.findOne({ email }, (err, user) => {
@@ -239,20 +235,6 @@ exports.forgotPassword = (req,res) =>{
   });
 };
 
-<<<<<<< HEAD
-exports.resetPassword = (req, res) => {
-  const { resetLink, newPass } = req.body;
-  if (resetLink) {
-    jwt.verify(
-      resetLink,
-      process.env.RESET_PASSWORD_KEY,
-      (err, decodedData) => {
-        if (err) {
-          return res.status(400).json({
-            error: "Incorrect token or it is expired",
-          });
-        }
-=======
 exports.resetPassword = (req,res) =>{
 
   const errors = validationResult(req);
@@ -266,8 +248,6 @@ exports.resetPassword = (req,res) =>{
 
   const {resetLink, newPass} = req.body;
   if(resetLink){
->>>>>>> master
-
         User.findOne({ resetLink }, (err, user) => {
           if (err || !user) {
             return res.status(400).json({
@@ -294,9 +274,8 @@ exports.resetPassword = (req,res) =>{
             }
           });
         });
-      }
-    );
-  } else {
+  } 
+  else {
     return res.status(401).json({
       error: "Authentication error!!",
     });

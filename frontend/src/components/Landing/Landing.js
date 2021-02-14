@@ -1,11 +1,14 @@
 import React, { useState } from "react";
-import { Row, Col, Form, Carousel,Modal,Container,Button } from "react-bootstrap";
-import "./Landing.css";
-import Loading from "../../Loading/Loading";
-import Navigation from "../Navigation/Navigation";
+import { Row, Col } from "react-bootstrap";
 import { Redirect, Link } from "react-router-dom";
 import { signInUser, signUpUser, authenticate } from "../Auth/helper";
 import { forgotUserPassword } from './helper';
+import Loading from "../../Loading/Loading";
+import Navigation from "../Navigation/Navigation";
+import SignUp from "./SignUp";
+import SignIn from "./SignIn";
+import SlideShow from "./SlideShow";
+import "./Landing.css";
 
 const Landing = () => {
   const [newUser, setNewUser] = useState(false);
@@ -60,11 +63,18 @@ const Landing = () => {
       })
   }
 
-
   const redirectToHomePage = () => {
     if (redirect) {
       return <Redirect to="/dashboard" />;
     }
+  };
+
+  const loadingMessage = () => {
+    return (
+      loading && (
+        <Loading />
+      )
+    );
   };
 
   const signin = () => {
@@ -91,60 +101,6 @@ const Landing = () => {
       .catch((err) => console.log(err));
   };
 
-  const loadingMessage = () => {
-    return (
-      loading && (
-        // <div className="alert alert-info">
-        <Loading />
-        // </div>
-      )
-    );
-  };
-
-  const signInErrorMessage = () => {
-    return (
-      <div className="row">
-        <div className="col-md-12 offset">
-          <div
-            className="alert alert-danger"
-            style={{ display: signInData.error ? "" : "none" }}
-          >
-            {signInData.error}
-          </div>
-        </div>
-      </div>
-    );
-  };
-  const forgotPasswordErrorMessge = () => {
-    return (
-      <div className="row">
-        <div className="col-md-12 offset">
-          <div
-            className="alert alert-danger"
-            style={{ display: forgotPasswordError ? "" : "none" }}
-          >
-            {forgotPasswordError}
-          </div>
-        </div>
-      </div>
-    );
-  };
-  const forgotPasswordSucessMessge = () => {
-    return (
-      <div className="row">
-        <div className="col-md-12 offset">
-          <div
-            className="alert alert-success"
-            style={{ display: forgotPasswordSuccess ? "" : "none" }}
-          >
-            <p>Password reset Link sent to your account!</p>
-            <p className="font-weight-bold">Please follow the instructions.</p>
-          </div>
-        </div>
-      </div>
-    );
-  };
-
   const signup = () => {
     const signUpCred = signUpData;
     delete signUpCred.retypedPassword;
@@ -153,11 +109,6 @@ const Landing = () => {
         if (data.error) {
           setSignUpData({
             ...signUpData,
-            firstName: "",
-            lastName: "",
-            email: "",
-            password: "",
-            retypedPassword: "",
             error: data.error,
           });
           setTimeout(() => setSignUpData({ ...signUpData, error: "" }), 5000);
@@ -175,223 +126,10 @@ const Landing = () => {
             () => setSignUpData({ ...signUpData, success: false }),
             9000
           );
-          console.log(data);
         }
       })
       .catch((err) => console.log(err));
   };
-  const signUpSuccessMessage = () => {
-    return (
-      <div className="row">
-        <div className="col-md-12 ">
-          <div
-            className="alert alert-success"
-            style={{ display: signUpData.success ? "" : "none" }}
-          >
-            <p>Activation Link Sent to your account!</p>
-            <p className="font-weight-bold">Please Verify.</p>
-          </div>
-        </div>
-      </div>
-    );
-  };
-  const signUpErrorMessage = () => {
-    return (
-      <div className="row">
-        <div className="col-md-12 ">
-          <div
-            className="alert alert-danger"
-            style={{ display: signUpData.error ? "" : "none" }}
-          >
-            <p>{signUpData.error}</p>
-          </div>
-        </div>
-      </div>
-    );
-  };
-
-  const handleForgotPassword = () =>{
-
-  }
-
-  const signIn = () => {
-    return (
-      <div>
-        {signInErrorMessage()}
-        {forgotPasswordErrorMessge()}
-        {forgotPasswordSucessMessge()}
-        {/* {JSON.stringify({signInData})} */}
-        <Form style={{ width: "auto", height: "auto" }}>
-          <h1 className="text-center pb-5">Sign In</h1>
-          <Form.Group>
-            <Form.Label>Email</Form.Label>
-            <Form.Control
-              type="email"
-              name="email"
-              value={signInData.email}
-              id="email"
-              placeholder="abc@xyz.com"
-              onChange={handleSignInChange("email")}
-            />
-          </Form.Group>
-          <Form.Group>
-            <Form.Label>Password </Form.Label>
-            <Form.Control
-              type="password"
-              name="password"
-              id="password"
-              value={signInData.password}
-              placeholder="Enter password"
-              onChange={handleSignInChange("password")}
-            />
-          </Form.Group>
-          <a href="#" className="" onClick={()=>setForgotPasswordModalShow(true)}>
-            Forgot Password?
-          </a>
-          <div className="text-center ">
-            <p className="btn btn-info btn-md" onClick={() => signin()}>
-              Submit
-            </p>
-          </div>
-        </Form>
-
-        <h6>
-          Don't have an account ?
-          <a href="#" className="text-primary" onClick={() => setNewUser(true)}>
-            {" "}
-            signup here
-          </a>
-        </h6>
-        <ForgotPassword
-            show={forgotPasswordModalShow}
-            forgotPasswordEmail={forgotPasswordEmail}
-            onHide={() => setForgotPasswordModalShow(false)}
-            handleForgotPasswordEmailChange={handleForgotPasswordEmailChange}
-            handleForgotPasswordEmailSubmit={handleForgotPasswordEmailSubmit}
-            setForgotPasswordEmail={setForgotPasswordEmail}
-        />
-      </div>
-    );
-  };
-
-  const signUp = () => {
-    return (
-      <div>
-        {signUpSuccessMessage()}
-        {signUpErrorMessage()}
-        <Form style={{ width: "auto", height: "auto" }}>
-          <h1 className="text-center pb-5">Sign Up</h1>
-          <Form.Group>
-            <Form.Label>FirstName</Form.Label>
-            <Form.Control
-              type="firstname"
-              name="firstname"
-              id="firstname"
-              value={signUpData.firstName}
-              placeholder="Your first name"
-              onChange={handleSignUpChange("firstName")}
-            />
-          </Form.Group>
-          <Form.Group>
-            <Form.Label>LastName</Form.Label>
-            <Form.Control
-              type="lastname"
-              name="lastname"
-              id="lastname"
-              value={signUpData.lastName}
-              placeholder="Your last name"
-              onChange={handleSignUpChange("lastName")}
-            />
-          </Form.Group>
-          <Form.Group>
-            <Form.Label>Email</Form.Label>
-            <Form.Control
-              type="email"
-              name="email"
-              id="email"
-              value={signUpData.email}
-              placeholder="abc@xyz.com"
-              onChange={handleSignUpChange("email")}
-            />
-          </Form.Group>
-          <Form.Group>
-            <Form.Label>Password</Form.Label>
-            <Form.Control
-              type="password"
-              name="password"
-              id="password"
-              value={signUpData.password}
-              placeholder="Enter password"
-              onChange={handleSignUpChange("password")}
-            />
-          </Form.Group>
-          <Form.Group>
-            <Form.Label>Confirm Password</Form.Label>
-            <Form.Control
-              type="password"
-              name="retyped-password"
-              id="retyped-password"
-              value={signUpData.retypedPassword}
-              placeholder="Re-enter password"
-              onChange={handleSignUpChange("retypedPassword")}
-            />
-          </Form.Group>
-          <div className="text-center">
-            {signUpData.password === signUpData.retypedPassword ? (
-              <p className="btn btn-info btn-md" onClick={() => signup()}>
-                Submit{" "}
-              </p>
-            ) : (
-              <p className="text-danger">Password does not match ! </p>
-            )}
-          </div>
-        </Form>
-        <h6>
-          Already have an account ?
-          <a
-            href="#"
-            className="text-primary"
-            onClick={() => setNewUser(false)}
-          >
-            {" "}
-            signin here
-          </a>
-        </h6>
-      </div>
-    );
-  };
-
-  const slideShow = () => {
-    return (
-      <Carousel>
-        <Carousel.Item interval={200}>
-          <img
-            className="d-block w-100"
-            src="https://thumbs.dreamstime.com/b/carpool-banner-set-modern-taxi-flat-illustration-commercial-service-vehicle-transportation-cooperation-transitional-geo-point-143648884.jpg"
-            alt="First slide"
-          />
-          <Carousel.Caption></Carousel.Caption>
-        </Carousel.Item>
-        <Carousel.Item interval={500}>
-          <img
-            className="d-block w-100"
-            src="https://cdn4.vectorstock.com/i/1000x1000/07/78/friends-in-a-car-vector-21380778.jpg"
-            alt="Third slide"
-          />
-          <Carousel.Caption></Carousel.Caption>
-        </Carousel.Item>
-        <Carousel.Item>
-          <img
-            className="d-block w-100"
-            src="https://static.vecteezy.com/system/resources/previews/000/143/153/non_2x/carpool-vector.jpg"
-            alt="Third slide"
-          />
-          <Carousel.Caption></Carousel.Caption>
-        </Carousel.Item>
-      </Carousel>
-    );
-  };
-
   return (
     <>
       {redirectToHomePage()}
@@ -400,44 +138,56 @@ const Landing = () => {
       <div className="container">
         <Row style={{ marginTop: "2rem" }} className="mx-auto ">
           <Col md lg="6" className="image mb-5 ">
-            <div className="mx-auto">{slideShow()}</div>
+            <div className="mx-auto">
+              <SlideShow/>
+            </div>
           </Col>
           <Col
             md="12"
             lg="6"
             className="border-left border-right border-top border-bottom mb-3 shadow rounded "
           >
-            <Row
-              className="text-center bg-light p-2 mx-auto"
-              style={{ width: "100%" }}
-            >
-              <Col className="border-right">
-                <h5
-                  className={newUser ? "btn btn-light" : "btn btn-info px-1"}
-                  onClick={() => {
-                    setNewUser(false);
-                  }}
-                >
-                  SignIn
-                </h5>
-              </Col>
-              <Col>
-                <h5
-                  className={!newUser ? "btn btn-light" : "btn btn-info px-1"}
-                  onClick={() => {
-                    setNewUser(true);
-                  }}
-                >
+            <div className="d-flex justify-content-around py-3">
+                  <h5 
+                    className={newUser ? "btn btn-light" : "btn btn-info px-4"}
+                    onClick={() => {setNewUser(false)}}
+                  >
+                    SignIn
+                  </h5>
+                  <h5
+                    className={!newUser ? "btn btn-light" : "btn btn-info px-4"}
+                    onClick={() => {
+                      setNewUser(true);
+                    }}
+                  >
                   SignUp
                 </h5>
-              </Col>
-            </Row>
-
+                  
+            </div>
             <div
               style={{ height: "auto", width: "100%" }}
               className="p-3 mx-auto "
             >
-              {newUser ? signUp() : signIn()}
+              {newUser ? 
+                <SignUp 
+                signUpData={signUpData}
+                handleSignUpChange={handleSignUpChange}  
+                signup={signup} 
+                setNewUser={setNewUser}
+              /> :
+                <SignIn 
+                  signInData={signInData} 
+                  forgotPasswordError={forgotPasswordError} 
+                  forgotPasswordSuccess={forgotPasswordSuccess} 
+                  forgotPasswordModalShow={forgotPasswordModalShow}
+                  handleSignInChange={handleSignInChange}
+                  setForgotPasswordEmail={setForgotPasswordEmail}
+                  handleForgotPasswordEmailChange={handleForgotPasswordEmailChange}
+                  handleForgotPasswordEmailSubmit={handleForgotPasswordEmailSubmit}
+                  signin={signin}
+                  setForgotPasswordModalShow={setForgotPasswordModalShow}
+                />  
+              }
             </div>
           </Col>
         </Row>
@@ -445,49 +195,4 @@ const Landing = () => {
     </>
   );
 };
-
-const ForgotPassword = (props) => {
-
-  const {handleForgotPasswordEmailSubmit,forgotPasswordEmail,setForgotPasswordEmail} =props; 
-  return (
-    <>
-      <Modal
-        {...props}
-        size="md"
-        aria-labelledby="contained-modal-title-vcenter"
-        centered
-      >
-        <Modal.Header closeButton>
-          Forgot password
-        </Modal.Header>
-        <Modal.Body>
-          <Container>
-            <Row>
-              <Col md="12" lg="10">
-                <div className="form-group">
-                    <label for="exampleInputPassword1">Enter email address</label>
-                    <input type="email"
-                       className="form-control" 
-                       name="forgotPasswordEmail" 
-                       value={forgotPasswordEmail} 
-                       onChange={e => setForgotPasswordEmail(e.target.value)}
-                       id="email" 
-                       placeholder="Email"
-                    />
-                </div>
-                <div><p  className="btn btn-primary" onClick={()=>handleForgotPasswordEmailSubmit()}>Submit</p></div>
-              </Col>
-              
-            </Row>
-          </Container>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button onClick={props.onHide}>Close</Button>
-        </Modal.Footer>
-      </Modal>
-    </>
-  );
-};
-
-
 export default Landing;

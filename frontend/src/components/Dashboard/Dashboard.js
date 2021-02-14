@@ -4,7 +4,7 @@ import "./Status.scss";
 import { Redirect } from "react-router-dom";
 import Trips from "./Trips";
 import PastTrips from "./PastTrips";
-import Contact from "./ContactUs/ContactUs";
+import Contact from "../Contact/Contact";
 import Profile from "../Profile/Profile";
 import "./Dashboard.css";
 import Navigation from "../Navigation/Navigation";
