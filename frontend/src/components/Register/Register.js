@@ -14,7 +14,7 @@ import "./Register.css";
 import TimeSlot from "./TimeSlot";
 import Confirm from "./Confirm";
 import { createNewTrip } from "./helper";
-import Navigation from "../Navigation/Navigation";
+import NavBar from "../NavBar/NavBar";
 const Register = () => {
   const [confirm, setConfirm] = useState(false);
   const [values, setValues] = useState({
@@ -184,7 +184,7 @@ const Register = () => {
   const register = () => {
     return (
       <div>
-        <Navigation />
+        <NavBar />
         <div className="body">
           <div className="mb-3">
             <h1 className="text-center register-heading">

@@ -1,14 +1,14 @@
-import React, { useState, useEffect,useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import TripCard from "./TripCard";
 import "./Trip.css";
 import { getPastTrips } from "./helper";
 import moment from "moment";
 import { Row, Col, Container } from "react-bootstrap";
-import {PastTripContext} from '../Context/PastTripProvider';
+import { PastTripContext } from "../Context/PastTripProvider";
 
 const PastTrips = () => {
   const [pastTrips, setPastTrips] = useContext(PastTripContext);
-  const [loading, setLoading]=useState(false);
+  const [loading, setLoading] = useState(false);
 
   const pastTripCardElements =
     pastTrips.length > 0 &&
@@ -35,6 +35,7 @@ const PastTrips = () => {
               tripId: _id,
               status: "Completed",
             }}
+            key={_id}
           />
         </Col>
       );

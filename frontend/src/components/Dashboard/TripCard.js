@@ -16,7 +16,7 @@ const TripCard = ({ trip }) => {
 
   if (status === "Future") {
     timeLeft = moment(start).diff(moment(), "minutes");
-    minutesLeft = ((timeLeft+1) % 60);
+    minutesLeft = (timeLeft + 1) % 60;
     timeLeft = timeLeft / 60;
     daysLeft = (timeLeft / 24) >> 0;
     hoursLeft = timeLeft % 24 >> 0;
@@ -108,11 +108,11 @@ const Details = (props) => {
             {source} - {destination}
           </Modal.Title>{" "}
           <Badge variant="info ml-3">
-            {gender == "0"
+            {gender === "0"
               ? "Any"
-              : gender == "1"
+              : gender === "1"
               ? "Male only"
-              : gender == "2"
+              : gender === "2"
               ? "Female only"
               : ""}
           </Badge>{" "}

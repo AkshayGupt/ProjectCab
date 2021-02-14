@@ -178,7 +178,7 @@ const Trips = () => {
                             style={{ float: "right", marginRight: "" }}
                             onClick={() => refresh()}
                           >
-                            <i class="fa fa-refresh" aria-hidden="true"></i>
+                            <i className="fa fa-refresh" aria-hidden="true"></i>
                           </a>
                         </h2>
 
@@ -218,7 +218,7 @@ const Trips = () => {
           {!loading && futureTrips.length > 0 && (
             <>
               <h1 className="text-center mb-5 mx-auto">
-                <i class="fa fa-calendar" aria-hidden="true"></i>
+                <i className="fa fa-calendar" aria-hidden="true"></i>
               </h1>
               <Calendar
                 className=" mx-auto"

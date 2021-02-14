@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import { Row, Col } from "react-bootstrap";
-import { Redirect, Link } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import { signInUser, signUpUser, authenticate } from "../Auth/helper";
-import { forgotUserPassword } from './helper';
+import { forgotUserPassword } from "./helper";
 import Loading from "../../Loading/Loading";
-import Navigation from "../Navigation/Navigation";
 import SignUp from "./SignUp";
 import SignIn from "./SignIn";
 import SlideShow from "./SlideShow";
 import "./Landing.css";
+import NavBar from "../NavBar/NavBar";
 
 const Landing = () => {
   const [newUser, setNewUser] = useState(false);
@@ -28,9 +28,9 @@ const Landing = () => {
   });
   const [redirect, setRedirect] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [forgotPasswordEmail,setForgotPasswordEmail] =useState("");
-  const [forgotPasswordError,setForgotPasswordError] =useState("");
-  const [forgotPasswordSuccess,setForgotPasswordSuccess] =useState(false);
+  const [forgotPasswordEmail, setForgotPasswordEmail] = useState("");
+  const [forgotPasswordError, setForgotPasswordError] = useState("");
+  const [forgotPasswordSuccess, setForgotPasswordSuccess] = useState(false);
   const [forgotPasswordModalShow, setForgotPasswordModalShow] = useState(false);
 
   const handleSignInChange = (name) => (event) => {
@@ -40,28 +40,28 @@ const Landing = () => {
     setSignUpData({ ...signUpData, [name]: event.target.value });
   };
 
-  const handleForgotPasswordEmailChange= (name) => (event) =>{
-    setForgotPasswordEmail({ ...forgotPasswordEmail, [name]: event.target.value });
-  }
+  const handleForgotPasswordEmailChange = (name) => (event) => {
+    setForgotPasswordEmail({
+      ...forgotPasswordEmail,
+      [name]: event.target.value,
+    });
+  };
 
-  const handleForgotPasswordEmailSubmit =() =>{
-      forgotUserPassword({email:forgotPasswordEmail})
-      .then(data=>{
-        if(data.error){
-          setForgotPasswordEmail("");
-          setForgotPasswordModalShow(false);
-          setForgotPasswordError(data.error);
-          setTimeout(() => setForgotPasswordError(""), 5000);
-          
-        }
-        else{
-          setForgotPasswordEmail("");
-          setForgotPasswordModalShow(false);
-          setForgotPasswordSuccess(true);
-          setTimeout(() => setForgotPasswordSuccess(false), 5000);
-        }
-      })
-  }
+  const handleForgotPasswordEmailSubmit = () => {
+    forgotUserPassword({ email: forgotPasswordEmail }).then((data) => {
+      if (data.error) {
+        setForgotPasswordEmail("");
+        setForgotPasswordModalShow(false);
+        setForgotPasswordError(data.error);
+        setTimeout(() => setForgotPasswordError(""), 5000);
+      } else {
+        setForgotPasswordEmail("");
+        setForgotPasswordModalShow(false);
+        setForgotPasswordSuccess(true);
+        setTimeout(() => setForgotPasswordSuccess(false), 5000);
+      }
+    });
+  };
 
   const redirectToHomePage = () => {
     if (redirect) {
@@ -70,11 +70,7 @@ const Landing = () => {
   };
 
   const loadingMessage = () => {
-    return (
-      loading && (
-        <Loading />
-      )
-    );
+    return loading && <Loading />;
   };
 
   const signin = () => {
@@ -134,12 +130,12 @@ const Landing = () => {
     <>
       {redirectToHomePage()}
       {loadingMessage()}
-      <Navigation />
+      <NavBar />
       <div className="container">
         <Row style={{ marginTop: "2rem" }} className="mx-auto ">
           <Col md lg="6" className="image mb-5 ">
             <div className="mx-auto">
-              <SlideShow/>
+              <SlideShow />
             </div>
           </Col>
           <Col
@@ -148,46 +144,52 @@ const Landing = () => {
             className="border-left border-right border-top border-bottom mb-3 shadow rounded "
           >
             <div className="d-flex justify-content-around py-3">
-                  <h5 
-                    className={newUser ? "btn btn-light" : "btn btn-info px-4"}
-                    onClick={() => {setNewUser(false)}}
-                  >
-                    SignIn
-                  </h5>
-                  <h5
-                    className={!newUser ? "btn btn-light" : "btn btn-info px-4"}
-                    onClick={() => {
-                      setNewUser(true);
-                    }}
-                  >
-                  SignUp
-                </h5>
-                  
+              <h5
+                className={newUser ? "btn btn-light" : "btn btn-info px-4"}
+                onClick={() => {
+                  setNewUser(false);
+                }}
+              >
+                SignIn
+              </h5>
+              <h5
+                className={!newUser ? "btn btn-light" : "btn btn-info px-4"}
+                onClick={() => {
+                  setNewUser(true);
+                }}
+              >
+                SignUp
+              </h5>
             </div>
             <div
               style={{ height: "auto", width: "100%" }}
               className="p-3 mx-auto "
             >
-              {newUser ? 
-                <SignUp 
-                signUpData={signUpData}
-                handleSignUpChange={handleSignUpChange}  
-                signup={signup} 
-                setNewUser={setNewUser}
-              /> :
-                <SignIn 
-                  signInData={signInData} 
-                  forgotPasswordError={forgotPasswordError} 
-                  forgotPasswordSuccess={forgotPasswordSuccess} 
+              {newUser ? (
+                <SignUp
+                  signUpData={signUpData}
+                  handleSignUpChange={handleSignUpChange}
+                  signup={signup}
+                  setNewUser={setNewUser}
+                />
+              ) : (
+                <SignIn
+                  signInData={signInData}
+                  forgotPasswordError={forgotPasswordError}
+                  forgotPasswordSuccess={forgotPasswordSuccess}
                   forgotPasswordModalShow={forgotPasswordModalShow}
                   handleSignInChange={handleSignInChange}
                   setForgotPasswordEmail={setForgotPasswordEmail}
-                  handleForgotPasswordEmailChange={handleForgotPasswordEmailChange}
-                  handleForgotPasswordEmailSubmit={handleForgotPasswordEmailSubmit}
+                  handleForgotPasswordEmailChange={
+                    handleForgotPasswordEmailChange
+                  }
+                  handleForgotPasswordEmailSubmit={
+                    handleForgotPasswordEmailSubmit
+                  }
                   signin={signin}
                   setForgotPasswordModalShow={setForgotPasswordModalShow}
-                />  
-              }
+                />
+              )}
             </div>
           </Col>
         </Row>

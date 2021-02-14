@@ -6,7 +6,6 @@ import {
   Redirect,
 } from "react-router-dom";
 import Cookies from "js-cookie";
-import Navigation from "./components/Navigation/Navigation";
 import "bootstrap/dist/css/bootstrap.min.css";
 import PrivateRoute from "./components/Auth/PrivateRoute";
 import GuestRoute from "./components/Auth/GuestRoute";
@@ -18,8 +17,8 @@ import EmailActivation from "./components/Auth/EmailActivation";
 import ResetPassword from "./components/Auth/ResetPassword";
 
 /* CONTEXT API */
-import {PastTripProvider} from './components/Context/PastTripProvider';
-
+import { PastTripProvider } from "./components/Context/PastTripProvider";
+import { CurrentPageProvider } from "./components/Context/CurrentPageContext";
 
 const Landing = lazy(() => import("./components/Landing/Landing"));
 const Register = lazy(() => import("./components/Register/Register"));
@@ -28,8 +27,8 @@ const Profile = lazy(() => import("./components/Profile/Profile"));
 
 // const Footer = lazy(()=>import('./components/Footer/Footer'));
 function App() {
-  return (   
-    <>  
+  return (
+    <>
       <Suspense fallback={<Loading />}>
         <Router>
           <Switch>
@@ -45,18 +44,20 @@ function App() {
               component={ResetPassword}
             />
             <GuestRoute exact path="/" component={Landing} />
-            <PastTripProvider>
-            <PrivateRoute path="/register" exact component={Register} />
-            <PrivateRoute path="/profile" exact component={Profile} />
-            <PrivateRoute path="/dashboard" exact component={Dashboard} />
-            <PrivateRoute path="/profile" exact component={Profile} />
-            <PrivateRoute path="/about" exact component={About} />
-            </PastTripProvider>
+            <CurrentPageProvider>
+              <PastTripProvider>
+                <PrivateRoute path="/register" exact component={Register} />
+                <PrivateRoute path="/profile" exact component={Profile} />
+                <PrivateRoute path="/dashboard" exact component={Dashboard} />
+                <PrivateRoute path="/profile" exact component={Profile} />
+                <PrivateRoute path="/about" exact component={About} />
+              </PastTripProvider>
+            </CurrentPageProvider>
           </Switch>
         </Router>
       </Suspense>
       <Footer />
-      </>
+    </>
   );
 }
 
