@@ -22,13 +22,9 @@ export const ProfileProvider = (props) => {
 
   const setDetails = () => {
     const jwt = isAuthenticated();
-    console.log(jwt);
     if (jwt) {
       const { token,user } = jwt;
-      alert(user);
       const userId = JSON.parse(localStorage.getItem("jwt")).user._id;
-      alert("jwt", (localStorage.getItem("jwt")));
-      alert("USER Id", userId);
       getUser(userId, token)
         .then((data) => {
           console.log("Data -> ");
@@ -51,7 +47,6 @@ export const ProfileProvider = (props) => {
               image: photo,
               loading: false,
             });
-            console.log(data);
           }
         })
         .catch((err) => console.log(err));
@@ -59,8 +54,7 @@ export const ProfileProvider = (props) => {
   };
 
   useEffect(() => {
-     alert("Caching.... from profileProvider");
-      setDetails();
+     setDetails();
   }, []);
 
   return (

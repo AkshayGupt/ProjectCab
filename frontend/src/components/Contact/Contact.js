@@ -1,12 +1,12 @@
 import React from "react";
 import { Container, Form, Row, Col, Button, Image, Navbar } from "react-bootstrap";
-import NavBar from "../NavBar/NavBar";
 import "./Contact.css";
+import GuestNavBar from '../NavBar/GuestNavBar';
 
 const Contact = () => {
   return (
     <>
-      <NavBar/>
+      <GuestNavBar/> 
       <Row className="custom-padding">
         <Col className="d-none d-lg-block my-2">
           <Image

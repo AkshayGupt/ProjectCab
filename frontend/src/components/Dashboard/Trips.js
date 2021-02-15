@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useContext } from "react";
 import Calendar from "react-calendar";
 import moment from "moment";
 import "react-calendar/dist/Calendar.css";
@@ -7,14 +7,19 @@ import { Row, Col, Container } from "react-bootstrap";
 import TripCard from "./TripCard";
 import { getFutureTrips, getOngoingTrips, cancelTheTrip } from "./helper";
 import Timeline from "./Timeline"; 
+import {TripContext} from '../Context/TripProvider';
 
 
 const Trips = () => {
+
+  const {userFutureTrips,userOngoingTrips,userDates,isLoading} = useContext(TripContext);
+
+
   const [value, onChange] = useState(new Date());
-  const [loading, setLoading] = useState(true);
-  const [futureTrips, setFutureTrips] = useState([]);
-  const [ongoingTrips, setOngoingTrips] = useState([]);
-  const [dates, setDates] = useState([]);
+  const [loading, setLoading] =isLoading;
+  const [futureTrips, setFutureTrips] = userFutureTrips;
+  const [ongoingTrips, setOngoingTrips] =userOngoingTrips;
+  const [dates, setDates] = userDates;
 
   const getTrips = () => {
     const jwt = JSON.parse(localStorage.getItem("jwt"));
@@ -65,11 +70,6 @@ const Trips = () => {
       });
   };
 
-  useEffect(() => {
-    setTimeout(() => {
-      getTrips();
-    }, 1000);
-  }, []);
 
   const cancelTrip = (tripId) => {
     const jwt = JSON.parse(localStorage.getItem("jwt"));

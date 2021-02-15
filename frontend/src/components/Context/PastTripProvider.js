@@ -10,7 +10,7 @@ export const PastTripProvider = (props) => {
   const [loading, setLoading] = useState(true);
   const getPastTripsOfUser = () => {
     const jwt = JSON.parse(localStorage.getItem("jwt"));
-    alert(jwt);
+   
     if(jwt !== undefined && jwt !== null){
     console.log("Data from Trips", jwt.token);
     const UID = jwt.user._id;
@@ -31,7 +31,6 @@ export const PastTripProvider = (props) => {
   };
 
   useEffect(() => {
-    alert("caching past trips....");
     getPastTripsOfUser();
   }, []);
   return (

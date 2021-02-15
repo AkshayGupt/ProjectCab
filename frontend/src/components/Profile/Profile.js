@@ -6,6 +6,7 @@ import {
   updateUserPassword,
 } from "./helper";
 import { isAuthenticated } from "../Auth/helper";
+import {Redirect} from 'react-router-dom';
 import "./Profile.css";
 import Loading from "../../Loading/Loading";
 import { Form } from "react-bootstrap";
@@ -156,6 +157,7 @@ const Profile = ({ editAllowed = false, userId }) => {
       });
     } else {
       updateUserProfileDP(image);
+     
 
       // ! TODO: NEEDS STATUS UPDATE!!
 
@@ -213,6 +215,7 @@ const Profile = ({ editAllowed = false, userId }) => {
             style={{ display: success ? "" : "none" }}
           >
             <p>Successfully updated your {success}.</p>
+            {/* return <Redirect to="/"/> */}
           </div>
         </div>
       </div>
@@ -250,9 +253,9 @@ const Profile = ({ editAllowed = false, userId }) => {
         if (data.error) {
           console.log(data.error);
         } else {
-          console.log("IMAGE SUCCESS!!");
           setProfile({
             ...profile,
+            image:image,
             success: "profile picture",
           });
         }

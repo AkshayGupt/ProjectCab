@@ -1,12 +1,14 @@
 import { set } from "js-cookie";
-import React, { useState, createContext } from "react";
-
+import React, { useState, useEffect, createContext } from "react";
+import { getFutureTrips, getOngoingTrips, cancelTheTrip } from "../Dashboard/helper";
+import moment from "moment";
 export const TripContext = createContext();
 
-export const TripProvider = () => {
+export const TripProvider = (props) => {
+  const [loading, setLoading] = useState(true);
   const [futureTrips, setFutureTrips] = useState([]);
   const [ongoingTrips, setOngoingTrips] = useState([]);
-  const [cached, setCached] = useState(false);
+  const [dates, setDates] = useState([]);
 
   const getTrips = () => {
     const jwt = JSON.parse(localStorage.getItem("jwt"));
@@ -40,7 +42,6 @@ export const TripProvider = () => {
         } else {
           console.log("Data", data);
           setOngoingTrips(data);
-          setCached(true);
           const date = new Date();
           let newDates = dates;
           {
@@ -57,14 +58,19 @@ export const TripProvider = () => {
       });
   };
 
-  if (!cached) {
-    console.log("Caching.......");
-    getTrips();
-  }
+ useEffect(() => {
+  getTrips();
+ }, []);
 
   return (
-    <TripContext.Provider>
-      <Trips />
+    <TripContext.Provider 
+        value={{
+          userFutureTrips:[futureTrips, setFutureTrips],
+          userOngoingTrips:[ongoingTrips, setOngoingTrips],
+          userDates:[dates, setDates],
+          isLoading:[loading, setLoading]  
+        }}>
+      {props.children}
     </TripContext.Provider>
   );
 };

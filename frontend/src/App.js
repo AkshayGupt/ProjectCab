@@ -22,6 +22,7 @@ import { PastTripProvider } from "./components/Context/PastTripProvider";
 import { ProfileProvider } from "./components/Context/ProfileProvider";
 import { CurrentPageProvider } from "./components/Context/CurrentPageProvider";
 import { AuthProvider } from "./components/Context/AuthProvider";
+import { TripProvider } from "./components/Context/TripProvider";
 
 const Landing = lazy(() => import("./components/Landing/Landing"));
 const Register = lazy(() => import("./components/Register/Register"));
@@ -38,7 +39,9 @@ function App() {
           <Router>
             <Switch>
               
+              <GuestRoute exact path="/" component={Landing} />
               <Route exact path="/about" exact component={About} />
+              <Route exact path="/contact" component={Contact} />
               <Route
                 exact
                 path="/authentication/activate/:token"
@@ -50,14 +53,16 @@ function App() {
                 component={ResetPassword}
               />
               
-              <GuestRoute exact path="/" component={Landing} />
-               <Route exact path="/contact" component={Contact} />
+              
+               
               <PastTripProvider>
+                <TripProvider>
                 <ProfileProvider>
                   <PrivateRoute path="/register" exact component={Register} />
                   <PrivateRoute path="/profile" exact component={Profile} />
                   <PrivateRoute path="/dashboard" exact component={Dashboard} />
                 </ProfileProvider>
+                </TripProvider>
               </PastTripProvider>
             </Switch>
           </Router>

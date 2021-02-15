@@ -61,9 +61,9 @@ const NavBar = () => {
                 <Nav.Link onClick={() => setCurrentPage("PAST_TRIPS")}>
                   History
                 </Nav.Link>
-                <Nav.Link onClick={() => setCurrentPage("ABOUT")}>
+                {/* <Nav.Link onClick={() => setCurrentPage("ABOUT")}>
                   About
-                </Nav.Link>
+                </Nav.Link> */}
               </Nav>
               <Nav className="d-md-none d-sm-block">
                 <Nav.Link onClick={() => signout()}>Log Out</Nav.Link>

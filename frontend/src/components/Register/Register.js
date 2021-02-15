@@ -196,11 +196,11 @@ const Register = () => {
           <Container>
             <Row>
               <Col sm="3">
-                <div style={{ float: "right", margin: 10 }}>
+                {/* <div style={{ float: "right", margin: 10 }}>
                   <a href="/dashboard" className="btn btn-info btn-lg">
                     <i class="fa fa-arrow-left" aria-hidden="true"></i> Back
                   </a>
-                </div>
+                </div> */}
               </Col>
               <Col>
                 <Form>
