@@ -26,7 +26,7 @@ const PastTrips = () => {
         genderAllowed,
       } = trip;
       return (
-        <Col md="12 text-center mb-2" lg="6">
+        <Col md="12 text-center mb-2" lg="4">
           <TripCard
             trip={{
               source: source,
@@ -49,7 +49,7 @@ const PastTrips = () => {
       <Container>
         <Row>
           <Col>
-            <h1 className="my-5 text-center">Past Trips</h1>
+            <h1 className="my-5 text-center jumbotron">Past Trips</h1>
             <Container>
               {loading ? (
                 <div>

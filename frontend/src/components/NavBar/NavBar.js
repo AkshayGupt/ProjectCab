@@ -8,7 +8,7 @@ import { ProfileContext } from "../Context/ProfileProvider";
 
 // DISPLAY LOGO
 const Logo = () => {
-  return <h3 className="logo">POOL IT</h3>;
+  return <h3 className="logo pt-2">POOL IT</h3>;
 };
 
 const NavBar = () => {
@@ -16,6 +16,7 @@ const NavBar = () => {
   
   const [currentPage, setCurrentPage] = useContext(CurrentPageContext);
   const { userProfile, editUserBio } = useContext(ProfileContext);
+  
 
   const [profile, setProfile] = userProfile;
 
@@ -40,20 +41,20 @@ const NavBar = () => {
         </Navbar>
       ) : (
         <>
-          <Navbar collapseOnSelect expand="md">
-            <Navbar.Brand className="order-sm-0 mx-auto order-1" href="/">
+          <Navbar collapseOnSelect={true} expand="md">
+            <Navbar.Brand className="mx-auto order-0" href="/">
               <Logo />
             </Navbar.Brand>
             <Navbar.Toggle
               aria-controls="responsive-navbar-nav"
-              className="order-sm-1 order-0"
+              className="order-sm-0 order-0"
             />
             <Navbar.Collapse id="responsive-navbar-nav">
               <Nav className="d-md-none d-sm-block">
                 <Nav.Link>Profile</Nav.Link>
               </Nav>
               <Nav className="mr-auto">
-                <Nav.Link href="/register">Create Trip</Nav.Link>
+                <Nav.Link onClick={() => setCurrentPage("REGISTER")}>Create Trip</Nav.Link>
                 <Nav.Link onClick={() => setCurrentPage("TRIPS")}>
                   Dashboard
                 </Nav.Link>

@@ -10,7 +10,8 @@ import SlideShow from "./SlideShow";
 import "./Landing.css";
 import NavBar from "../NavBar/NavBar";
 import { ProfileProvider } from "../Context/ProfileProvider";
-
+import GuestNavBar from "../NavBar/GuestNavBar";
+import {isAuthenticated} from '../Auth/helper';
 const Landing = () => {
   const [newUser, setNewUser] = useState(false);
   const [signUpData, setSignUpData] = useState({
@@ -132,8 +133,9 @@ const Landing = () => {
     <>
       {redirectToHomePage()}
       {loadingMessage()}
-      <ProfileProvider>
-        <NavBar />
+      {/* <ProfileProvider> */}
+      <GuestNavBar/> 
+        {/* <NavBar /> */}
         <div className="container">
           <Row style={{ marginTop: "2rem" }} className="mx-auto ">
             <Col md lg="6" className="image mb-5 ">
@@ -197,7 +199,7 @@ const Landing = () => {
             </Col>
           </Row>
         </div>
-      </ProfileProvider>
+      {/* </ProfileProvider> */}
     </>
   );
 };

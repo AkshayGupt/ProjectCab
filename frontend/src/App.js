@@ -21,6 +21,7 @@ import ResetPassword from "./components/Auth/ResetPassword";
 import { PastTripProvider } from "./components/Context/PastTripProvider";
 import { ProfileProvider } from "./components/Context/ProfileProvider";
 import { CurrentPageProvider } from "./components/Context/CurrentPageProvider";
+import { AuthProvider } from "./components/Context/AuthProvider";
 
 const Landing = lazy(() => import("./components/Landing/Landing"));
 const Register = lazy(() => import("./components/Register/Register"));
@@ -31,11 +32,13 @@ const Profile = lazy(() => import("./components/Profile/Profile"));
 function App() {
   return (
     <>
+    <AuthProvider>
       <CurrentPageProvider>
         <Suspense fallback={<Loading />}>
           <Router>
             <Switch>
-              <Route exact path="/contact" component={Contact} />
+              
+              <Route exact path="/about" exact component={About} />
               <Route
                 exact
                 path="/authentication/activate/:token"
@@ -46,20 +49,21 @@ function App() {
                 path="/reset/password/:resetLink"
                 component={ResetPassword}
               />
+              
               <GuestRoute exact path="/" component={Landing} />
+               <Route exact path="/contact" component={Contact} />
               <PastTripProvider>
                 <ProfileProvider>
                   <PrivateRoute path="/register" exact component={Register} />
                   <PrivateRoute path="/profile" exact component={Profile} />
                   <PrivateRoute path="/dashboard" exact component={Dashboard} />
-                  <PrivateRoute path="/profile" exact component={Profile} />
-                  <PrivateRoute path="/about" exact component={About} />
                 </ProfileProvider>
               </PastTripProvider>
             </Switch>
           </Router>
         </Suspense>
       </CurrentPageProvider>
+      </AuthProvider>
       <Footer />
     </>
   );

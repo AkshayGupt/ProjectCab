@@ -184,7 +184,6 @@ const Register = () => {
   const register = () => {
     return (
       <div>
-        <NavBar />
         <div className="body">
           <div className="mb-3">
             <h1 className="text-center register-heading">

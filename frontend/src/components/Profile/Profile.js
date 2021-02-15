@@ -18,6 +18,8 @@ const Profile = ({ editAllowed = false, userId }) => {
   const [profile, setProfile] = userProfile;
   const [editBio, setEditBio] = editUserBio;
 
+  // console.log("From Profile...."+profile);
+
   const [newPassword, setNewPassword] = useState({
     oldPassword: "",
     newPassword: "",
@@ -35,6 +37,8 @@ const Profile = ({ editAllowed = false, userId }) => {
     bio,
     success,
   } = profile;
+
+  console.log(firstName+" "+lastName+" from Profile");
 
   const [changePassword, setChangePassword] = useState(false);
   const [changeImage, setChangeImage] = useState(false);
@@ -70,9 +74,9 @@ const Profile = ({ editAllowed = false, userId }) => {
       .catch((err) => console.log(err));
   };
 
-  useEffect(() => {
-    setDetails(userId);
-  }, []);
+  // useEffect(() => {
+  //   setDetails(userId);
+  // }, []);
 
   const loadingF = () => {
     if (loading) {

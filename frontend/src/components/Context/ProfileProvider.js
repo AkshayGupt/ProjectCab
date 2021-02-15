@@ -20,11 +20,15 @@ export const ProfileProvider = (props) => {
 
   const [editBio, setEditBio] = useState(false);
 
-  const setDetails = (userId) => {
+  const setDetails = () => {
     const jwt = isAuthenticated();
+    console.log(jwt);
     if (jwt) {
-      const { token } = jwt;
-      console.log("USER Id", userId);
+      const { token,user } = jwt;
+      alert(user);
+      const userId = JSON.parse(localStorage.getItem("jwt")).user._id;
+      alert("jwt", (localStorage.getItem("jwt")));
+      alert("USER Id", userId);
       getUser(userId, token)
         .then((data) => {
           console.log("Data -> ");
@@ -55,7 +59,8 @@ export const ProfileProvider = (props) => {
   };
 
   useEffect(() => {
-    setDetails(userId);
+     alert("Caching.... from profileProvider");
+      setDetails();
   }, []);
 
   return (

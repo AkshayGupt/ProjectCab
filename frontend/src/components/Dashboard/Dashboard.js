@@ -8,6 +8,7 @@ import PastTrips from "./PastTrips";
 import Profile from "../Profile/Profile";
 import About from "../About/About";
 import { isAuthenticated } from "../Auth/helper";
+import Register from "../Register/Register";
 
 const Dashboard = () => {
   const [currentPage, setCurrentPage] = useContext(CurrentPageContext);
@@ -21,6 +22,8 @@ const Dashboard = () => {
         <Trips />
       ) : currentPage === "PAST_TRIPS" ? (
         <PastTrips />
+      ) : currentPage === "REGISTER" ? (
+        <Register />
       ) : currentPage === "PROFILE" ? (
         <Profile
           editAllowed={isAuthenticated()}
