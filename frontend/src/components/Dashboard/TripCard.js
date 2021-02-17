@@ -142,7 +142,7 @@ const Details = (props) => {
                 <h6 className="card-title text-dark text-center mb-3">
                   Duration
                   <i
-                    style={{ fontSize: "20px" }}
+                    style={{ fontSize: "20px",marginLeft:"10px" }}
                     className="fa fa-clock-o"
                     aria-hidden="true"
                   />

@@ -41,7 +41,7 @@ const NavBar = () => {
       ) : (
         <>
           <Navbar collapseOnSelect={true} expand="md">
-            <Navbar.Brand className="mx-auto order-0" href="/">
+            <Navbar.Brand className=" order-0" href="/">
               <Logo />
             </Navbar.Brand>
             <Navbar.Toggle
@@ -49,14 +49,16 @@ const NavBar = () => {
               className="order-sm-0 order-0"
             />
             <Navbar.Collapse id="responsive-navbar-nav">
-              <Nav
-                className="d-md-none d-sm-block"
-                onClick={() => setCurrentPage("PROFILE")}
-              >
-                <Nav.Link>Profile</Nav.Link>
+              <Nav className="d-md-none d-sm-block">
+                <Nav.Link onClick={() => setCurrentPage("PROFILE")}>
+                  Profile
+                </Nav.Link>
               </Nav>
               <Nav className="mr-auto">
-                <Nav.Link onClick={() => setCurrentPage("REGISTER")}>
+                <Nav.Link
+                  onClick={() => setCurrentPage("REGISTER")}
+                  className="text-info"
+                >
                   Create Trip
                 </Nav.Link>
                 <Nav.Link onClick={() => setCurrentPage("TRIPS")}>

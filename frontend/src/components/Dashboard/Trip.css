@@ -24,3 +24,14 @@
     text-align: center;
     font-size: 15px; */
  }
+
+ .card {
+
+    
+    transition: all .3s ease-in-out;
+  }
+  
+  .card:hover {
+   
+    transform: translate3d(0px, -10px, 0px);
+  }
