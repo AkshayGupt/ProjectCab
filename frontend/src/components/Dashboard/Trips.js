@@ -172,7 +172,7 @@ const Trips = () => {
                     ) : (
                       <>
                         <h2 className="my-5">
-                          Ongoing Trips{" "}
+                        <i class="fa fa-caret-right" aria-hidden="true"></i> {"  "}Ongoing Trips{" "}
                           <a
                             href="#"
                             style={{ float: "right", marginRight: "" }}
@@ -191,14 +191,15 @@ const Trips = () => {
                           )}
                         </Row>
 
-                        <h2 className="my-5">Upcoming Trips</h2>
+                        
+                        {futureTrips.length > 0 && <h2 className="my-5"> <i class="fa fa-caret-right" aria-hidden="true"></i> {"  "}Upcoming Trips</h2>}
                         <Row>
                           {futureTrips.length > 0 && futureTripCardElements}
-                          {futureTrips.length == 0 && (
+                          {/* {futureTrips.length == 0 && (
                             <h5 className="text-center mx-auto">
                               It seems you have not created a trip yet !
                             </h5>
-                          )}
+                          )} */}
                         </Row>
                       </>
                     )}
@@ -209,7 +210,7 @@ const Trips = () => {
           </div>
           {!loading && futureTrips.length > 0 && (
             <>
-              <h1 className="text-center my-5">My Timeline</h1>
+              <h2 className="text-center my-5">Timeline</h2>
               <Timeline trips={futureTrips}></Timeline>
             </>
           )}

@@ -185,11 +185,13 @@ const Register = () => {
     return (
       <div>
         <div className="body">
+          
           <div className="mb-3">
             <h1 className="text-center register-heading">
               {" "}
-              <h1 className="text-center display-3">
-                Create new Trip <i class="fa fa-pencil" aria-hidden="true"></i>
+              <h1 className="text-center display-3 my-5 jumbotron mx-auto" style={{maxWidth:"73vw"}}>
+                Create new Trip 
+                {/* <i class="fa fa-pencil" aria-hidden="true"></i> */}
               </h1>
             </h1>
           </div>

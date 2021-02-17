@@ -2,10 +2,10 @@
 /*FOOTER*/
 
 footer {
-    background: #16222A; 
+    /* background: #16222A; 
     background: -webkit-linear-gradient(59deg, #3A6073, #16222A);
-    background: linear-gradient(59deg, #3A6073, #16222A);
-    color: white;
+    background: linear-gradient(59deg, #3A6073, #16222A); */
+    color: black;
     position:inherit;;
     left: 0;
     bottom: 0;
@@ -18,7 +18,7 @@ footer {
   
   footer a {
     /* color: #fff; */
-    color:#fff;
+    /* color:#fff; */
     font-size: 12px;
     transition-duration: 0.2s;
   }
@@ -36,7 +36,7 @@ footer {
   
   .footer-middle {
     padding-top: 1em;
-    color: white;
+    /* color: white; */
   }
   
   
@@ -45,6 +45,7 @@ footer {
   /* footer social icons */
   
   ul.social-network {
+    /* color:white; */
     list-style: none;
     display: inline;
     margin-left: 0 !important;
@@ -69,7 +70,7 @@ footer {
   
   .social-network a.icoFacebook:hover i,
   .social-network a.icoLinkedin:hover i {
-    color: #fff;
+    /* color: #fff; */
   }
   
   .social-network a.socialIcon:hover,
@@ -110,7 +111,7 @@ footer {
   }
   
   .social-circle i {
-    color: #595959;
+    color: white;
     -webkit-transition: all 0.8s;
     -moz-transition: all 0.8s;
     -o-transition: all 0.8s;
@@ -119,6 +120,6 @@ footer {
   }
   
   .social-network a {
-    background-color: #F9F9F9;
+    background-color: lightgrey;
   }
   

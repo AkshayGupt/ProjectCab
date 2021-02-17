@@ -49,7 +49,7 @@ const PastTrips = () => {
       <Container>
         <Row>
           <Col>
-            <h1 className="my-5 text-center jumbotron">Past Trips</h1>
+            <h1 className="my-5 text-center display-3 jumbotron">Past Trips</h1>
             <Container>
               {loading ? (
                 <div>
@@ -66,7 +66,7 @@ const PastTrips = () => {
                     {pastTrips.length > 0 && pastTripCardElements}
                     {pastTrips.length == 0 && (
                       <h5 className="text-center mx-auto">
-                        It seems you have no past trips !
+                        No past trips !
                       </h5>
                     )}
                   </Row>
