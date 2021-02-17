@@ -13,10 +13,9 @@ const Logo = () => {
 
 const NavBar = () => {
   const [redirect, setRedirect] = useState(false);
-  
+
   const [currentPage, setCurrentPage] = useContext(CurrentPageContext);
   const { userProfile, editUserBio } = useContext(ProfileContext);
-  
 
   const [profile, setProfile] = userProfile;
 
@@ -50,11 +49,16 @@ const NavBar = () => {
               className="order-sm-0 order-0"
             />
             <Navbar.Collapse id="responsive-navbar-nav">
-              <Nav className="d-md-none d-sm-block">
+              <Nav
+                className="d-md-none d-sm-block"
+                onClick={() => setCurrentPage("PROFILE")}
+              >
                 <Nav.Link>Profile</Nav.Link>
               </Nav>
               <Nav className="mr-auto">
-                <Nav.Link onClick={() => setCurrentPage("REGISTER")}>Create Trip</Nav.Link>
+                <Nav.Link onClick={() => setCurrentPage("REGISTER")}>
+                  Create Trip
+                </Nav.Link>
                 <Nav.Link onClick={() => setCurrentPage("TRIPS")}>
                   Dashboard
                 </Nav.Link>

@@ -7,8 +7,9 @@ import { CurrentPageContext } from "../Context/CurrentPageProvider";
 import PastTrips from "./PastTrips";
 import Profile from "../Profile/Profile";
 import About from "../About/About";
-import { isAuthenticated } from "../Auth/helper";
 import Register from "../Register/Register";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.min.css";
 
 const Dashboard = () => {
   const [currentPage, setCurrentPage] = useContext(CurrentPageContext);
@@ -16,6 +17,17 @@ const Dashboard = () => {
   return (
     <div className="dashboard">
       <NavBar />
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
       {!currentPage ? (
         ""
       ) : currentPage === "TRIPS" ? (
@@ -25,10 +37,7 @@ const Dashboard = () => {
       ) : currentPage === "REGISTER" ? (
         <Register />
       ) : currentPage === "PROFILE" ? (
-        <Profile
-          editAllowed={isAuthenticated()}
-          userId={JSON.parse(localStorage.getItem("jwt")).user._id}
-        />
+        <Profile />
       ) : currentPage === "ABOUT" ? (
         <About />
       ) : (
