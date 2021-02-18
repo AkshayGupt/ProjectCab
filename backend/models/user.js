@@ -26,6 +26,10 @@ const User = new Schema(
       type: String,
       default: "",
     },
+    gender:{
+      type:String,
+      default: 1
+    },
     encrypted_password: {
       type: String,
       required: true,

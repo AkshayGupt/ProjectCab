@@ -3,7 +3,8 @@ import { Container, Form, Row, Col, Button, Image, Navbar } from "react-bootstra
 import "./Contact.css";
 import GuestNavBar from '../NavBar/GuestNavBar';
 import ic from './iconContact2.svg';
-const Contact = () => {
+import {sendUserMessage} from './helper';
+const Contact = ({showNavbar=true}) => {
 
   const [values,setValues] = useState({
     firstName:"",
@@ -21,17 +22,37 @@ const Contact = () => {
   }
   
   const handleSubmit = () =>{
-    
-    console.log({firstName,lastName,email,message});
-    setValues({...values,success:true});
-    // setValues({...values,error:"Failed to send message!"});
-    setTimeout(()=>{
-      setValues({...values,success:false});
-    },5000)
-    
-    setTimeout(()=>{
-      setValues({...values,error:""});
-    },5000)
+
+    sendUserMessage({firstName,lastName,email,message})
+    .then(data=>{
+      if(data.error){
+        let error="";
+        if(Array.isArray(data.error)){
+          error=data.error[0];
+        }
+        else{
+          error = data.error;
+        }
+        console.log(data.error);
+        setValues({...values,error:error});
+        setTimeout(()=>{
+          setValues({...values,error:""});
+        },5000)
+      }
+      else{
+        setValues({...values,
+                    firstName:"",
+                    lastName:"",
+                    email:"",
+                    message:"",
+                    success:true
+                  });
+      
+      setTimeout(()=>{
+        setValues({...values,success:false});
+      },5000)
+      }
+    })
   }
 
    /**
@@ -75,7 +96,7 @@ const Contact = () => {
 
   return (
     <>
-      <GuestNavBar/> 
+      {showNavbar && <GuestNavBar/>} 
       <Row className="custom-padding">
         <Col className="d-none d-lg-block m-auto">
           <img

@@ -20,7 +20,7 @@ exports.signup = (req, res) => {
 
   const user = new User(req.body);
 
-  const { email, password, firstName, lastName } = user;
+  const { email, password, firstName, lastName,gender } = user;
   console.log("Email received from express-validator" + email);
   User.findOne({ email }, (err, user) => {
     if (user) {
@@ -29,7 +29,7 @@ exports.signup = (req, res) => {
       });
     }
     const token = jwt.sign(
-      { email, password, firstName, lastName },
+      { email, password, firstName, lastName, gender },
       process.env.ACTIVATION_KEY,
       { expiresIn: "15m" }
     );
@@ -136,7 +136,7 @@ exports.verifyEmail = (req, res) => {
           error: "Token invalid !",
         });
       }
-      const { email, password, firstName, lastName } = decodedToken;
+      const { email, password, firstName, lastName, gender } = decodedToken;
 
       console.log(
         "Inside Verify " +
@@ -156,7 +156,7 @@ exports.verifyEmail = (req, res) => {
           });
         }
 
-        let newUser = new User({ email, password, firstName, lastName });
+        let newUser = new User({ email, password, firstName, lastName, gender });
 
         newUser.save((err, user) => {
           if (err) {
@@ -164,7 +164,7 @@ exports.verifyEmail = (req, res) => {
           }
           return res
             .status(200)
-            .json({ name: user.firstName, email: user.email, bio: user.bio });
+            .json({ name: user.firstName, email: user.email, bio: user.bio, gender });
         });
       });
     });
