@@ -4,6 +4,7 @@ const express = require("express");
 const cors = require("cors");
 const authRoute = require("./routes/authRoutes");
 const dbRoute = require("./routes/dbRoutes");
+const otherRoute = require("./routes/otherRoutes");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const connectDB = require("./config/db");
@@ -35,6 +36,7 @@ connectDB();
 app.use("/", authRoute);
 app.use("/auth", authRoute);
 app.use("/db", dbRoute);
+app.use("/other", otherRoute);
 
 const port = process.env.PORT || 5000;
 
