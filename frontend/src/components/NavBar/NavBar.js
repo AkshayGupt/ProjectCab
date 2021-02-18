@@ -53,6 +53,9 @@ const NavBar = () => {
                 <Nav.Link onClick={() => setCurrentPage("PROFILE")}>
                   Profile
                 </Nav.Link>
+                <Nav.Link onClick={() => setCurrentPage("SECURITY")}>
+                  Security
+                </Nav.Link>
               </Nav>
               <Nav className="mr-auto">
                 <Nav.Link
@@ -67,9 +70,6 @@ const NavBar = () => {
                 <Nav.Link onClick={() => setCurrentPage("PAST_TRIPS")}>
                   History
                 </Nav.Link>
-                {/* <Nav.Link onClick={() => setCurrentPage("ABOUT")}>
-                  About
-                </Nav.Link> */}
               </Nav>
               <Nav className="d-md-none d-sm-block">
                 <Nav.Link onClick={() => signout()}>Log Out</Nav.Link>
@@ -92,6 +92,12 @@ const NavBar = () => {
                     onClick={() => setCurrentPage("PROFILE")}
                   >
                     Profile
+                  </NavDropdown.Item>
+                  <NavDropdown.Item
+                    eventKey="2"
+                    onClick={() => setCurrentPage("SECURITY")}
+                  >
+                    Security
                   </NavDropdown.Item>
                   <NavDropdown.Divider />
                   <NavDropdown.Item onClick={() => signout()}>

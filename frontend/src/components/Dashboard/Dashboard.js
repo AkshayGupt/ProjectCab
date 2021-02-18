@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import "./Status.scss";
 import NavBar from "../NavBar/NavBar";
 import Trips from "./Trips";
@@ -8,11 +8,16 @@ import PastTrips from "./PastTrips";
 import Profile from "../Profile/Profile";
 import About from "../About/About";
 import Register from "../Register/Register";
+import Security from "../Security/Security";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
 
 const Dashboard = () => {
   const [currentPage, setCurrentPage] = useContext(CurrentPageContext);
+
+  useEffect(() => {
+    setCurrentPage("TRIPS");
+  }, []);
 
   return (
     <div className="dashboard">
@@ -40,6 +45,8 @@ const Dashboard = () => {
         <Profile />
       ) : currentPage === "ABOUT" ? (
         <About />
+      ) : currentPage === "SECURITY" ? (
+        <Security />
       ) : (
         ""
       )}

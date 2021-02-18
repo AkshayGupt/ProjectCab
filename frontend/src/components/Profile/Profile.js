@@ -129,7 +129,6 @@ const Profile = () => {
             trips: data.trips,
             bio: data.bio,
             image: photo,
-            loading: false,
           });
           console.log(data);
         }
@@ -175,7 +174,11 @@ const Profile = () => {
     <Container style={{ marginTop: "5%" }}>
       <Row>
         <Col className="text-center" xs={12} lg={6}>
-          <Image src={image} style={{ width: "65%" }} roundedCircle />
+          <Image
+            src={image}
+            style={{ width: "65%", marginBottom: "3%" }}
+            roundedCircle
+          />
           <h3>{trips.length} Trips</h3>
           <Button
             style={{ marginTop: "5%", marginBottom: "5%" }}
