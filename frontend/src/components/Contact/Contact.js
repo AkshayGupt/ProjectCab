@@ -4,7 +4,7 @@ import "./Contact.css";
 import GuestNavBar from '../NavBar/GuestNavBar';
 import ic from './iconContact2.svg';
 import {sendUserMessage} from './helper';
-const Contact = () => {
+const Contact = ({showNavbar=true}) => {
 
   const [values,setValues] = useState({
     firstName:"",
@@ -96,7 +96,7 @@ const Contact = () => {
 
   return (
     <>
-      <GuestNavBar/> 
+      {showNavbar && <GuestNavBar/>} 
       <Row className="custom-padding">
         <Col className="d-none d-lg-block m-auto">
           <img
