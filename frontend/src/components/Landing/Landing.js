@@ -17,6 +17,7 @@ const Landing = () => {
   const [signUpData, setSignUpData] = useState({
     firstName: "",
     lastName: "",
+    gender:"1",
     email: "",
     password: "",
     retypedPassword: "",

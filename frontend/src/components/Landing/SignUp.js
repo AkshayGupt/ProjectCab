@@ -62,6 +62,20 @@ const SignUp = ({handleSignUpChange,signUpData,setNewUser,signup}) => {
             />
           </Form.Group>
           <Form.Group>
+                    <Form.Label>
+                      Gender 
+                    </Form.Label>
+                    <Form.Control
+                      as="select"
+                      value={signUpData.gender}
+                      onChange={handleSignUpChange("gender")}
+                    >
+                      <option value="1">Male</option>
+                      <option value="2">Female</option>
+                      <option value="0">Others</option>
+                    </Form.Control>
+                  </Form.Group>
+          <Form.Group>
             <Form.Label>Email</Form.Label>
             <Form.Control
               type="email"
