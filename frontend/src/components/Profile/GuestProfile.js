@@ -70,16 +70,19 @@ const GuestProfile = ({ userId }) => {
           {firstName} {lastName}
         </h4>
         <h5 style={{ marginBottom: "2.5%", fontSize: "88%" }}>{email}</h5>
-
-        <h6
-          className="mx-auto"
-          style={{
-            fontStyle: "italic",
-            marginBottom: "7%",
-            textAlign: "text-center",
-            width: "50%",
-          }}
-        >{`${'"' + bio + '"'}`}</h6>
+        {bio ? (
+          <h6
+            className="mx-auto"
+            style={{
+              fontStyle: "italic",
+              marginBottom: "7%",
+              textAlign: "text-center",
+              width: "50%",
+            }}
+          >{`${'"' + bio + '"'}`}</h6>
+        ) : (
+          ""
+        )}
         <h4 style={{ color: "purple", marginBottom: "0" }}>{trips.length}</h4>
         <h6 style={{ fontSize: "80%", color: "grey" }}>TRIPS</h6>
       </div>
