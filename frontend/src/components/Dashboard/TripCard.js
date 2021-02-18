@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Modal, Button, Badge, Container, Row, Col } from "react-bootstrap";
 import moment from "moment";
-import Profile from "../Profile/Profile";
+import GuestProfile from "../Profile/GuestProfile";
 
 const TripCard = ({ trip }) => {
   const [modalShow, setModalShow] = useState(false);
@@ -48,12 +48,12 @@ const TripCard = ({ trip }) => {
             {destination}
           </p>
           <p className="text-info ">
-            <i class="fa fa-clock-o" aria-hidden="true"></i> {tripStatus}
+            <i className="fa fa-clock-o" aria-hidden="true"></i> {tripStatus}
           </p>
         </div>
         <div className="card-body bg-light">
           <p className="text-dark">
-            <i class="fa fa-users" aria-hidden="true"></i> {members.length}
+            <i className="fa fa-users" aria-hidden="true"></i> {members.length}
           </p>
 
           <p
@@ -131,7 +131,7 @@ const Details = (props) => {
                         className="text-dark"
                         onClick={() => props.setUser(member._id)}
                       >
-                        <i class="fa fa-user" aria-hidden="true"></i>{" "}
+                        <i className="fa fa-user" aria-hidden="true"></i>{" "}
                         {member.firstName} {member.lastName}
                       </a>
                     </div>
@@ -142,7 +142,7 @@ const Details = (props) => {
                 <h6 className="card-title text-dark text-center mb-3">
                   Duration
                   <i
-                    style={{ fontSize: "20px",marginLeft:"10px" }}
+                    style={{ fontSize: "20px", marginLeft: "10px" }}
                     className="fa fa-clock-o"
                     aria-hidden="true"
                   />
@@ -166,11 +166,11 @@ const Details = (props) => {
 export const User = (props) => {
   console.log(props.userId);
   return (
-    <Modal {...props} size="xl" centered>
-      <Profile userId={props.userId} />
-      <Modal.Footer>
-        <Button onClick={props.onHide}>Close</Button>
-      </Modal.Footer>
+    <Modal {...props} size="md" centered>
+      <Modal.Header closeButton></Modal.Header>
+      <Modal.Body className="text-center">
+        <GuestProfile userId={props.userId} />
+      </Modal.Body>
     </Modal>
   );
 };

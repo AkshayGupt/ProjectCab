@@ -35,7 +35,7 @@ const Timeline = ({ trips }) => {
             {source} to {destination}
           </h3>
           <h6>
-            <i class="fa fa-clock-o" aria-hidden="true"></i> {startTime} -{" "}
+            <i className="fa fa-clock-o" aria-hidden="true"></i> {startTime} -{" "}
             {endTime}
           </h6>
           {members.length === 1 ? (

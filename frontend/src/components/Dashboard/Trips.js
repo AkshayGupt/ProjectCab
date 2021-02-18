@@ -1,4 +1,4 @@
-import React, { useState, useEffect,useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Calendar from "react-calendar";
 import moment from "moment";
 import "react-calendar/dist/Calendar.css";
@@ -6,19 +6,21 @@ import "./Trip.css";
 import { Row, Col, Container } from "react-bootstrap";
 import TripCard from "./TripCard";
 import { getFutureTrips, getOngoingTrips, cancelTheTrip } from "./helper";
-import Timeline from "./Timeline"; 
-import {TripContext} from '../Context/TripProvider';
-
+import Timeline from "./Timeline";
+import { TripContext } from "../Context/TripProvider";
 
 const Trips = () => {
-
-  const {userFutureTrips,userOngoingTrips,userDates,isLoading} = useContext(TripContext);
-
+  const {
+    userFutureTrips,
+    userOngoingTrips,
+    userDates,
+    isLoading,
+  } = useContext(TripContext);
 
   const [value, onChange] = useState(new Date());
-  const [loading, setLoading] =isLoading;
+  const [loading, setLoading] = isLoading;
   const [futureTrips, setFutureTrips] = userFutureTrips;
-  const [ongoingTrips, setOngoingTrips] =userOngoingTrips;
+  const [ongoingTrips, setOngoingTrips] = userOngoingTrips;
   const [dates, setDates] = userDates;
 
   const getTrips = () => {
@@ -30,7 +32,6 @@ const Trips = () => {
         if (data.error) {
           console.log(data.error);
         } else {
-          
           console.log("Data", data);
           setFutureTrips(data);
           const date = new Date();
@@ -70,7 +71,6 @@ const Trips = () => {
       });
   };
 
-
   const cancelTrip = (tripId) => {
     const jwt = JSON.parse(localStorage.getItem("jwt"));
     const { user, token } = jwt;
@@ -98,7 +98,7 @@ const Trips = () => {
       } = trip;
 
       return (
-        <Col md="12 text-center mb-2" lg="6">
+        <Col md="12 text-center mb-2" lg="6" key={_id}>
           <TripCard
             trip={{
               source: source,
@@ -131,6 +131,7 @@ const Trips = () => {
       return (
         <Col md="12 text-center mb-2" lg="6">
           <TripCard
+            key={_id}
             trip={{
               source: source,
               destination: destination,
@@ -172,7 +173,11 @@ const Trips = () => {
                     ) : (
                       <>
                         <h2 className="my-5">
-                        <i class="fa fa-caret-right" aria-hidden="true"></i> {"  "}Ongoing Trips{" "}
+                          <i
+                            className="fa fa-caret-right"
+                            aria-hidden="true"
+                          ></i>{" "}
+                          {"  "}Ongoing Trips{" "}
                           <a
                             href="#"
                             style={{ float: "right", marginRight: "" }}
@@ -191,8 +196,16 @@ const Trips = () => {
                           )}
                         </Row>
 
-                        
-                        {futureTrips.length > 0 && <h2 className="my-5"> <i class="fa fa-caret-right" aria-hidden="true"></i> {"  "}Upcoming Trips</h2>}
+                        {futureTrips.length > 0 && (
+                          <h2 className="my-5">
+                            {" "}
+                            <i
+                              className="fa fa-caret-right"
+                              aria-hidden="true"
+                            ></i>{" "}
+                            {"  "}Upcoming Trips
+                          </h2>
+                        )}
                         <Row>
                           {futureTrips.length > 0 && futureTripCardElements}
                           {/* {futureTrips.length == 0 && (
