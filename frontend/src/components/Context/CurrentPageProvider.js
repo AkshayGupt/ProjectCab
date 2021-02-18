@@ -3,7 +3,7 @@ import React, { useState, createContext, useEffect } from "react";
 export const CurrentPageContext = createContext();
 
 /**
- * CURRENT PAGE: TRIPS, PAST_TRIPS, PROFILE, ABOUT , CONTACT
+ * CURRENT PAGE: TRIPS, PAST_TRIPS, PROFILE, ABOUT , CONTACT, SECURITY
  */
 
 export const CurrentPageProvider = (props) => {

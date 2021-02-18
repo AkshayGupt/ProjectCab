@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import "./Status.scss";
 import NavBar from "../NavBar/NavBar";
 import Trips from "./Trips";
@@ -7,15 +7,32 @@ import { CurrentPageContext } from "../Context/CurrentPageProvider";
 import PastTrips from "./PastTrips";
 import Profile from "../Profile/Profile";
 import About from "../About/About";
-import { isAuthenticated } from "../Auth/helper";
 import Register from "../Register/Register";
+import Security from "../Security/Security";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.min.css";
 
 const Dashboard = () => {
   const [currentPage, setCurrentPage] = useContext(CurrentPageContext);
 
+  useEffect(() => {
+    setCurrentPage("TRIPS");
+  }, []);
+
   return (
     <div className="dashboard">
       <NavBar />
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
       {!currentPage ? (
         ""
       ) : currentPage === "TRIPS" ? (
@@ -25,12 +42,11 @@ const Dashboard = () => {
       ) : currentPage === "REGISTER" ? (
         <Register />
       ) : currentPage === "PROFILE" ? (
-        <Profile
-          editAllowed={isAuthenticated()}
-          userId={JSON.parse(localStorage.getItem("jwt")).user._id}
-        />
+        <Profile />
       ) : currentPage === "ABOUT" ? (
         <About />
+      ) : currentPage === "SECURITY" ? (
+        <Security />
       ) : (
         ""
       )}

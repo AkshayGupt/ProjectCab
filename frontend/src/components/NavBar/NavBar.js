@@ -13,10 +13,9 @@ const Logo = () => {
 
 const NavBar = () => {
   const [redirect, setRedirect] = useState(false);
-  
+
   const [currentPage, setCurrentPage] = useContext(CurrentPageContext);
   const { userProfile, editUserBio } = useContext(ProfileContext);
-  
 
   const [profile, setProfile] = userProfile;
 
@@ -51,19 +50,26 @@ const NavBar = () => {
             />
             <Navbar.Collapse id="responsive-navbar-nav">
               <Nav className="d-md-none d-sm-block">
-                <Nav.Link  onClick={() => setCurrentPage("PROFILE")}>Profile</Nav.Link>
+                <Nav.Link onClick={() => setCurrentPage("PROFILE")}>
+                  Profile
+                </Nav.Link>
+                <Nav.Link onClick={() => setCurrentPage("SECURITY")}>
+                  Security
+                </Nav.Link>
               </Nav>
               <Nav className="mr-auto">
-                <Nav.Link onClick={() => setCurrentPage("REGISTER")} className="text-info">Create Trip</Nav.Link>
+                <Nav.Link
+                  onClick={() => setCurrentPage("REGISTER")}
+                  className="text-info"
+                >
+                  Create Trip
+                </Nav.Link>
                 <Nav.Link onClick={() => setCurrentPage("TRIPS")}>
                   Dashboard
                 </Nav.Link>
-                <Nav.Link onClick={() => setCurrentPage("PAST_TRIPS")} >
+                <Nav.Link onClick={() => setCurrentPage("PAST_TRIPS")}>
                   History
                 </Nav.Link>
-                {/* <Nav.Link onClick={() => setCurrentPage("ABOUT")}>
-                  About
-                </Nav.Link> */}
               </Nav>
               <Nav className="d-md-none d-sm-block">
                 <Nav.Link onClick={() => signout()}>Log Out</Nav.Link>
@@ -86,6 +92,12 @@ const NavBar = () => {
                     onClick={() => setCurrentPage("PROFILE")}
                   >
                     Profile
+                  </NavDropdown.Item>
+                  <NavDropdown.Item
+                    eventKey="2"
+                    onClick={() => setCurrentPage("SECURITY")}
+                  >
+                    Security
                   </NavDropdown.Item>
                   <NavDropdown.Divider />
                   <NavDropdown.Item onClick={() => signout()}>
