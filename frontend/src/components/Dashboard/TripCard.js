@@ -64,7 +64,7 @@ const TripCard = ({ trip }) => {
           </p>
           <p
             className={
-              status === "Completed"
+              status !== "Future"
                 ? "d-none"
                 : "btn btn-sm btn-danger mx-1 p-2"
             }

@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { Redirect } from "react-router-dom";
+
+// import { Modal, Button, Badge, Container, Row, Col } from "react-bootstrap";
 import {
   Row,
   Col,
@@ -8,6 +10,7 @@ import {
   Button,
   Badge,
   Spinner,
+  Modal,
   Nav,
 } from "react-bootstrap";
 import "./Register.css";
@@ -15,8 +18,14 @@ import TimeSlot from "./TimeSlot";
 import Confirm from "./Confirm";
 import { createNewTrip } from "./helper";
 import NavBar from "../NavBar/NavBar";
+import TermsAndConditions from "../Others/TermsAndConditions";
 const Register = () => {
-  const [confirm, setConfirm] = useState(false);
+
+
+
+
+  const [agreeToTerms, setAgreeToTerms] = useState(false);
+  const [modalShow,setModalShow] = useState(false);
   const [values, setValues] = useState({
     source: "Manipal Jaipur",
     destination: "Select",
@@ -119,42 +128,91 @@ const Register = () => {
   };
 
   const onSubmit = () => {
+
     if (destination === "Select" || start.date === 0 || end.date === 0) {
       alert("Please fill all the entries!");
       return;
     }
-    const minCapacity = cabSize;
-    const members = [];
-    const jwtTemp = JSON.parse(localStorage.getItem("jwt"));
-    const UID = jwtTemp.user._id;
-    members.push(UID);
-    const obj = {
-      source,
-      destination,
-      minCapacity,
-      members,
-      genderAllowed,
-      startTime,
-      endTime,
-    };
 
-    console.log(obj);
-    const jwt = JSON.parse(localStorage.getItem("jwt"));
-    createNewTrip(obj, jwt.token).then((data) => {
-      if (data.error) {
-        console.log("Error" + data.error);
-      } else {
-        setValues({ ...values, success: true });
+
+    if(!agreeToTerms)
+    {
+      setModalShow(true);
+      if(agreeToTerms){
+        const minCapacity = cabSize;
+        const members = [];
+        const jwtTemp = JSON.parse(localStorage.getItem("jwt"));
+        const UID = jwtTemp.user._id;
+        members.push(UID);
+        const obj = {
+          source,
+          destination,
+          minCapacity,
+          members,
+          genderAllowed,
+          startTime,
+          endTime,
+        };
+    
+        console.log(obj);
+        const jwt = JSON.parse(localStorage.getItem("jwt"));
+        createNewTrip(obj, jwt.token).then((data) => {
+          if (data.error) {
+           setValues({
+             ...values,
+             error:data.error
+           })
+          } else {
+            setValues({ ...values, success: true });
+          }
+        });
       }
-    });
-  };
+       
+    }
 
-  const onError = () => {
-    if (error) {
-      alert(error);
-      return;
+    if(agreeToTerms){
+      const minCapacity = cabSize;
+      const members = [];
+      const jwtTemp = JSON.parse(localStorage.getItem("jwt"));
+      const UID = jwtTemp.user._id;
+      members.push(UID);
+      const obj = {
+        source,
+        destination,
+        minCapacity,
+        members,
+        genderAllowed,
+        startTime,
+        endTime,
+      };
+  
+      console.log(obj);
+      const jwt = JSON.parse(localStorage.getItem("jwt"));
+      createNewTrip(obj, jwt.token).then((data) => {
+        if (data.error) {
+          setValues({ ...values, error: data.error });
+        } else {
+          setValues({ ...values, success: true });
+        }
+      });
     }
   };
+  const showErrorMessage = () => {
+    return (
+      <div className="row">
+        <div className="col-md-12 ">
+          <div
+            className="alert alert-danger"
+            style={{ display: error ? "" : "none" }}
+          >
+            
+            <p><i style={{fontSize:"30px"}} className="fa fa-times" aria-hidden="true"/>{'   '}{error}</p>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   const showSuccessMessage = () => {
     if (success) {
       return (
@@ -191,20 +249,22 @@ const Register = () => {
               {" "}
               <h1 className="text-center display-3 my-5 jumbotron mx-auto" style={{maxWidth:"73vw"}}>
                 Create new Trip 
-                {/* <i class="fa fa-pencil" aria-hidden="true"></i> */}
               </h1>
             </h1>
           </div>
+          <TC
+            show={modalShow}
+            agreeToTerms={agreeToTerms}
+            setModalShow={setModalShow}
+            setAgreeToTerms={setAgreeToTerms}
+            onHide={() => setModalShow(false)}
+          />
           <Container>
             <Row>
               <Col sm="3">
-                {/* <div style={{ float: "right", margin: 10 }}>
-                  <a href="/dashboard" className="btn btn-info btn-lg">
-                    <i class="fa fa-arrow-left" aria-hidden="true"></i> Back
-                  </a>
-                </div> */}
               </Col>
               <Col>
+                {showErrorMessage()}
                 <Form>
                   <Form.Group>
                     <Form.Label>Source</Form.Label>
@@ -262,15 +322,6 @@ const Register = () => {
                       matching.
                     </Form.Text>
                   </Form.Group>
-                  {/* <Form.Group>
-                                <Form.Label>Other Gender allowed</Form.Label>
-                                <Form.Control as="select" value={sameGender} onChange={handleChange("sameGender")}>
-                                    <option value="yes">Yes</option>
-                                    <option value="no">No</option>
-                                   
-                                </Form.Control>
-                                <Form.Text>Please select No if you want to share your cab with same Gender</Form.Text>
-                            </Form.Group> */}
                   <br></br>
                 </Form>
                 <h1 className="text-center">
@@ -346,14 +397,15 @@ const Register = () => {
                 <div className="text-center">
                   {success ? (
                     <>{showSuccessMessage()} </>
-                  ) : (
+                  ) :(
                     <Button
                       className="my-5"
                       variant="info"
                       size="lg"
                       onClick={() => onSubmit()}
                     >
-                      Create Trip
+                      {agreeToTerms?"Create Trip":"Proceed"}
+                     
                     </Button>
                   )}
                 </div>
@@ -369,15 +421,32 @@ const Register = () => {
   return (
     <div>
       {onSuccessfulRegister()}
-      {confirm ? (
+     {register()}
+      {/* {confirm ? (
         <Confirm
           trip={{ source, destination, cabSize, genderAllowed, start, end }}
         />
       ) : (
-        register()
-      )}
+       
+      )} */}
     </div>
   );
 };
+
+
+export const TC = (props) => {
+  
+  const {agreeToTerms, setAgreeToTerms,modalShow,setModalShow} =props;
+
+  return (
+    <Modal {...props} size="md" centered>
+      <Modal.Header closeButton></Modal.Header>
+      <Modal.Body className="text-center">
+        <TermsAndConditions agreeToTerms={agreeToTerms} setAgreeToTerms={setAgreeToTerms} modalShow={modalShow} setModalShow={setModalShow} />
+      </Modal.Body>
+    </Modal>
+  );
+};
+
 
 export default Register;

@@ -23,6 +23,7 @@ import { ProfileProvider } from "./components/Context/ProfileProvider";
 import { CurrentPageProvider } from "./components/Context/CurrentPageProvider";
 import { AuthProvider } from "./components/Context/AuthProvider";
 import { TripProvider } from "./components/Context/TripProvider";
+import TermsAndConditions from "./components/Others/TermsAndConditions";
 
 const Landing = lazy(() => import("./components/Landing/Landing"));
 const Register = lazy(() => import("./components/Register/Register"));
@@ -42,6 +43,7 @@ function App() {
               <GuestRoute exact path="/" component={Landing} />
               <Route exact path="/about" exact component={About} />
               <Route exact path="/contact" component={Contact} />
+              <Route exact path="/termsandconditions" component={TermsAndConditions} />
               <Route
                 exact
                 path="/authentication/activate/:token"
