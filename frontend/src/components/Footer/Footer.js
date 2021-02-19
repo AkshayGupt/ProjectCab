@@ -10,7 +10,7 @@ function Footer() {
     <div className="row mb-3 mx-auto d-flex justify-content-center">  
       <div className="row footer-pad mr-1">
         <div className ="col-md-4 col-12"><a href="/about">About</a></div>
-        <div className ="col-md-4 col-12"><a href="/termsandconditions">Terms and Conditions</a></div>
+        <div className ="col-md-4 col-12"><a href="/termsandconditions">T & C</a></div>
         <div className ="col-md-4 col-12"><a href="/contact">Contact</a></div>
       </div>
 

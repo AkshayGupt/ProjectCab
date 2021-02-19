@@ -130,44 +130,20 @@ const Register = () => {
   const onSubmit = () => {
 
     if (destination === "Select" || start.date === 0 || end.date === 0) {
-      alert("Please fill all the entries!");
+      setValues({ error:"Please fill all the entries first!" });
+      setTimeout(()=>{
+        setValues({
+          ...values,
+          error:""
+        })
+      },3000)
       return;
     }
 
 
     if(!agreeToTerms)
     {
-      setModalShow(true);
-      if(agreeToTerms){
-        const minCapacity = cabSize;
-        const members = [];
-        const jwtTemp = JSON.parse(localStorage.getItem("jwt"));
-        const UID = jwtTemp.user._id;
-        members.push(UID);
-        const obj = {
-          source,
-          destination,
-          minCapacity,
-          members,
-          genderAllowed,
-          startTime,
-          endTime,
-        };
-    
-        console.log(obj);
-        const jwt = JSON.parse(localStorage.getItem("jwt"));
-        createNewTrip(obj, jwt.token).then((data) => {
-          if (data.error) {
-           setValues({
-             ...values,
-             error:data.error
-           })
-          } else {
-            setValues({ ...values, success: true });
-          }
-        });
-      }
-       
+      setModalShow(true);       
     }
 
     if(agreeToTerms){
@@ -190,7 +166,35 @@ const Register = () => {
       const jwt = JSON.parse(localStorage.getItem("jwt"));
       createNewTrip(obj, jwt.token).then((data) => {
         if (data.error) {
-          setValues({ ...values, error: data.error });
+          setValues({ error: data.error });
+          setTimeout(()=>{
+            setValues({
+              source: "Manipal Jaipur",
+              destination: "Select",
+              cabSize: 2,
+              genderAllowed: 0,
+              error: "",
+              startTime: "",
+              endTime: "",
+              success: false,
+            });
+            setStart({
+              date: 0,
+              month: 0,
+              year: 0,
+              hours: 0,
+              minutes: 0,
+              seconds: 0
+            });
+            setEnd({
+              date: 0,
+              month: 0,
+              year: 0,
+              hours: 0,
+              minutes: 0,
+              seconds: 0,
+            })
+          },3000)
         } else {
           setValues({ ...values, success: true });
         }
@@ -442,7 +446,13 @@ export const TC = (props) => {
     <Modal {...props} size="md" centered>
       <Modal.Header closeButton></Modal.Header>
       <Modal.Body className="text-center">
-        <TermsAndConditions agreeToTerms={agreeToTerms} setAgreeToTerms={setAgreeToTerms} modalShow={modalShow} setModalShow={setModalShow} />
+        <TermsAndConditions
+          agreeToTerms={agreeToTerms}
+          setAgreeToTerms={setAgreeToTerms}
+          modalShow={modalShow}
+          setModalShow={setModalShow}
+          guest={false}
+         />
       </Modal.Body>
     </Modal>
   );

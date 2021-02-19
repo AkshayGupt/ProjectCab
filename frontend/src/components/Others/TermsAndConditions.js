@@ -1,5 +1,6 @@
-import React,{useState} from 'react'
-const TermsAndConditions = ({agreeToTerms,setAgreeToTerms,modalShow,setModalShow}) => {
+import React,{useState} from 'react';
+import GuestNavBar from '../NavBar/GuestNavBar';
+const TermsAndConditions = ({agreeToTerms,setAgreeToTerms,modalShow,setModalShow, guest=true}) => {
 
 
     const[ check,setCheck] = useState(false);
@@ -16,8 +17,10 @@ const TermsAndConditions = ({agreeToTerms,setAgreeToTerms,modalShow,setModalShow
 
 
     return (
-        <div className="mx-5">
-            <h1 className="text-center m-3">Terms & Conditions</h1>
+        <>
+        {guest && <GuestNavBar/>}
+        <div className="mx-3">
+            <h1 className="text-center m-3 jumbotron">Terms & Conditions</h1>
             <ul>
                 <li>
                     This application stores your email address, name and other info only to improve user experience.We do not have
@@ -43,21 +46,26 @@ const TermsAndConditions = ({agreeToTerms,setAgreeToTerms,modalShow,setModalShow
 
                 <div></div>
                 
-                <form>
-                    <input type="checkbox" onClick={()=>handleCheck()} />
-                </form>
-                <p className="my-2">I have read and I agree for the above terms and conditions.</p>
-                <br/>
-                <div className="">
-                    
-                <p className={check?"btn btn-info":"d-none"} onClick={()=> handleSubmit()}> Proceed</p>
-                </div>
+                {!guest && (
+                    <>
+                    <form>
+                        <input type="checkbox" onClick={()=>handleCheck()} />
+                    </form>
+                    <p className="my-2">I have read and I agree for the above terms and conditions.</p>
+                    <br/>
+                    <div className="">
+                        
+                    <p className={check?"btn btn-info":"d-none"} onClick={()=> handleSubmit()}> Proceed</p>
+                    </div>
+                    </>
+                )}
                 
              
                 
             
             </ul>
         </div>
+        </>
     )
 }
 
