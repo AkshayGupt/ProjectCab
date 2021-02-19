@@ -51,6 +51,9 @@ const Security = () => {
     setReNewPass({ reNewPassword: event.target.value });
   };
 
+  /**
+   * Validator for passwords.
+   */
   const fieldsValidation = () => {
     if (oldPassword === "") {
       setErrorMessage("Password cannot be empty.");
@@ -76,14 +79,6 @@ const Security = () => {
    * Then, call API to update the user password.
    */
   const onSubmitUserPassword = () => {
-    // ! TODO: NEEDS STATUS BAR SUPPORT
-
-    console.log(oldPass);
-    console.log(newPass);
-
-    console.log(oldPassword);
-    console.log(newPassword);
-
     if (fieldsValidation() === false) {
       setShowErrorStatus(true);
     } else {
