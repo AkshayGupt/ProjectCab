@@ -16,7 +16,7 @@ const Security = () => {
 
   /**
    * Display a 3s Toast on the top right corner of the screen
-   * @param {string} status - SUCCESS/ ERROR
+   * @param {string} status - SUCCESS/ERROR
    * @param {string} message - Text for the Toast Body
    */
   const showToast = (status, message) => {
@@ -53,18 +53,18 @@ const Security = () => {
 
   const fieldsValidation = () => {
     if (oldPassword === "") {
-      setErrorMessage("Old password cannot be empty");
+      setErrorMessage("Password cannot be empty.");
       return false;
     } else if (oldPassword === newPassword) {
-      setErrorMessage("New password cannot be equal to Old password");
+      setErrorMessage("New password cannot be equal to the old password.");
       return false;
     } else if (newPassword.length < 8) {
       setErrorMessage(
-        "Invalid Length! Password should be consist of atleast 8 characters"
+        "Invalid Length! Password should be consist of atleast 8 characters."
       );
       return false;
     } else if (reNewPassword !== newPassword) {
-      setErrorMessage("PASSWORDS DO NOT MATCH");
+      setErrorMessage("PASSWORDS DO NOT MATCH!");
       return false;
     } else {
       return true;
