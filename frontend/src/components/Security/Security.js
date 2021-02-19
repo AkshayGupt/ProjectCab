@@ -7,6 +7,8 @@ const Security = () => {
   const [oldPass, setOldPass] = useState({ oldPassword: "" });
   const [newPass, setNewPass] = useState({ newPassword: "" });
   const [reNewPass, setReNewPass] = useState({ reNewPassword: "" });
+  const [showErrorStatus, setShowErrorStatus] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const { oldPassword } = oldPass;
   const { newPassword } = newPass;
@@ -14,7 +16,7 @@ const Security = () => {
 
   /**
    * Display a 3s Toast on the top right corner of the screen
-   * @param {string} status - SUCCESS/ ERROR
+   * @param {string} status - SUCCESS/ERROR
    * @param {string} message - Text for the Toast Body
    */
   const showToast = (status, message) => {
@@ -27,6 +29,7 @@ const Security = () => {
    * @param {any} event - iputted value for old password
    */
   const handleOldPassChange = (event) => {
+    setShowErrorStatus(false);
     setOldPass({ oldPassword: event.target.value });
   };
 
@@ -35,6 +38,7 @@ const Security = () => {
    * @param {any} event - Input value for New password
    */
   const handleNewPassChange = (event) => {
+    setShowErrorStatus(false);
     setNewPass({ newPassword: event.target.value });
   };
 
@@ -43,7 +47,28 @@ const Security = () => {
    * @param {any} event - Input value in Re new Password
    */
   const handleReNewPassChange = (event) => {
+    setShowErrorStatus(false);
     setReNewPass({ reNewPassword: event.target.value });
+  };
+
+  const fieldsValidation = () => {
+    if (oldPassword === "") {
+      setErrorMessage("Password cannot be empty.");
+      return false;
+    } else if (oldPassword === newPassword) {
+      setErrorMessage("New password cannot be equal to the old password.");
+      return false;
+    } else if (newPassword.length < 8) {
+      setErrorMessage(
+        "Invalid Length! Password should be consist of atleast 8 characters."
+      );
+      return false;
+    } else if (reNewPassword !== newPassword) {
+      setErrorMessage("PASSWORDS DO NOT MATCH!");
+      return false;
+    } else {
+      return true;
+    }
   };
 
   /**
@@ -59,14 +84,8 @@ const Security = () => {
     console.log(oldPassword);
     console.log(newPassword);
 
-    if (oldPassword === "") {
-      console.log("Old password cannot be empty");
-    } else if (oldPassword === newPassword) {
-      console.log("New password cannot be equal to Old password");
-    } else if (newPassword.length < 8) {
-      console.log("INVALID LENGTH!");
-    } else if (reNewPassword !== newPassword) {
-      console.log("PASSWORDS DO NOT MATCH");
+    if (fieldsValidation() === false) {
+      setShowErrorStatus(true);
     } else {
       const jwt = JSON.parse(localStorage.getItem("jwt"));
       const { user, token } = jwt;
@@ -92,8 +111,17 @@ const Security = () => {
 
   return (
     <Container fluid>
+      <h3 className="my-3">Change Password</h3>
+      {showErrorStatus ? (
+        <div className="row">
+          <div className="col-md-12 offset">
+            <div className="alert alert-danger">{errorMessage}</div>
+          </div>
+        </div>
+      ) : (
+        ""
+      )}
       <Form style={{ width: "auto", height: "auto" }}>
-        <h3 className="my-3">Change Password</h3>
         <Form.Group>
           <Form.Label>Old Password</Form.Label>
           <Form.Control
