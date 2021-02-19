@@ -113,7 +113,7 @@ const Contact = ({showNavbar=true}) => {
               <h1 className="">Get in touch</h1>
               <div className="subtitle">
                 <h6>Have an inquiry or some feedback for us?</h6>
-                <h6>Fill out the form below to contact out team.</h6>
+                <h6>Fill out the form below to contact our team.</h6>
               </div>
               <Row>
                 <Col>
