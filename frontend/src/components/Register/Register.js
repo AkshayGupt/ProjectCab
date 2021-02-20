@@ -20,12 +20,9 @@ import { createNewTrip } from "./helper";
 import NavBar from "../NavBar/NavBar";
 import TermsAndConditions from "../Others/TermsAndConditions";
 const Register = () => {
-
-
-
-
   const [agreeToTerms, setAgreeToTerms] = useState(false);
   const [modalShow,setModalShow] = useState(false);
+
   const [values, setValues] = useState({
     source: "Manipal Jaipur",
     destination: "Select",
@@ -313,14 +310,21 @@ const Register = () => {
                     <Form.Label>
                       Gender Allowed <i class="fa " aria-hidden="true"></i>
                     </Form.Label>
+                    
                     <Form.Control
                       as="select"
                       value={genderAllowed}
                       onChange={handleChange("genderAllowed")}
                     >
                       <option value="0">Any</option>
-                      <option value="1">Only male</option>
-                      <option value="2">Only female</option>
+
+                      {JSON.parse(localStorage.getItem("jwt")).user.gender === 1?(
+                        <option value="1">Only male</option>
+                      ):(
+                        <option value="2">Only female</option>
+                      )}
+                     
+                      
                     </Form.Control>
                     <Form.Text>
                       **Selecting particular gender might lower the chances of

@@ -12,8 +12,8 @@ exports.createNewTrip = (req, res) => {
   const trip = new Trip(req.body);
 
   const obj={
-     startTime: req.body.startTime,
-     endTime: req.body.endTime
+     startTime: new Date(req.body.startTime),
+     endTime: new Date(req.body.endTime)
   }
   trip.timePreferences.push(obj);
   trip.save((err, trip) => {

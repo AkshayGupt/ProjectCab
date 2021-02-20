@@ -36,15 +36,22 @@ module.exports = {
 
     // Find any existing trips with the same time
     Trip.findOne({
-      isFilled: 0,
-      members: { $nin: [userID] },
-      genderAllowed: trip.genderAllowed,
-      source: trip.source,
-      destination: trip.destination,
-      startTime: { $lte: trip.startTime },
-      endTime: { $gte: trip.endTime },
-      minCapacity: trip.minCapacity,
-    }).exec((err, newTrip) => {
+      $and:[
+        {
+          $or: [{"startTime": { $lte: trip.startTime }}, {"endTime": { $gte: trip.endTime }}]
+        },
+        {
+          $or: [{"genderAllowed":trip.genderAllowed},{"genderAllowed":0}]
+        },
+        {
+          isFilled: 0,
+          members: { $nin: [userID] },
+          source: trip.source,
+          destination: trip.destination,
+          minCapacity: trip.minCapacity,
+        }
+      ]
+      }).exec((err, newTrip) => {
       if (err) {
      
         return next();
@@ -62,7 +69,7 @@ module.exports = {
           newTrip.members.push(userID);
           newTrip.memberCount = newMemberCount;
           newTrip.isFilled = newIsFilled;
-
+          newTrip.genderAllowed = trip.genderAllowed;
           const obj={
              startTime: req.body.startTime,
              endTime: req.body.endTime
@@ -73,11 +80,9 @@ module.exports = {
           var userEndTime = new Date(req.body.endTime);
 
           if(newTrip.startTime <userStartTime){
-            console.log("Yess demand is more constictive...");
             newTrip.startTime=userStartTime;
           }
           if(newTrip.endTime > userEndTime){
-            console.log("Yess demand is more constictive...");
             newTrip.endTime=userEndTime;
           }
           // Update the new trip
