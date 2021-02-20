@@ -194,6 +194,7 @@ const Register = () => {
               minutes: 0,
               seconds: 0,
             })
+            setAgreeToTerms(false);
           },3000)
         } else {
           setValues({ ...values, success: true });

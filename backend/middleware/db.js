@@ -41,8 +41,8 @@ module.exports = {
       genderAllowed: trip.genderAllowed,
       source: trip.source,
       destination: trip.destination,
-      startTime: { $gte: trip.startTime },
-      endTime: { $lte: trip.endTime },
+      startTime: { $lte: trip.startTime },
+      endTime: { $gte: trip.endTime },
       minCapacity: trip.minCapacity,
     }).exec((err, newTrip) => {
       if (err) {
@@ -63,6 +63,23 @@ module.exports = {
           newTrip.memberCount = newMemberCount;
           newTrip.isFilled = newIsFilled;
 
+          const obj={
+             startTime: req.body.startTime,
+             endTime: req.body.endTime
+          }
+          newTrip.timePreferences.push(obj);
+          
+          var userStartTime = new Date(req.body.startTime);
+          var userEndTime = new Date(req.body.endTime);
+
+          if(newTrip.startTime <userStartTime){
+            console.log("Yess demand is more constictive...");
+            newTrip.startTime=userStartTime;
+          }
+          if(newTrip.endTime > userEndTime){
+            console.log("Yess demand is more constictive...");
+            newTrip.endTime=userEndTime;
+          }
           // Update the new trip
           newTrip.save((err, updatedTrip) => {
             if (err) {

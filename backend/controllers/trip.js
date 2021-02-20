@@ -10,6 +10,12 @@ const User = require("../models/User");
 exports.createNewTrip = (req, res) => {
   const userID = req.body.members[0];
   const trip = new Trip(req.body);
+
+  const obj={
+     startTime: req.body.startTime,
+     endTime: req.body.endTime
+  }
+  trip.timePreferences.push(obj);
   trip.save((err, trip) => {
     if (err) {
       return res.status(400).json({ error: "Cannot create a new trip!" });
@@ -53,9 +59,12 @@ exports.cancelTrip = (req, res) => {
     if (err) {
       return res.status(400).json({ error: "Some error occured! " });
     } else {
+      const timePreferences = trip.timePreferences;
+     
       // Remove the user
       const membersList = trip["members"];
-      membersList.splice(membersList.indexOf(userID), 1);
+      const memberIndex = membersList.indexOf(userID);
+      membersList.splice(memberIndex, 1);
       trip["members"] = membersList;
       trip["isFilled"] = 0;
       trip["memberCount"] -= 1;
@@ -73,6 +82,22 @@ exports.cancelTrip = (req, res) => {
           }
         });
       } else {
+        timePreferences.splice(memberIndex, 1);
+
+        var newStartTime = timePreferences[0].startTime;
+        var newEndTime = timePreferences[0].endTime;
+        for(var i=1;i<timePreferences.length;i++){
+          if(newStartTime<timePreferences[i].startTime){
+            newStartTime =timePreferences[i].startTime;
+          }
+          if(newEndTime>timePreferences[i].endTime){
+            newEndTime = timePreferences[i].endTime;
+          }
+        }
+        trip.timePreferences=timePreferences;
+        trip.startTime = newStartTime;
+        trip.endTime = newEndTime;
+
         trip.save();
       }
     }

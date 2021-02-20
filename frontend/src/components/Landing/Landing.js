@@ -193,6 +193,7 @@ const Landing = () => {
                       handleForgotPasswordEmailSubmit
                     }
                     signin={signin}
+                    setNewUser={setNewUser}
                     setForgotPasswordModalShow={setForgotPasswordModalShow}
                   />
                 )}
