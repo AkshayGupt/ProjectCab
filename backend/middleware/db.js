@@ -34,21 +34,36 @@ module.exports = {
     const userID = req.body.members[0];
     const trip = new Trip(req.body);
 
+    var startTimePlusThirtyMins =new Date(trip.startTime.getTime()+ 30*60000);
+    var endTimeMinusThirtyMins =new Date(trip.endTime.getTime() - 30*60000);
+
+    // console.log("Actual: "+new Date(trip.startTime)+"\nplus30: "+startTimePlusThirtyMins);
+    // console.log("Actual: "+new Date(trip.endTime)+"\nplus30: "+endTimeMinusThirtyMins);
+
     // Find any existing trips with the same time
     Trip.findOne({
       $and:[
         {
-          $or: [{"startTime": { $lte: trip.startTime }}, {"endTime": { $gte: trip.endTime }}]
-        },
-        {
-          $or: [{"genderAllowed":trip.genderAllowed},{"genderAllowed":0}]
+          $or: [ 
+               {
+                 $and:[
+                  {"startTime": { $lte: startTimePlusThirtyMins }},
+                  {"endTime": { $gt: startTimePlusThirtyMins }}
+                ]
+              },
+              {
+                $and:[
+                  {"startTime": { $lte: endTimeMinusThirtyMins }},
+                ]
+              }
+          ]
         },
         {
           isFilled: 0,
           members: { $nin: [userID] },
           source: trip.source,
+          genderAllowed:trip.genderAllowed,
           destination: trip.destination,
-          minCapacity: trip.minCapacity,
         }
       ]
       }).exec((err, newTrip) => {
@@ -69,7 +84,7 @@ module.exports = {
           newTrip.members.push(userID);
           newTrip.memberCount = newMemberCount;
           newTrip.isFilled = newIsFilled;
-          newTrip.genderAllowed = trip.genderAllowed;
+          
           const obj={
              startTime: req.body.startTime,
              endTime: req.body.endTime

@@ -291,7 +291,7 @@ const Register = () => {
                       <option value="Sindhi camp">Sindhi Camp</option>
                     </Form.Control>
                   </Form.Group>
-                  <Form.Group>
+                  {/* <Form.Group>
                     <Form.Label>
                       Minimum Cab size{" "}
                       <i class="fa fa-users" aria-hidden="true"></i>
@@ -305,7 +305,7 @@ const Register = () => {
                       <option value="4">4</option>
                       <option value="6">6</option>
                     </Form.Control>
-                  </Form.Group>
+                  </Form.Group> */}
                   <Form.Group>
                     <Form.Label>
                       Gender Allowed <i class="fa " aria-hidden="true"></i>
@@ -407,6 +407,7 @@ const Register = () => {
                   {success ? (
                     <>{showSuccessMessage()} </>
                   ) :(
+                   
                     <Button
                       className="my-5"
                       variant="info"
@@ -416,8 +417,12 @@ const Register = () => {
                       {agreeToTerms?"Create Trip":"Proceed"}
                      
                     </Button>
+                   
+                  
                   )}
+                  
                 </div>
+                <small>** Maximum 8 people will be grouped together</small>
               </Col>
               <Col sm="3"></Col>
             </Row>
