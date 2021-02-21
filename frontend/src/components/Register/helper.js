@@ -3,7 +3,7 @@ import {API} from '../../backend';
 export const createNewTrip =(trip,token)=>{
     
     //@debug
-    return fetch(`http://localhost:5000/db/createNewTrip`,{
+    return fetch(`${API}/db/createNewTrip`,{
         method:'POST',
         headers:{
             Accept: "application/json",

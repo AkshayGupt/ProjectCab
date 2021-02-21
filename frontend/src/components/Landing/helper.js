@@ -1,5 +1,7 @@
+import { API } from "../../backend";
+
 export const forgotUserPassword = (data) =>{
-    return fetch('http://localhost:5000/auth/forgotPassword',{
+    return fetch(`${API}/auth/forgotPassword`,{
         method:'PUT',
         headers:{
             Accept: "application/json",

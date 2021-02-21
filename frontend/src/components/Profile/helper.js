@@ -1,7 +1,7 @@
-const SERVER_URL = "http://localhost:5000/db";
+import { API } from "../../backend";
 
 export const getUser = (userId, token) => {
-  return fetch(`${SERVER_URL}/getUserById?userId=${userId}`, {
+  return fetch(`${API}/db/getUserById?userId=${userId}`, {
     method: "GET",
     headers: {
       Accept: "application/json",
@@ -20,7 +20,7 @@ export const getUser = (userId, token) => {
 
 export const updateUserBio = (userId, token, data) => {
   console.log("data", data);
-  return fetch(`${SERVER_URL}/updateUserBio?userId=${userId}`, {
+  return fetch(`${API}/db/updateUserBio?userId=${userId}`, {
     method: "PUT",
     headers: {
       Accept: "application/json",
@@ -52,7 +52,7 @@ export const updateUserDP = (userId, token, image) => {
 
   console.log(formData);
 
-  return fetch(`${SERVER_URL}/updateUserDP?userId=${userId}`, {
+  return fetch(`${API}/db/updateUserDP?userId=${userId}`, {
     method: "PUT",
     headers: {
       Accept: "application/json",

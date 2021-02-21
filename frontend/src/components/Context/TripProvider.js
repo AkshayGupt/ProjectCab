@@ -11,6 +11,9 @@ export const TripProvider = (props) => {
   const [dates, setDates] = useState([]);
 
   const getTrips = () => {
+
+    if(localStorage.getItem("jwt")){
+
     const jwt = JSON.parse(localStorage.getItem("jwt"));
     console.log("Data from Trips", jwt.token);
     const UID = jwt.user._id;
@@ -56,6 +59,7 @@ export const TripProvider = (props) => {
       .catch((err) => {
         console.log(err);
       });
+    }
   };
 
  useEffect(() => {
