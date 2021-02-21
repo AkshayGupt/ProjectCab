@@ -19,7 +19,7 @@ module.exports = {
       if (err) {
         return res.status(400).json({ error: err });
       } else {
-        if (existingTrip == null) {
+        if (existingTrip === null) {
           return next();
         } else {
           return res.status(400).json({
@@ -38,6 +38,15 @@ module.exports = {
       trip.startTime.getTime() + 30 * 60000
     );
     var endTimeMinusThirtyMins = new Date(trip.endTime.getTime() - 30 * 60000);
+
+    // console.log("Actual Time\n");
+    // console.log("StartTime: "+trip.startTime);
+    // console.log("End Time: "+trip.endTime);
+
+    // console.log("Actual Time\n");
+    // console.log("startTimePlusThirtyMins: "+startTimePlusThirtyMins);
+    // console.log("endTimeMinusThirtyMins: "+endTimeMinusThirtyMins);
+  
 
     // Find any existing trips with the same time
     Trip.findOne({
@@ -68,13 +77,13 @@ module.exports = {
       if (err) {
         return next();
       } else {
-        if (newTrip == null) {
+        if (newTrip === null) {
           return next();
         } else {
           let newMemberCount = newTrip.memberCount + 1;
 
           let newIsFilled = 0;
-          if (newMemberCount == newTrip.maxCapacity) newIsFilled = 1;
+          if (newMemberCount === newTrip.maxCapacity) newIsFilled = 1;
 
           newTrip.members.push(userID);
           newTrip.memberCount = newMemberCount;
@@ -90,9 +99,13 @@ module.exports = {
           var userEndTime = new Date(req.body.endTime);
 
           if (newTrip.startTime < userStartTime) {
+            // console.log("Previous start db time: "+newTrip.startTime);
+            // console.log("Updated start Time: "+userStartTime);
             newTrip.startTime = userStartTime;
           }
           if (newTrip.endTime > userEndTime) {
+            // console.log("Previous end db time: "+newTrip.endTime);
+            // console.log("Updated end Time: "+userEndTime);
             newTrip.endTime = userEndTime;
           }
           // Update the new trip
