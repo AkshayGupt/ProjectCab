@@ -19,7 +19,7 @@ exports.sendMessage = (req,res) => {
     const msg = {
       to: "theberrytree.org@gmail.com", // Change to your recipient
       from: "theberrytree.org@gmail.com", // Change to your verified sender
-      subject: "User Query",
+      subject: "Poolify: User Query",
       html: `
         <h5>From : ${firstName} ${lastName}</h5>
           <h5>${email}</h5>
@@ -27,7 +27,7 @@ exports.sendMessage = (req,res) => {
           <h4>Query: </h4>
           <h5 style="border-style: groove">${message}</h5>
           <br/>
-          <h6 style="color:blue">PoolIt</h6>
+          <h6 style="color:blue">Team Poolify</h6>
         `,
     };
     sgMail

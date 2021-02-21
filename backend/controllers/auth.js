@@ -43,13 +43,13 @@ exports.signup = (req, res) => {
     const msg = {
       to: email, // Change to your recipient
       from: "theberrytree.org@gmail.com", // Change to your verified sender
-      subject: "Account Activation Link:PoolIt",
+      subject: "Poolify: Account Activation Link",
       html: `
           <h2>Activate your account</h2>
           <p>Click this link to confirm your email address and complete setup for your account</p>
           <p>${process.env.CLIENT_URL}/authentication/activate/${token}</p>
           <p>This link will expire in 15 minutes</p>
-          <h6>PoolIt Team</h6>
+          <h6>Team Poolify</h6>
         `,
     };
     sgMail
@@ -217,13 +217,13 @@ exports.forgotPassword = (req, res) => {
     const msg = {
       to: email, // Change to your recipient
       from: "theberrytree.org@gmail.com", // Change to your verified sender
-      subject: "Password Reset Link:PoolIt",
+      subject: "Poolify: Password Reset Link",
       html: `
             <h2>Reset your password</h2>
             <p>Click this link to change your password</p>
             <p>${process.env.CLIENT_URL}/reset/password/${token}</p>
             <p>This link will expire in 15 minutes</p>
-            <h6>PoolIt Team</h6>
+            <h6>Team Poolify</h6>
           `,
     };
 
