@@ -50,6 +50,17 @@ const NavBar = () => {
             />
             <Navbar.Collapse id="responsive-navbar-nav">
               <Nav className="d-md-none d-sm-block">
+                <Nav.Link
+                  onClick={() => setCurrentPage("PROFILE")}
+                  className="text"
+                >
+                  Signed in as <br />
+                  <p className="font-weight-bold">
+                    {JSON.parse(localStorage.getItem("jwt")).user.firstName}{" "}
+                    {JSON.parse(localStorage.getItem("jwt")).user.lastName}
+                  </p>
+                  <hr />
+                </Nav.Link>
                 <Nav.Link onClick={() => setCurrentPage("PROFILE")}>
                   Profile
                 </Nav.Link>
@@ -87,7 +98,7 @@ const NavBar = () => {
                   id="dropdown-menu-align-right"
                   alignRight
                 >
-                  <NavDropdown.Item>
+                  <NavDropdown.Item disabled>
                     <Col>
                       <Row>Signed in as</Row>
                       <Row style={{ color: "grey", fontWeight: "600" }}>

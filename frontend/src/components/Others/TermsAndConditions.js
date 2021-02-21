@@ -23,7 +23,7 @@ const TermsAndConditions = ({
       {guest && <GuestNavBar />}
       <div className="mx-3">
         <h1 className="text-center m-3 jumbotron">Terms & Conditions</h1>
-        <ul>
+        <ol>
           <li>
             This application stores your email address, name and other info only
             to improve user experience.We do not have any intention of misusing
@@ -70,7 +70,7 @@ const TermsAndConditions = ({
               </div>
             </>
           )}
-        </ul>
+        </ol>
       </div>
     </>
   );
