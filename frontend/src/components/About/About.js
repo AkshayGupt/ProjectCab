@@ -14,7 +14,7 @@ const About = () => {
             <div className="col-md-12">
               <div className="text-center intro">
                 <h1>Hello there,</h1>
-                <h4 className="text-secondary">We are Poolit.</h4>
+                <h4 className="text-secondary">We are Poolify.</h4>
                 <h4 className="red">
                   A creative bunch who love code and design.
                 </h4>
