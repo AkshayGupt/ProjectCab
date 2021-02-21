@@ -1,136 +1,299 @@
-import React from 'react';
-import {Form } from "react-bootstrap";
+import React, { useState } from "react";
+import { Container, Row, Col, Form, Button } from "react-bootstrap";
+import { toast } from "react-toastify";
+import { signUpUser } from "../Auth/helper";
 
-const SignUp = ({handleSignUpChange,signUpData,setNewUser,signup}) => {
+const SignUp = ({ setIsNewUser }) => {
+  const [signUpData, setSignUpData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    gender: "1",
+    password: "",
+    confirmPassword: "",
+  });
+  const [error, setError] = useState({
+    hasError: false,
+    error: "",
+  });
+  const [isLoading, setIsLoading] = useState(false);
+  const [hasAcceptedtc, setHasAcceptedtc] = useState(false);
 
-    const signUpSuccessMessage = () => {
-        return (
-          <div className="row">
-            <div className="col-md-12 ">
-              <div
-                className="alert alert-success"
-                style={{ display: signUpData.success ? "" : "none" }}
-              >
-                <p>Activation Link Sent to your account!</p>
-                <p className="font-weight-bold">Please Verify.</p>
-              </div>
-            </div>
-          </div>
-        );
-      };
-      const signUpErrorMessage = () => {
-        return (
-          <div className="row">
-            <div className="col-md-12 ">
-              <div
-                className="alert alert-danger"
-                style={{ display: signUpData.error ? "" : "none" }}
-              >
-                <p>{signUpData.error}</p>
-              </div>
-            </div>
-          </div>
-        );
-      };
+  /**
+   * Display a 3s Toast on the top right corner of the screen
+   * @param {string} status - SUCCESS/ ERROR
+   * @param {string} message - Text for the Toast Body
+   */
+  const showToast = (status, message) => {
+    if (status == "SUCCESS") toast.success(message);
+    else toast.error(message);
+  };
 
+  const handleChange = (name) => (event) => {
+    setError({ ...error, hasError: false });
+    setSignUpData({ ...signUpData, [name]: event.target.value });
+  };
+
+  const handleGenderChange = (event) => {
+    setError({ ...error, hasError: false });
+    var value = "1";
+    if (event.target.value === "Male") {
+      value = "1";
+    } else if (event.target.value === "Female") {
+      value = "2";
+    } else value = "0";
+
+    setSignUpData({ ...signUpData, gender: value });
+  };
+
+  const onSignUp = () => {
+    setIsLoading(true);
+    if (signUpData.password !== signUpData.confirmPassword) {
+      setError({ ...error, hasError: true, error: "Passwords do not match" });
+      setIsLoading(false);
+    } else if (!hasAcceptedtc) {
+      setError({
+        ...error,
+        hasError: true,
+        error: "Terms and conditions not accepted.",
+      });
+    } else {
+      const data = signUpData;
+      delete data.confirmPassword;
+      signUpUser(data)
+        .then((data) => {
+          if (data.error) {
+            setIsLoading(false);
+            setError({ ...error, hasError: true, error: data.error });
+          } else {
+            setIsLoading(false);
+            showToast(
+              "SUCCESS",
+              "Verification Link sent to your email successfully."
+            );
+            setError({ ...error, hasError: false });
+            setSignUpData({
+              ...signUpData,
+              firstName: "",
+              lastName: "",
+              email: "",
+              gender: "1",
+              password: "",
+              confirmPassword: "",
+            });
+            setIsNewUser(false);
+          }
+        })
+        .catch((err) => {
+          setIsLoading(false);
+          showToast("ERROR", "Cannot process request at this time.");
+        });
+    }
+  };
+
+  /**
+   * Display error banner.
+   */
+  const ErrorMessage = () => {
     return (
-        <div>
-        {signUpSuccessMessage()}
-        {signUpErrorMessage()}
-        <Form style={{ width: "auto", height: "auto" }}>
-          <h1 className="text-center pb-5">Sign Up</h1>
-          <Form.Group>
-            <Form.Label>FirstName</Form.Label>
+      error.hasError && (
+        <div className="row">
+          <div className="col-md-12 offset">
+            <div className="alert alert-danger">{error.error}</div>
+          </div>
+        </div>
+      )
+    );
+  };
+
+  /**
+   * Display Top Row containing title and switch for Sign In.
+   */
+  const TopRow = () => {
+    return (
+      <Col style={{ marginBottom: "5%" }}>
+        <div style={{ marginTop: "8%" }} />
+        <Row>
+          <h1 style={{ fontWeight: "bold" }}>Sign up to Poolify.</h1>
+        </Row>
+        <Row>
+          <h5 style={{ color: "grey" }}>Already a member?</h5>
+          <h5
+            type="button"
+            style={{ color: "#0084ff", marginLeft: "10px" }}
+            onClick={() => {
+              if (!isLoading) setIsNewUser(false);
+            }}
+          >
+            Sign In
+          </h5>
+        </Row>
+      </Col>
+    );
+  };
+
+  return (
+    <Col lg={8}>
+      <Container>
+        <TopRow />
+        <ErrorMessage />
+        <Form>
+          <Row>
+            <Col sm={12} md={6} lg={6}>
+              <Form.Group controlId="name">
+                <Form.Label>
+                  <h5 style={{ color: "grey", fontWeight: "600" }}>
+                    First Name
+                  </h5>
+                </Form.Label>
+                <Form.Control
+                  style={{ height: "60px" }}
+                  type="text"
+                  name="firstName"
+                  id="firstName"
+                  value={signUpData.firstName}
+                  placeholder="John"
+                  onChange={handleChange("firstName")}
+                  required
+                  disabled={isLoading}
+                />
+              </Form.Group>
+            </Col>
+            <Col>
+              <Form.Group controlId="name">
+                <Form.Label>
+                  <h5 style={{ color: "grey", fontWeight: "600" }}>
+                    Last Name
+                  </h5>
+                </Form.Label>
+                <Form.Control
+                  style={{ height: "60px" }}
+                  type="text"
+                  name="firstName"
+                  id="firstName"
+                  value={signUpData.lastName}
+                  placeholder="Doe"
+                  onChange={handleChange("lastName")}
+                  required
+                  disabled={isLoading}
+                />
+              </Form.Group>
+            </Col>
+          </Row>
+          <Row>
+            <Col lg={6}>
+              <Form.Group controlId="gender">
+                <Form.Label>
+                  <h5 style={{ color: "grey", fontWeight: "600" }}>Gender</h5>
+                </Form.Label>
+                <Form.Control
+                  style={{ height: "60px" }}
+                  as="select"
+                  onChange={handleGenderChange}
+                  custom
+                  required
+                  disabled={isLoading}
+                >
+                  <option>Male</option>
+                  <option>Female</option>
+                  <option>Others</option>
+                </Form.Control>
+              </Form.Group>
+            </Col>
+          </Row>
+          <Form.Group controlId="email">
+            <Form.Label>
+              <h5 style={{ color: "grey", fontWeight: "600" }}>E-mail</h5>
+            </Form.Label>
             <Form.Control
-              type="firstname"
-              name="firstname"
-              id="firstname"
-              value={signUpData.firstName}
-              placeholder="Your first name"
-              onChange={handleSignUpChange("firstName")}
-            />
-          </Form.Group>
-          <Form.Group>
-            <Form.Label>LastName</Form.Label>
-            <Form.Control
-              type="lastname"
-              name="lastname"
-              id="lastname"
-              value={signUpData.lastName}
-              placeholder="Your last name"
-              onChange={handleSignUpChange("lastName")}
-            />
-          </Form.Group>
-          <Form.Group>
-                    <Form.Label>
-                      Gender 
-                    </Form.Label>
-                    <Form.Control
-                      as="select"
-                      value={signUpData.gender}
-                      onChange={handleSignUpChange("gender")}
-                    >
-                      <option value="1">Male</option>
-                      <option value="2">Female</option>
-                      <option value="0">Others</option>
-                    </Form.Control>
-                  </Form.Group>
-          <Form.Group>
-            <Form.Label>Email</Form.Label>
-            <Form.Control
+              style={{ height: "60px" }}
               type="email"
               name="email"
               id="email"
               value={signUpData.email}
-              placeholder="abc@xyz.com"
-              onChange={handleSignUpChange("email")}
+              placeholder="john@doe.com"
+              onChange={handleChange("email")}
+              required
+              disabled={isLoading}
             />
           </Form.Group>
+          <Row>
+            <Col sm={12} md={6} lg={6}>
+              <Form.Group controlId="password">
+                <Form.Label>
+                  <h5 style={{ color: "grey", fontWeight: "600" }}>Password</h5>
+                </Form.Label>
+                <Form.Control
+                  style={{ height: "60px" }}
+                  type="password"
+                  name="password"
+                  id="password"
+                  value={signUpData.password}
+                  placeholder="P@ssw)rd123"
+                  onChange={handleChange("password")}
+                  required
+                  disabled={isLoading}
+                />
+              </Form.Group>
+            </Col>
+            <Col>
+              <Form.Group controlId="password">
+                <Form.Label>
+                  <h5 style={{ color: "grey", fontWeight: "600" }}>
+                    Confirm Password
+                  </h5>
+                </Form.Label>
+                <Form.Control
+                  style={{ height: "60px" }}
+                  type="password"
+                  name="password"
+                  id="password"
+                  value={signUpData.confirmPassword}
+                  placeholder="P@ssw)rd123"
+                  onChange={handleChange("confirmPassword")}
+                  required
+                  disabled={isLoading}
+                />
+              </Form.Group>
+            </Col>
+          </Row>
           <Form.Group>
-            <Form.Label>Password</Form.Label>
-            <Form.Control
-              type="password"
-              name="password"
-              id="password"
-              value={signUpData.password}
-              placeholder="Enter password"
-              onChange={handleSignUpChange("password")}
+            <Form.Check
+              custom
+              type="checkbox"
+              id="checkbox"
+              value={hasAcceptedtc}
+              onChange={() => {
+                setError({ ...error, hasError: false });
+                setHasAcceptedtc(!hasAcceptedtc);
+              }}
+              label={
+                <span>
+                  I agree to the{" "}
+                  <a
+                    href="/termsandconditions"
+                    style={{ color: "#0084ff" }}
+                    target="_blank"
+                  >
+                    Terms and Conditions.
+                  </a>
+                </span>
+              }
             />
           </Form.Group>
-          <Form.Group>
-            <Form.Label>Confirm Password</Form.Label>
-            <Form.Control
-              type="password"
-              name="retyped-password"
-              id="retyped-password"
-              value={signUpData.retypedPassword}
-              placeholder="Re-enter password"
-              onChange={handleSignUpChange("retypedPassword")}
-            />
-          </Form.Group>
-          <div className="text-center">
-            {signUpData.password === signUpData.retypedPassword ? (
-              <p className="btn btn-info btn-md" onClick={() => signup()}>
-                Submit{" "}
-              </p>
-            ) : (
-              <p className="text-danger">Password does not match ! </p>
-            )}
-          </div>
+          {isLoading ? (
+            <Button size="lg" block>
+              <i className="fa fa-spinner" />
+            </Button>
+          ) : (
+            <Button size="lg" onClick={onSignUp} block>
+              Sign Up
+            </Button>
+          )}
         </Form>
-        <h6>
-          Already have an account ?
-          <a
-            href="#"
-            className="text-primary"
-            onClick={() => setNewUser(false)}
-          >
-            {" "}
-            signin here
-          </a>
-        </h6>   
-        </div>
-    )
-}
+      </Container>
+    </Col>
+  );
+};
 
-export default SignUp
+export default SignUp;
