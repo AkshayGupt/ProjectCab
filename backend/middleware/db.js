@@ -37,9 +37,7 @@ module.exports = {
     var startTimePlusThirtyMins =new Date(trip.startTime.getTime()+ 30*60000);
     var endTimeMinusThirtyMins =new Date(trip.endTime.getTime() - 30*60000);
 
-    // console.log("Actual: "+new Date(trip.startTime)+"\nplus30: "+startTimePlusThirtyMins);
-    // console.log("Actual: "+new Date(trip.endTime)+"\nplus30: "+endTimeMinusThirtyMins);
-
+    
     // Find any existing trips with the same time
     Trip.findOne({
       $and:[
@@ -60,6 +58,7 @@ module.exports = {
         },
         {
           isFilled: 0,
+          startTime:{$gt: new Date(Date.now() + 30*60000)},
           members: { $nin: [userID] },
           source: trip.source,
           genderAllowed:trip.genderAllowed,
