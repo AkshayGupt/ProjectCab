@@ -46,18 +46,75 @@ const SignUp = ({ setIsNewUser }) => {
     setSignUpData({ ...signUpData, gender: value });
   };
 
-  const onSignUp = () => {
-    setIsLoading(true);
-    if (signUpData.password !== signUpData.confirmPassword) {
-      setError({ ...error, hasError: true, error: "Passwords do not match" });
-      setIsLoading(false);
+  /**
+   * Surface level validation for fields.
+   */
+  const fieldValidation = () => {
+    const {
+      firstName,
+      lastName,
+      email,
+      password,
+      confirmPassword,
+    } = signUpData;
+    if (firstName === "") {
+      setError({
+        ...error,
+        hasError: true,
+        error: "First Name cannot be empty.",
+      });
+      return false;
+    } else if (lastName === "") {
+      setError({
+        ...error,
+        hasError: true,
+        error: "Last Name cannot be empty.",
+      });
+      return false;
+    } else if (email === "") {
+      setError({
+        ...error,
+        hasError: true,
+        error: "Email cannot be empty.",
+      });
+      return false;
+    } else if (password === "") {
+      setError({
+        ...error,
+        hasError: true,
+        error: "Password cannot be empty.",
+      });
+      return false;
+    } else if (password.length < 8) {
+      setError({
+        ...error,
+        hasError: true,
+        error: "Password must contain at least 8 characters.",
+      });
+      return false;
+    } else if (confirmPassword !== password) {
+      setError({
+        ...error,
+        hasError: true,
+        error: "Passwords do not match.",
+      });
+      return false;
     } else if (!hasAcceptedtc) {
       setError({
         ...error,
         hasError: true,
         error: "Terms and conditions not accepted.",
       });
-    } else {
+      return false;
+    } else return true;
+  };
+
+  /**
+   * Validate fields and sign up user.
+   */
+  const onSignUp = () => {
+    setIsLoading(true);
+    if (fieldValidation()) {
       const data = signUpData;
       delete data.confirmPassword;
       signUpUser(data)
@@ -88,6 +145,8 @@ const SignUp = ({ setIsNewUser }) => {
           setIsLoading(false);
           showToast("ERROR", "Cannot process request at this time.");
         });
+    } else {
+      setIsLoading(false);
     }
   };
 
