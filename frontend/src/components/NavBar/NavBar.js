@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import { Redirect } from "react-router-dom";
-import { Navbar, NavDropdown, Image, Nav } from "react-bootstrap";
+import { Navbar, NavDropdown, Image, Nav, Col, Row } from "react-bootstrap";
 import { signOut, isAuthenticated } from "../Auth/helper";
 import "./NavBar.css";
 import { CurrentPageContext } from "../Context/CurrentPageProvider";
@@ -87,6 +87,15 @@ const NavBar = () => {
                   id="dropdown-menu-align-right"
                   alignRight
                 >
+                  <NavDropdown.Item>
+                    <Col>
+                      <Row>Signed in as</Row>
+                      <Row style={{ color: "grey", fontWeight: "600" }}>
+                        {profile.firstName} {profile.lastName}
+                      </Row>
+                    </Col>
+                  </NavDropdown.Item>
+                  <NavDropdown.Divider />
                   <NavDropdown.Item
                     eventKey="1"
                     onClick={() => setCurrentPage("PROFILE")}
