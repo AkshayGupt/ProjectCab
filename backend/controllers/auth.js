@@ -26,7 +26,7 @@ exports.signup = (req, res) => {
 
   const user = new User(req.body);
 
-  const { email, password, firstName, lastName,gender } = user;
+  const { email, password, firstName, lastName, gender } = user;
   // console.log("Email received from express-validator" + email);
   User.findOne({ email }, (err, user) => {
     if (user) {
@@ -104,7 +104,7 @@ exports.signin = (req, res) => {
         email: user.email,
         firstName: user.firstName,
         lastName: user.lastName,
-        gender:user.gender
+        gender: user.gender,
       },
     });
   });
@@ -115,9 +115,10 @@ exports.signout = (req, res) => {
   res.status(200).json({ message: "User signed out successfully!" });
 };
 
-// //protected routes
+// P rotected routes
 exports.isSignedIn = expressJwt({
-  secret: "MYSECRET", /* Same as that in Config File*/
+  secret:
+    "d108a4fd66a5067618e5c1f7b0e157c4eb029ea905c496161a9248d03dd72fff" /* Same as that in Config File*/,
   algorithms: ["HS256"],
   userProperty: "auth",
 });
@@ -162,15 +163,24 @@ exports.verifyEmail = (req, res) => {
           });
         }
 
-        let newUser = new User({ email, password, firstName, lastName, gender });
+        let newUser = new User({
+          email,
+          password,
+          firstName,
+          lastName,
+          gender,
+        });
 
         newUser.save((err, user) => {
           if (err) {
             return res.status(400).json({ error: err.message });
           }
-          return res
-            .status(200)
-            .json({ name: user.firstName, email: user.email, bio: user.bio, gender });
+          return res.status(200).json({
+            name: user.firstName,
+            email: user.email,
+            bio: user.bio,
+            gender,
+          });
         });
       });
     });
@@ -270,7 +280,7 @@ exports.resetPassword = (req, res) => {
 
           const obj = {
             password: newPass,
-            resetLink: ""
+            resetLink: "",
           };
 
           user = _.extend(user, obj);
@@ -287,10 +297,9 @@ exports.resetPassword = (req, res) => {
             }
           });
         });
-    })
-  } 
-
-  else {
+      }
+    );
+  } else {
     return res.status(401).json({
       error: "Authentication error!!",
     });
