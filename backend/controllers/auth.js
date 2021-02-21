@@ -6,7 +6,13 @@ var jwt = require("jsonwebtoken");
 var expressJwt = require("express-jwt");
 const _ = require("lodash");
 const sgMail = require("@sendgrid/mail");
-const { Passport } = require("passport");
+const secret = process.env.SECRET;
+
+// const obj={
+//   secret:  process.env.SECRET /* Same as that in Config File*/,
+//   algorithms: ["HS256"],
+//   userProperty: "auth",
+// }
 
 exports.signup = (req, res) => {
   const errors = validationResult(req);
@@ -109,10 +115,9 @@ exports.signout = (req, res) => {
   res.status(200).json({ message: "User signed out successfully!" });
 };
 
-//protected routes
-// const secret = process.env.SECRET.toString();
+// //protected routes
 exports.isSignedIn = expressJwt({
-  secret: "MYSECRET" /* Same as that in Config File*/,
+  secret: "MYSECRET", /* Same as that in Config File*/
   algorithms: ["HS256"],
   userProperty: "auth",
 });
