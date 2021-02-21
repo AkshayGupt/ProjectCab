@@ -8,7 +8,7 @@ import { ProfileContext } from "../Context/ProfileProvider";
 
 // DISPLAY LOGO
 const Logo = () => {
-  return <h3 className="logo pt-2">POOL IT</h3>;
+  return <h3 className="logo pt-2">POOLIFY</h3>;
 };
 
 const NavBar = () => {
@@ -50,17 +50,6 @@ const NavBar = () => {
             />
             <Navbar.Collapse id="responsive-navbar-nav">
               <Nav className="d-md-none d-sm-block">
-                {/* <Nav.Link
-                  onClick={() => setCurrentPage("PROFILE")}
-                  className="text"
-                >
-                  Signed in as <br />
-                  <p className="font-weight-bold">
-                    {JSON.parse(localStorage.getItem("jwt")).user.firstName}{" "}
-                    {JSON.parse(localStorage.getItem("jwt")).user.lastName}
-                  </p>
-                  <hr />
-                </Nav.Link> */}
                 <Nav.Link onClick={() => setCurrentPage("PROFILE")}>
                   Profile
                 </Nav.Link>
@@ -100,8 +89,8 @@ const NavBar = () => {
                 >
                   <NavDropdown.Item disabled>
                     <Col>
-                      <Row>Signed in as</Row>
-                      <Row style={{ color: "grey", fontWeight: "600" }}>
+                      <Row style={{ color: "grey" }}>Signed in as</Row>
+                      <Row style={{ color: "black", fontWeight: "500" }}>
                         {profile.firstName} {profile.lastName}
                       </Row>
                     </Col>
