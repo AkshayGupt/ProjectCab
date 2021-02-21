@@ -89,7 +89,7 @@ const Security = () => {
         .then((data) => {
           if (data.error) {
             showToast("ERROR", "Could not change password!");
-            console.log(data.error);
+            // console.log(data.error);
           } else {
             setNewPass("");
             setOldPass("");
@@ -99,7 +99,7 @@ const Security = () => {
         })
         .catch((err) => {
           showToast("ERROR", "Could not change passsword!");
-          console.log(err);
+          // console.log(err);
         });
     }
   };

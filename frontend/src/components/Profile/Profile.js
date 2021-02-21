@@ -58,7 +58,7 @@ const Profile = () => {
       })
       .catch((err) => {
         showToast("ERROR", "Could not change the Bio!");
-        console.err(err);
+        // console.err(err);
       });
   };
 
@@ -90,7 +90,7 @@ const Profile = () => {
       .then((data) => {
         if (data.error) {
           showToast("ERROR", "Could not change the profile picture!");
-          console.log(data.error);
+          // console.log(data.error);
         } else {
           setDetails();
           showToast("SUCCESS", "Profile picture changed successfully!");
@@ -98,7 +98,7 @@ const Profile = () => {
       })
       .catch((err) => {
         showToast("ERROR", "Could not change the profile picture!");
-        console.log(err);
+        // console.log(err);
       });
   };
 
@@ -112,9 +112,9 @@ const Profile = () => {
 
     getUser(user._id, token)
       .then((data) => {
-        console.log("Data -> ");
+        // console.log("Data -> ");
         if (data.error) {
-          console.log(data.error);
+          // console.log(data.error);
         } else {
           var photo = DEFAULT_IMAGE;
           if (data.image) {
@@ -130,10 +130,12 @@ const Profile = () => {
             bio: data.bio,
             image: photo,
           });
-          console.log(data);
+          // console.log(data);
         }
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        // console.log(err);
+      });
   };
 
   /**

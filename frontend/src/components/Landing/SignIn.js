@@ -153,7 +153,7 @@ const SignIn = ({ setIsNewUser, setRedirect }) => {
         <ErrorMessage />
         {hasForgottenPassword ? (
           <Form>
-            <Form.Group controlId="email">
+            <Form.Group>
               <Form.Label>
                 <h5 style={{ color: "grey", fontWeight: "600" }}>E-mail</h5>
               </Form.Label>
@@ -187,7 +187,7 @@ const SignIn = ({ setIsNewUser, setRedirect }) => {
           </Form>
         ) : (
           <Form>
-            <Form.Group controlId="email">
+            <Form.Group>
               <Form.Label>
                 <h5 style={{ color: "grey", fontWeight: "600" }}>E-mail</h5>
               </Form.Label>
@@ -203,7 +203,7 @@ const SignIn = ({ setIsNewUser, setRedirect }) => {
                 disabled={isLoading}
               />
             </Form.Group>
-            <Form.Group controlId="password">
+            <Form.Group>
               <Form.Label>
                 <h5 style={{ color: "grey", fontWeight: "600" }}>Password</h5>
               </Form.Label>

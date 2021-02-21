@@ -1,4 +1,4 @@
-import {API} from '../../backend';
+import { API } from "../../backend";
 
 /**
  * Update user password.
@@ -24,7 +24,7 @@ export const updateUserPassword = (userId, token, oldPassword, newPassword) => {
       return res.json();
     })
     .catch((err) => {
-      console.log(err);
+      // console.log(err);
       return err;
     });
 };

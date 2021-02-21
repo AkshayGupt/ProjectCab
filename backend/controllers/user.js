@@ -15,7 +15,7 @@ const passwordHashing = (salt, plainPassword) => {
       .update(plainPassword)
       .digest("hex");
   } catch (err) {
-    console.log(err);
+    // console.log(err);
     return "";
   }
 };
@@ -72,7 +72,7 @@ exports.updateUserDP = (req, res) => {
 
   form.parse(req, (err, fields, file) => {
     if (err) {
-      console.log(err);
+      // console.log(err);
       return res.status(400).json({
         error: "Some Error Occured. Cannot uplaod image at this time.",
       });

@@ -64,9 +64,7 @@ const TripCard = ({ trip }) => {
           </p>
           <p
             className={
-              status !== "Future"
-                ? "d-none"
-                : "btn btn-sm btn-danger mx-1 p-2"
+              status !== "Future" ? "d-none" : "btn btn-sm btn-danger mx-1 p-2"
             }
             onClick={() => trip.cancelTrip(tripId)}
           >
@@ -164,7 +162,7 @@ const Details = (props) => {
 };
 
 export const User = (props) => {
-  console.log(props.userId);
+  // console.log(props.userId);
   return (
     <Modal {...props} size="md" centered>
       <Modal.Header closeButton></Modal.Header>

@@ -1,11 +1,5 @@
 import React, { lazy, Suspense } from "react";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Redirect,
-} from "react-router-dom";
-import Cookies from "js-cookie";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import PrivateRoute from "./components/Auth/PrivateRoute";
 import GuestRoute from "./components/Auth/GuestRoute";
@@ -34,42 +28,51 @@ const Profile = lazy(() => import("./components/Profile/Profile"));
 function App() {
   return (
     <>
-    <AuthProvider>
-      <CurrentPageProvider>
-        <Suspense fallback={<Loading />}>
-          <Router>
-            <Switch>
-              
-              <GuestRoute exact path="/" component={Landing} />
-              <Route exact path="/about" exact component={About} />
-              <Route exact path="/contact" component={Contact} />
-              <Route exact path="/termsandconditions" component={TermsAndConditions} />
-              <Route
-                exact
-                path="/authentication/activate/:token"
-                component={EmailActivation}
-              />
-              <Route
-                exact
-                path="/reset/password/:resetLink"
-                component={ResetPassword}
-              />
-              
-              
-               
-              <PastTripProvider>
-                <TripProvider>
-                <ProfileProvider>
-                  <PrivateRoute path="/register" exact component={Register} />
-                  <PrivateRoute path="/profile" exact component={Profile} />
-                  <PrivateRoute path="/dashboard" exact component={Dashboard} />
-                </ProfileProvider>
-                </TripProvider>
-              </PastTripProvider>
-            </Switch>
-          </Router>
-        </Suspense>
-      </CurrentPageProvider>
+      <AuthProvider>
+        <CurrentPageProvider>
+          <Suspense fallback={<Loading />}>
+            <Router>
+              <Switch>
+                <GuestRoute exact path="/" component={Landing} />
+                <Route exact path="/about" exact component={About} />
+                <Route exact path="/contact" component={Contact} />
+                <Route
+                  exact
+                  path="/termsandconditions"
+                  component={TermsAndConditions}
+                />
+                <Route
+                  exact
+                  path="/authentication/activate/:token"
+                  component={EmailActivation}
+                />
+                <Route
+                  exact
+                  path="/reset/password/:resetLink"
+                  component={ResetPassword}
+                />
+
+                <PastTripProvider>
+                  <TripProvider>
+                    <ProfileProvider>
+                      <PrivateRoute
+                        path="/register"
+                        exact
+                        component={Register}
+                      />
+                      <PrivateRoute path="/profile" exact component={Profile} />
+                      <PrivateRoute
+                        path="/dashboard"
+                        exact
+                        component={Dashboard}
+                      />
+                    </ProfileProvider>
+                  </TripProvider>
+                </PastTripProvider>
+              </Switch>
+            </Router>
+          </Suspense>
+        </CurrentPageProvider>
       </AuthProvider>
       <Footer />
     </>

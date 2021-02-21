@@ -39,7 +39,7 @@ const Developers = () => {
                 alt="Second slide"
                 style={{
                   height: "auto",
-                  maxHeight:"400px",
+                  maxHeight: "400px",
                   maxWidth: "90vw",
                   borderRadius: "200px",
                 }}

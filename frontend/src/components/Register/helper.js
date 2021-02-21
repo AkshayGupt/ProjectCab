@@ -1,20 +1,20 @@
-import {API} from '../../backend';
+import { API } from "../../backend";
 
-export const createNewTrip =(trip,token)=>{
-    
-    //@debug
-    return fetch(`${API}/db/createNewTrip`,{
-        method:'POST',
-        headers:{
-            Accept: "application/json",
-            'Content-Type':'application/json',
-            Authorization: `Bearer ${token}`
-        },
-        body:JSON.stringify(trip)
+export const createNewTrip = (trip, token) => {
+  //@debug
+  return fetch(`${API}/db/createNewTrip`, {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(trip),
+  })
+    .then((res) => {
+      return res.json();
     })
-    .then(res=>{
-        return res.json();
-    })
-    .catch(err=>console.log(err));
+    .catch((err) => {
+    //   console.log(err);
+    });
 };
-
