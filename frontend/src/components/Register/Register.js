@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Redirect } from "react-router-dom";
 
 // import { Modal, Button, Badge, Container, Row, Col } from "react-bootstrap";
@@ -19,9 +19,15 @@ import Confirm from "./Confirm";
 import { createNewTrip } from "./helper";
 import NavBar from "../NavBar/NavBar";
 import TermsAndConditions from "../Others/TermsAndConditions";
+import { CurrentPageContext } from "../Context/CurrentPageProvider";
+import { TripContext } from "../Context/TripProvider";
 const Register = () => {
   const [agreeToTerms, setAgreeToTerms] = useState(false);
   const [modalShow, setModalShow] = useState(false);
+  const [currentPage, setCurrentPage] = useContext(CurrentPageContext);
+  const { refresh } = useContext(TripContext);
+
+  const [refreshTrips, setRefreshTrips] = refresh;
 
   const [values, setValues] = useState({
     source: "Manipal University Jaipur",
@@ -174,7 +180,7 @@ const Register = () => {
           setValues({ error: data.error });
           setTimeout(() => {
             setValues({
-              source: "Manipal Jaipur",
+              source: "Manipal University Jaipur",
               destination: "Select",
               cabSize: 2,
               genderAllowed: 0,
@@ -203,6 +209,7 @@ const Register = () => {
           }, 3000);
         } else {
           setValues({ ...values, success: true });
+          setRefreshTrips(true);
         }
       });
     }
@@ -251,8 +258,8 @@ const Register = () => {
     if (success) {
       window.setTimeout(function () {
         // Move to a new location or you can do something else
-        window.location.href = "http://localhost:3000/dashboard";
-      }, 3000);
+        setCurrentPage("TRIPS");
+      }, 2000);
       // return <Redirect to="/status"/>
     }
   };
