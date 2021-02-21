@@ -24,7 +24,7 @@ const Register = () => {
   const [modalShow, setModalShow] = useState(false);
 
   const [values, setValues] = useState({
-    source: "Manipal Jaipur",
+    source: "Manipal University Jaipur",
     destination: "Select",
     cabSize: 2,
     genderAllowed: 0,
@@ -127,6 +127,17 @@ const Register = () => {
   const onSubmit = () => {
     if (destination === "Select" || start.date === 0 || end.date === 0) {
       setValues({ error: "Please fill all the entries first!" });
+      setTimeout(() => {
+        setValues({
+          ...values,
+          error: "",
+        });
+      }, 3000);
+      return;
+    }
+
+    if (source === destination) {
+      setValues({ error: "Source and Destination cannot be same." });
       setTimeout(() => {
         setValues({
           ...values,
@@ -280,7 +291,12 @@ const Register = () => {
                       value={source}
                       onChange={handleChange("source")}
                     >
-                      <option value="Select">Manipal Jaipur</option>
+                      <option value="Manipal University Jaipur">
+                        Manipal University Jaipur
+                      </option>
+                      <option value="Airport">Airport</option>
+                      <option value="Railway Station">Railway Station</option>
+                      <option value="Sindhi Camp">Sindhi Camp</option>
                     </Form.Control>
                   </Form.Group>
                   <Form.Group>
@@ -294,6 +310,9 @@ const Register = () => {
                       <option value="Airport">Airport</option>
                       <option value="Railway station">Railway Station </option>
                       <option value="Sindhi camp">Sindhi Camp</option>
+                      <option value="Manipal University Jaipur">
+                        Manipal University Jaipur
+                      </option>
                     </Form.Control>
                   </Form.Group>
                   {/* <Form.Group>
