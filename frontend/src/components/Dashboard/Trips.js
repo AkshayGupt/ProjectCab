@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useContext } from "react";
 import Calendar from "react-calendar";
 import moment from "moment";
 import "react-calendar/dist/Calendar.css";
@@ -15,6 +15,7 @@ const Trips = () => {
     userOngoingTrips,
     userDates,
     isLoading,
+    refresh,
   } = useContext(TripContext);
 
   const [value, onChange] = useState(new Date());
@@ -22,6 +23,7 @@ const Trips = () => {
   const [futureTrips, setFutureTrips] = userFutureTrips;
   const [ongoingTrips, setOngoingTrips] = userOngoingTrips;
   const [dates, setDates] = userDates;
+  const [refreshTrips, setRefreshTrips] = refresh;
 
   const getTrips = () => {
     const jwt = JSON.parse(localStorage.getItem("jwt"));
@@ -79,7 +81,7 @@ const Trips = () => {
       if (data.error) {
         // console.log(data.error);
       } else {
-        refresh();
+        setRefreshTrips(true);
       }
     });
   };
@@ -146,7 +148,8 @@ const Trips = () => {
         </Col>
       );
     });
-  const refresh = () => {
+
+  const forceReload = () => {
     setLoading(true);
     getTrips();
   };
@@ -181,7 +184,7 @@ const Trips = () => {
                           <a
                             href="#"
                             style={{ float: "right", marginRight: "" }}
-                            onClick={() => refresh()}
+                            onClick={() => forceReload()}
                           >
                             <i className="fa fa-refresh" aria-hidden="true"></i>
                           </a>

@@ -8,11 +8,13 @@ export const TripProvider = (props) => {
   const [futureTrips, setFutureTrips] = useState([]);
   const [ongoingTrips, setOngoingTrips] = useState([]);
   const [dates, setDates] = useState([]);
+  const [refresh, setRefresh] = useState(false);
 
   const getTrips = () => {
     if (localStorage.getItem("jwt")) {
       const jwt = JSON.parse(localStorage.getItem("jwt"));
       // console.log("Data from Trips", jwt.token);
+      setRefresh(false);
       const UID = jwt.user._id;
       getFutureTrips(UID, jwt.token)
         .then((data) => {
@@ -64,15 +66,19 @@ export const TripProvider = (props) => {
   }, []);
 
   return (
-    <TripContext.Provider
-      value={{
-        userFutureTrips: [futureTrips, setFutureTrips],
-        userOngoingTrips: [ongoingTrips, setOngoingTrips],
-        userDates: [dates, setDates],
-        isLoading: [loading, setLoading],
-      }}
-    >
-      {props.children}
-    </TripContext.Provider>
+    <>
+      {refresh && getTrips()}
+      <TripContext.Provider
+        value={{
+          userFutureTrips: [futureTrips, setFutureTrips],
+          userOngoingTrips: [ongoingTrips, setOngoingTrips],
+          userDates: [dates, setDates],
+          isLoading: [loading, setLoading],
+          refresh: [refresh, setRefresh],
+        }}
+      >
+        {props.children}
+      </TripContext.Provider>
+    </>
   );
 };
