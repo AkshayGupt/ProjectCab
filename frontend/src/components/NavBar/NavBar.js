@@ -50,7 +50,7 @@ const NavBar = () => {
             />
             <Navbar.Collapse id="responsive-navbar-nav">
               <Nav className="d-md-none d-sm-block">
-                <Nav.Link
+                {/* <Nav.Link
                   onClick={() => setCurrentPage("PROFILE")}
                   className="text"
                 >
@@ -60,7 +60,7 @@ const NavBar = () => {
                     {JSON.parse(localStorage.getItem("jwt")).user.lastName}
                   </p>
                   <hr />
-                </Nav.Link>
+                </Nav.Link> */}
                 <Nav.Link onClick={() => setCurrentPage("PROFILE")}>
                   Profile
                 </Nav.Link>
