@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Redirect } from "react-router-dom";
 
 // import { Modal, Button, Badge, Container, Row, Col } from "react-bootstrap";
@@ -19,9 +19,11 @@ import Confirm from "./Confirm";
 import { createNewTrip } from "./helper";
 import NavBar from "../NavBar/NavBar";
 import TermsAndConditions from "../Others/TermsAndConditions";
+import { CurrentPageContext } from "../Context/CurrentPageProvider";
 const Register = () => {
   const [agreeToTerms, setAgreeToTerms] = useState(false);
   const [modalShow, setModalShow] = useState(false);
+  const [currentPage, setCurrentPage] = useContext(CurrentPageContext);
 
   const [values, setValues] = useState({
     source: "Manipal University Jaipur",
@@ -251,8 +253,8 @@ const Register = () => {
     if (success) {
       window.setTimeout(function () {
         // Move to a new location or you can do something else
-        window.location.href = "http://localhost:3000/dashboard";
-      }, 3000);
+        setCurrentPage("TRIPS");
+      }, 2000);
       // return <Redirect to="/status"/>
     }
   };
