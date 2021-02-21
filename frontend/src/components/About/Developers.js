@@ -28,8 +28,8 @@ const Developers = () => {
                 }}
               />
               <Carousel.Caption>
-                <h2 className="text-white">Akshay Gupta</h2>
-                <h4 className="text-white">Co-founder</h4>
+                <h3 className="text-white">Akshay Gupta</h3>
+                <p className="text-white">Co-founder</p>
               </Carousel.Caption>
             </Carousel.Item>
             <Carousel.Item>
@@ -39,6 +39,7 @@ const Developers = () => {
                 alt="Second slide"
                 style={{
                   height: "auto",
+                  maxHeight:"400px",
                   maxWidth: "90vw",
                   borderRadius: "200px",
                 }}
