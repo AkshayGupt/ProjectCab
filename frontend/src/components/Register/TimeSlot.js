@@ -11,7 +11,7 @@ const TimeSlot = ({ text, handleEvent, timeSlotValidator, time }) => {
       <DayTimePicker
         timeSlotSizeMinutes={60}
         onConfirm={handleEvent}
-        confirmText={time == 0 ? "Confirm" : "Edit"}
+        confirmText={time === 0 ? "Confirm" : "Edit"}
         timeSlotValidator={timeSlotValidator}
         isLoading={false}
         isDone={false}

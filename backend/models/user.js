@@ -79,8 +79,8 @@ User.methods = {
     return this.securePassword(plainPassword) === this.encrypted_password;
   },
   securePassword: function (plainPassword) {
-    console.log(plainPassword);
-    console.log(this.salt);
+    // console.log(plainPassword);
+    // console.log(this.salt);
     if (!plainPassword) return "";
     try {
       const secret = this.salt;
@@ -89,7 +89,7 @@ User.methods = {
         .update(plainPassword)
         .digest("hex");
     } catch (err) {
-      console.log(err);
+      // console.log(err);
       return "";
     }
   },

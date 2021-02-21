@@ -16,7 +16,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     setCurrentPage("TRIPS");
-  }, []);
+  }, [setCurrentPage]);
 
   return (
     <div className="dashboard">
