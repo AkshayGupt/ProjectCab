@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Container, Row, Col, Form, Button } from "react-bootstrap";
+import { Container, Row, Col, Form, Button, Spinner } from "react-bootstrap";
 import { toast } from "react-toastify";
 import { signUpUser } from "../Auth/helper";
 
@@ -342,7 +342,13 @@ const SignUp = ({ setIsNewUser }) => {
           </Form.Group>
           {isLoading ? (
             <Button size="lg" block>
-              <i className="fa fa-spinner" />
+              <Spinner
+                as="span"
+                animation="border"
+                size="sm"
+                role="status"
+                aria-hidden="true"
+              />
             </Button>
           ) : (
             <Button size="lg" onClick={onSignUp} block>
