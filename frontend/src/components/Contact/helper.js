@@ -2,7 +2,7 @@ import { API } from "../../backend";
 
 export const sendUserMessage = (data) => {
   console.log("HELPER: ", data);
-  return fetch("http://localhost:5000/other/sendMessage", {
+  return fetch(`${API}/other/sendMessage`, {
     method: "POST",
     headers: {
       Accept: "application/json",

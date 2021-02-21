@@ -20,12 +20,9 @@ import { createNewTrip } from "./helper";
 import NavBar from "../NavBar/NavBar";
 import TermsAndConditions from "../Others/TermsAndConditions";
 const Register = () => {
-
-
-
-
   const [agreeToTerms, setAgreeToTerms] = useState(false);
   const [modalShow,setModalShow] = useState(false);
+
   const [values, setValues] = useState({
     source: "Manipal Jaipur",
     destination: "Select",
@@ -194,6 +191,7 @@ const Register = () => {
               minutes: 0,
               seconds: 0,
             })
+            setAgreeToTerms(false);
           },3000)
         } else {
           setValues({ ...values, success: true });
@@ -293,7 +291,7 @@ const Register = () => {
                       <option value="Sindhi camp">Sindhi Camp</option>
                     </Form.Control>
                   </Form.Group>
-                  <Form.Group>
+                  {/* <Form.Group>
                     <Form.Label>
                       Minimum Cab size{" "}
                       <i class="fa fa-users" aria-hidden="true"></i>
@@ -307,19 +305,26 @@ const Register = () => {
                       <option value="4">4</option>
                       <option value="6">6</option>
                     </Form.Control>
-                  </Form.Group>
+                  </Form.Group> */}
                   <Form.Group>
                     <Form.Label>
                       Gender Allowed <i class="fa " aria-hidden="true"></i>
                     </Form.Label>
+                    
                     <Form.Control
                       as="select"
                       value={genderAllowed}
                       onChange={handleChange("genderAllowed")}
                     >
                       <option value="0">Any</option>
-                      <option value="1">Only male</option>
-                      <option value="2">Only female</option>
+
+                      {JSON.parse(localStorage.getItem("jwt")).user.gender === 1?(
+                        <option value="1">Only male</option>
+                      ):(
+                        <option value="2">Only female</option>
+                      )}
+                     
+                      
                     </Form.Control>
                     <Form.Text>
                       **Selecting particular gender might lower the chances of
@@ -402,6 +407,7 @@ const Register = () => {
                   {success ? (
                     <>{showSuccessMessage()} </>
                   ) :(
+                   
                     <Button
                       className="my-5"
                       variant="info"
@@ -411,8 +417,12 @@ const Register = () => {
                       {agreeToTerms?"Create Trip":"Proceed"}
                      
                     </Button>
+                   
+                  
                   )}
+                  
                 </div>
+                <small>** Maximum 8 people will be grouped together</small>
               </Col>
               <Col sm="3"></Col>
             </Row>

@@ -34,17 +34,38 @@ module.exports = {
     const userID = req.body.members[0];
     const trip = new Trip(req.body);
 
+    var startTimePlusThirtyMins =new Date(trip.startTime.getTime()+ 30*60000);
+    var endTimeMinusThirtyMins =new Date(trip.endTime.getTime() - 30*60000);
+
+    
     // Find any existing trips with the same time
     Trip.findOne({
-      isFilled: 0,
-      members: { $nin: [userID] },
-      genderAllowed: trip.genderAllowed,
-      source: trip.source,
-      destination: trip.destination,
-      startTime: { $gte: trip.startTime },
-      endTime: { $lte: trip.endTime },
-      minCapacity: trip.minCapacity,
-    }).exec((err, newTrip) => {
+      $and:[
+        {
+          $or: [ 
+               {
+                 $and:[
+                  {"startTime": { $lte: startTimePlusThirtyMins }},
+                  {"endTime": { $gt: startTimePlusThirtyMins }}
+                ]
+              },
+              {
+                $and:[
+                  {"startTime": { $lte: endTimeMinusThirtyMins }},
+                ]
+              }
+          ]
+        },
+        {
+          isFilled: 0,
+          startTime:{$gt: new Date(Date.now() + 30*60000)},
+          members: { $nin: [userID] },
+          source: trip.source,
+          genderAllowed:trip.genderAllowed,
+          destination: trip.destination,
+        }
+      ]
+      }).exec((err, newTrip) => {
       if (err) {
      
         return next();
@@ -62,7 +83,22 @@ module.exports = {
           newTrip.members.push(userID);
           newTrip.memberCount = newMemberCount;
           newTrip.isFilled = newIsFilled;
+          
+          const obj={
+             startTime: req.body.startTime,
+             endTime: req.body.endTime
+          }
+          newTrip.timePreferences.push(obj);
+          
+          var userStartTime = new Date(req.body.startTime);
+          var userEndTime = new Date(req.body.endTime);
 
+          if(newTrip.startTime <userStartTime){
+            newTrip.startTime=userStartTime;
+          }
+          if(newTrip.endTime > userEndTime){
+            newTrip.endTime=userEndTime;
+          }
           // Update the new trip
           newTrip.save((err, updatedTrip) => {
             if (err) {

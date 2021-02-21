@@ -1,4 +1,4 @@
-const SERVER_URL = "http://localhost:5000/db";
+import {API} from '../../backend';
 
 /**
  * Update user password.
@@ -8,7 +8,7 @@ const SERVER_URL = "http://localhost:5000/db";
  * @param {string} newPassword - New password in plain text
  */
 export const updateUserPassword = (userId, token, oldPassword, newPassword) => {
-  return fetch(`${SERVER_URL}/updatePassword?userId=${userId}`, {
+  return fetch(`${API}/db/updatePassword?userId=${userId}`, {
     method: "PUT",
     headers: {
       Accept: "application/json",

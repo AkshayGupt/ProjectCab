@@ -1,10 +1,5 @@
-import { set } from "js-cookie";
 import React, { useState, useEffect, createContext } from "react";
-import {
-  getFutureTrips,
-  getOngoingTrips,
-  cancelTheTrip,
-} from "../Dashboard/helper";
+import { getFutureTrips, getOngoingTrips } from "../Dashboard/helper";
 import moment from "moment";
 export const TripContext = createContext();
 
@@ -15,8 +10,8 @@ export const TripProvider = (props) => {
   const [dates, setDates] = useState([]);
 
   const getTrips = () => {
-    const jwt = JSON.parse(localStorage.getItem("jwt"));
-    if (jwt) {
+    if (localStorage.getItem("jwt")) {
+      const jwt = JSON.parse(localStorage.getItem("jwt"));
       console.log("Data from Trips", jwt.token);
       const UID = jwt.user._id;
       getFutureTrips(UID, jwt.token)

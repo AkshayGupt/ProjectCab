@@ -1,6 +1,8 @@
+import { API } from "../../backend";
+
 export const getFutureTrips = (id, token) =>{
     console.log("Called API : "+id);
-    return fetch(`http://localhost:5000/db/getFutureTrips?userId=${id}`,{
+    return fetch(`${API}/db/getFutureTrips?userId=${id}`,{
         method:"GET",
         headers:{
             Accept:'application/json',
@@ -17,7 +19,7 @@ export const getFutureTrips = (id, token) =>{
 }
 export const getOngoingTrips = (id, token) =>{
     console.log("Called API : "+id);
-    return fetch(`http://localhost:5000/db/getOngoingTrips?userId=${id}`,{
+    return fetch(`${API}/db/getOngoingTrips?userId=${id}`,{
         method:"GET",
         headers:{
             Accept:'application/json',
@@ -34,7 +36,7 @@ export const getOngoingTrips = (id, token) =>{
 }
 export const getPastTrips = (id, token) =>{
     console.log("Called API : "+id);
-    return fetch(`http://localhost:5000/db/getPastTrips?userId=${id}`,{
+    return fetch(`${API}/db/getPastTrips?userId=${id}`,{
         method:"GET",
         headers:{
             Accept:'application/json',
@@ -51,7 +53,7 @@ export const getPastTrips = (id, token) =>{
 }
 export const cancelTheTrip = (id, token,tripId) =>{
     console.log("Called API : "+id);
-    return fetch(`http://localhost:5000/db/cancelTrip?userId=${id}`,{
+    return fetch(`${API}/db/cancelTrip?userId=${id}`,{
         method:"POST",
         headers:{
             Accept:'application/json',

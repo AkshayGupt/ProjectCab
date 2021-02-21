@@ -1,8 +1,7 @@
 import { API } from "../../backend";
 
 export const signInUser = (data) => {
-  console.log("HELPER: ", data);
-  return fetch("http://localhost:5000/auth/signIn", {
+  return fetch(`${API}/auth/signIn`, {
     method: "POST",
     headers: {
       Accept: "application/json",
@@ -17,7 +16,7 @@ export const signInUser = (data) => {
 };
 
 export const signUpUser = (data) => {
-  return fetch("http://localhost:5000/auth/signup", {
+  return fetch(`${API}/auth/signup`, {
     method: "POST",
     headers: {
       Accept: "application/json",
@@ -31,7 +30,7 @@ export const signUpUser = (data) => {
     .catch((err) => console.log(err));
 };
 export const resetUserPassword = (data) => {
-  return fetch("http://localhost:5000/auth/resetPassword", {
+  return fetch(`${API}/auth/resetPassword`, {
     method: "PUT",
     headers: {
       Accept: "application/json",
@@ -84,7 +83,7 @@ export const signOut = (next) => {
 };
 
 export const activateUserEmail = (token) => {
-  return fetch(`http://localhost:5000/auth/email-verify?token=${token}`, {
+  return fetch(`${API}/auth/email-verify?token=${token}`, {
     method: "GET",
     headers: {
       Accept: "application/json",

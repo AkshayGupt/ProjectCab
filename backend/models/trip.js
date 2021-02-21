@@ -25,6 +25,11 @@ const Trip = new Schema(
       type: Date,
       required: true,
     },
+    timePreferences:[
+      {
+        
+      }
+    ],
     maxCapacity: {
       type: Number,
       default: 8,
