@@ -12,14 +12,14 @@ export const TripProvider = (props) => {
   const getTrips = () => {
     if (localStorage.getItem("jwt")) {
       const jwt = JSON.parse(localStorage.getItem("jwt"));
-      console.log("Data from Trips", jwt.token);
+      // console.log("Data from Trips", jwt.token);
       const UID = jwt.user._id;
       getFutureTrips(UID, jwt.token)
         .then((data) => {
           if (data.error) {
-            console.log(data.error);
+            // console.log(data.error);
           } else {
-            console.log("Data", data);
+            // console.log("Data", data);
             setFutureTrips(data);
             const date = new Date();
             let dates = [];
@@ -32,15 +32,15 @@ export const TripProvider = (props) => {
           }
         })
         .catch((err) => {
-          console.log(err);
+          // console.log(err);
         });
 
       getOngoingTrips(UID, jwt.token)
         .then((data) => {
           if (data.error) {
-            console.log(data.error);
+            // console.log(data.error);
           } else {
-            console.log("Data", data);
+            // console.log("Data", data);
             setOngoingTrips(data);
             const date = new Date();
             let newDates = dates;
@@ -54,7 +54,7 @@ export const TripProvider = (props) => {
           }
         })
         .catch((err) => {
-          console.log(err);
+          // console.log(err);
         });
     }
   };

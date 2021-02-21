@@ -27,7 +27,7 @@ exports.signup = (req, res) => {
   const user = new User(req.body);
 
   const { email, password, firstName, lastName,gender } = user;
-  console.log("Email received from express-validator" + email);
+  // console.log("Email received from express-validator" + email);
   User.findOne({ email }, (err, user) => {
     if (user) {
       return res.status(400).json({
@@ -144,16 +144,16 @@ exports.verifyEmail = (req, res) => {
       }
       const { email, password, firstName, lastName, gender } = decodedToken;
 
-      console.log(
-        "Inside Verify " +
-          email +
-          " " +
-          password +
-          " " +
-          firstName +
-          " " +
-          lastName
-      );
+      // console.log(
+      //   "Inside Verify " +
+      //     email +
+      //     " " +
+      //     password +
+      //     " " +
+      //     firstName +
+      //     " " +
+      //     lastName
+      // );
 
       User.findOne({ email }, (err, user) => {
         if (user) {
@@ -191,7 +191,7 @@ exports.forgotPassword = (req, res) => {
   }
 
   const { email } = req.body;
-  console.log(email);
+  // console.log(email);
   User.findOne({ email }, (err, user) => {
     if (err || !user) {
       return res.status(400).json({

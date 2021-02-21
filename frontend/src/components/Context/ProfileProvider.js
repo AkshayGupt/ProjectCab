@@ -23,13 +23,13 @@ export const ProfileProvider = (props) => {
   const setDetails = () => {
     const jwt = isAuthenticated();
     if (jwt) {
-      const { token,user } = jwt;
+      const { token, user } = jwt;
       const userId = JSON.parse(localStorage.getItem("jwt")).user._id;
       getUser(userId, token)
         .then((data) => {
-          console.log("Data -> ");
+          // console.log("Data -> ");
           if (data.error) {
-            console.log(data.error);
+            // console.log(data.error);
           } else {
             var photo = DEFAULT_IMAGE;
             if (data.image) {
@@ -49,12 +49,14 @@ export const ProfileProvider = (props) => {
             });
           }
         })
-        .catch((err) => console.log(err));
+        .catch((err) => {
+          // console.log(err);
+        });
     }
   };
 
   useEffect(() => {
-     setDetails();
+    setDetails();
   }, []);
 
   return (

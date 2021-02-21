@@ -2,7 +2,6 @@ import React, { useContext, useEffect } from "react";
 import "./Status.scss";
 import NavBar from "../NavBar/NavBar";
 import Trips from "./Trips";
-import "./Dashboard.css";
 import { CurrentPageContext } from "../Context/CurrentPageProvider";
 import PastTrips from "./PastTrips";
 import Profile from "../Profile/Profile";

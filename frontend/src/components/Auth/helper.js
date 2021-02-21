@@ -12,7 +12,9 @@ export const signInUser = (data) => {
     .then((res) => {
       return res.json();
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      // console.log(err);
+    });
 };
 
 export const signUpUser = (data) => {
@@ -27,7 +29,9 @@ export const signUpUser = (data) => {
     .then((res) => {
       return res.json();
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      // console.log(err);
+    });
 };
 export const resetUserPassword = (data) => {
   return fetch(`${API}/auth/resetPassword`, {
@@ -41,7 +45,9 @@ export const resetUserPassword = (data) => {
     .then((res) => {
       return res.json();
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      // console.log(err);
+    });
 };
 
 export const isSignedIn = () => {
@@ -77,8 +83,12 @@ export const signOut = (next) => {
     return fetch(`${API}/signout`, {
       method: "GET",
     })
-      .then((res) => console.log("Signout Success"))
-      .catch((err) => console.log(err));
+      .then((res) => {
+        // console.log("Signout Success");
+      })
+      .catch((err) => {
+        // console.log(err);
+      });
   }
 };
 
@@ -94,6 +104,6 @@ export const activateUserEmail = (token) => {
       return res.json();
     })
     .catch((err) => {
-      console.log(err);
+      // console.log(err);
     });
 };

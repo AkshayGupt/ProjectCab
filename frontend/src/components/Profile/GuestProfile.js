@@ -27,7 +27,7 @@ const GuestProfile = ({ userId }) => {
       .then((data) => {
         setIsLoading(false);
         if (data.error) {
-          console.log(data.error);
+          // console.log(data.error);
         } else {
           var photo = DEFAULT_IMAGE;
           if (data.image) {
@@ -45,7 +45,9 @@ const GuestProfile = ({ userId }) => {
           });
         }
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        // console.log(err);
+      });
   };
 
   useEffect(() => {

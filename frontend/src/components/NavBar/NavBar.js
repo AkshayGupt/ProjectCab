@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import { Redirect } from "react-router-dom";
-import { Navbar, NavDropdown, Image, Nav } from "react-bootstrap";
+import { Navbar, NavDropdown, Image, Nav, Col, Row } from "react-bootstrap";
 import { signOut, isAuthenticated } from "../Auth/helper";
 import "./NavBar.css";
 import { CurrentPageContext } from "../Context/CurrentPageProvider";
@@ -8,7 +8,7 @@ import { ProfileContext } from "../Context/ProfileProvider";
 
 // DISPLAY LOGO
 const Logo = () => {
-  return <h3 className="logo pt-2">POOL IT</h3>;
+  return <h3 className="logo pt-2">POOLIFY</h3>;
 };
 
 const NavBar = () => {
@@ -50,16 +50,6 @@ const NavBar = () => {
             />
             <Navbar.Collapse id="responsive-navbar-nav">
               <Nav className="d-md-none d-sm-block">
-                <Nav.Link
-                  onClick={() => setCurrentPage("PROFILE")}
-                  className="text"
-                >
-                  Signed in as <br/>
-                 <p className="font-weight-bold">{JSON.parse(localStorage.getItem("jwt")).user.firstName}{' '}
-                 {JSON.parse(localStorage.getItem("jwt")).user.lastName}
-                 </p>
-                 <hr/>
-                </Nav.Link>
                 <Nav.Link onClick={() => setCurrentPage("PROFILE")}>
                   Profile
                 </Nav.Link>
@@ -68,7 +58,6 @@ const NavBar = () => {
                 </Nav.Link>
               </Nav>
               <Nav className="mr-auto">
-               
                 <Nav.Link
                   onClick={() => setCurrentPage("REGISTER")}
                   className="text-info"
@@ -98,19 +87,15 @@ const NavBar = () => {
                   id="dropdown-menu-align-right"
                   alignRight
                 >
-                   <NavDropdown.Item
-                  eventKey="0"
-                  onClick={() => setCurrentPage("PROFILE")}
-                  className="border-bottom"
-                  >
-                  Signed in as <br/>
-                 <p className="font-weight-bold">{JSON.parse(localStorage.getItem("jwt")).user.firstName}{' '}
-                 {JSON.parse(localStorage.getItem("jwt")).user.lastName}
-                 </p>
-               
-               
+                  <NavDropdown.Item disabled>
+                    <Col>
+                      <Row style={{ color: "grey" }}>Signed in as</Row>
+                      <Row style={{ color: "black", fontWeight: "500" }}>
+                        {profile.firstName} {profile.lastName}
+                      </Row>
+                    </Col>
                   </NavDropdown.Item>
-                  
+                  <NavDropdown.Divider />
                   <NavDropdown.Item
                     eventKey="1"
                     onClick={() => setCurrentPage("PROFILE")}

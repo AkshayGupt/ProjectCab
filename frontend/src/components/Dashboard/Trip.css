@@ -1,16 +1,15 @@
 .highlight {
-    -moz-border-radius: 20px;
-        border-radius: 20px;
-    border-color:black;
-        background-color:black;
-    color:white;
-        padding-top:3px;
-        padding-bottom:3px;
-        font-size:1em;
-        text-align: center;
-    
-    
-    /* display: block;
+  -moz-border-radius: 20px;
+  border-radius: 20px;
+  border-color: black;
+  background-color: black;
+  color: white;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  font-size: 1em;
+  text-align: center;
+
+  /* display: block;
     height: 20px;
     width: 10px;
     line-height: 2px;
@@ -23,15 +22,12 @@
     color: white;
     text-align: center;
     font-size: 15px; */
- }
+}
 
- .card {
+.card {
+  transition: all 0.3s ease-in-out;
+}
 
-    
-    transition: all .3s ease-in-out;
-  }
-  
-  .card:hover {
-   
-    transform: translate3d(0px, -10px, 0px);
-  }
+.card:hover {
+  transform: translate3d(0px, -10px, 0px);
+}

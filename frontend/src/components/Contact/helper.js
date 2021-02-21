@@ -1,7 +1,7 @@
 import { API } from "../../backend";
 
 export const sendUserMessage = (data) => {
-  console.log("HELPER: ", data);
+  // console.log("HELPER: ", data);
   return fetch(`${API}/other/sendMessage`, {
     method: "POST",
     headers: {
@@ -13,5 +13,7 @@ export const sendUserMessage = (data) => {
     .then((res) => {
       return res.json();
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      // console.log(err);
+    });
 };

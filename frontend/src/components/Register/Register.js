@@ -21,7 +21,7 @@ import NavBar from "../NavBar/NavBar";
 import TermsAndConditions from "../Others/TermsAndConditions";
 const Register = () => {
   const [agreeToTerms, setAgreeToTerms] = useState(false);
-  const [modalShow,setModalShow] = useState(false);
+  const [modalShow, setModalShow] = useState(false);
 
   const [values, setValues] = useState({
     source: "Manipal Jaipur",
@@ -125,25 +125,22 @@ const Register = () => {
   };
 
   const onSubmit = () => {
-
     if (destination === "Select" || start.date === 0 || end.date === 0) {
-      setValues({ error:"Please fill all the entries first!" });
-      setTimeout(()=>{
+      setValues({ error: "Please fill all the entries first!" });
+      setTimeout(() => {
         setValues({
           ...values,
-          error:""
-        })
-      },3000)
+          error: "",
+        });
+      }, 3000);
       return;
     }
 
-
-    if(!agreeToTerms)
-    {
-      setModalShow(true);       
+    if (!agreeToTerms) {
+      setModalShow(true);
     }
 
-    if(agreeToTerms){
+    if (agreeToTerms) {
       const minCapacity = cabSize;
       const members = [];
       const jwtTemp = JSON.parse(localStorage.getItem("jwt"));
@@ -158,13 +155,13 @@ const Register = () => {
         startTime,
         endTime,
       };
-  
-      console.log(obj);
+
+      // console.log(obj);
       const jwt = JSON.parse(localStorage.getItem("jwt"));
       createNewTrip(obj, jwt.token).then((data) => {
         if (data.error) {
           setValues({ error: data.error });
-          setTimeout(()=>{
+          setTimeout(() => {
             setValues({
               source: "Manipal Jaipur",
               destination: "Select",
@@ -181,7 +178,7 @@ const Register = () => {
               year: 0,
               hours: 0,
               minutes: 0,
-              seconds: 0
+              seconds: 0,
             });
             setEnd({
               date: 0,
@@ -190,9 +187,9 @@ const Register = () => {
               hours: 0,
               minutes: 0,
               seconds: 0,
-            })
+            });
             setAgreeToTerms(false);
-          },3000)
+          }, 3000);
         } else {
           setValues({ ...values, success: true });
         }
@@ -207,8 +204,15 @@ const Register = () => {
             className="alert alert-danger"
             style={{ display: error ? "" : "none" }}
           >
-            
-            <p><i style={{fontSize:"30px"}} className="fa fa-times" aria-hidden="true"/>{'   '}{error}</p>
+            <p>
+              <i
+                style={{ fontSize: "30px" }}
+                className="fa fa-times"
+                aria-hidden="true"
+              />
+              {"   "}
+              {error}
+            </p>
           </div>
         </div>
       </div>
@@ -245,12 +249,14 @@ const Register = () => {
     return (
       <div>
         <div className="body">
-          
           <div className="mb-3">
             <h1 className="text-center register-heading">
               {" "}
-              <h1 className="text-center display-3 my-5 jumbotron mx-auto" style={{maxWidth:"73vw"}}>
-                Create new Trip 
+              <h1
+                className="text-center display-3 my-5 jumbotron mx-auto"
+                style={{ maxWidth: "73vw" }}
+              >
+                Create new Trip
               </h1>
             </h1>
           </div>
@@ -263,8 +269,7 @@ const Register = () => {
           />
           <Container>
             <Row>
-              <Col sm="3">
-              </Col>
+              <Col sm="3"></Col>
               <Col>
                 {showErrorMessage()}
                 <Form>
@@ -310,7 +315,7 @@ const Register = () => {
                     <Form.Label>
                       Gender Allowed <i class="fa " aria-hidden="true"></i>
                     </Form.Label>
-                    
+
                     <Form.Control
                       as="select"
                       value={genderAllowed}
@@ -318,13 +323,12 @@ const Register = () => {
                     >
                       <option value="0">Any</option>
 
-                      {JSON.parse(localStorage.getItem("jwt")).user.gender === 1?(
+                      {JSON.parse(localStorage.getItem("jwt")).user.gender ===
+                      1 ? (
                         <option value="1">Only male</option>
-                      ):(
+                      ) : (
                         <option value="2">Only female</option>
                       )}
-                     
-                      
                     </Form.Control>
                     <Form.Text>
                       **Selecting particular gender might lower the chances of
@@ -406,21 +410,16 @@ const Register = () => {
                 <div className="text-center">
                   {success ? (
                     <>{showSuccessMessage()} </>
-                  ) :(
-                   
+                  ) : (
                     <Button
                       className="my-5"
                       variant="info"
                       size="lg"
                       onClick={() => onSubmit()}
                     >
-                      {agreeToTerms?"Create Trip":"Proceed"}
-                     
+                      {agreeToTerms ? "Create Trip" : "Proceed"}
                     </Button>
-                   
-                  
                   )}
-                  
                 </div>
                 <small>** Maximum 8 people will be grouped together</small>
               </Col>
@@ -435,7 +434,7 @@ const Register = () => {
   return (
     <div>
       {onSuccessfulRegister()}
-     {register()}
+      {register()}
       {/* {confirm ? (
         <Confirm
           trip={{ source, destination, cabSize, genderAllowed, start, end }}
@@ -447,10 +446,8 @@ const Register = () => {
   );
 };
 
-
 export const TC = (props) => {
-  
-  const {agreeToTerms, setAgreeToTerms,modalShow,setModalShow} =props;
+  const { agreeToTerms, setAgreeToTerms, modalShow, setModalShow } = props;
 
   return (
     <Modal {...props} size="md" centered>
@@ -462,11 +459,10 @@ export const TC = (props) => {
           modalShow={modalShow}
           setModalShow={setModalShow}
           guest={false}
-         />
+        />
       </Modal.Body>
     </Modal>
   );
 };
-
 
 export default Register;

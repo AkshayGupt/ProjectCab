@@ -10,23 +10,23 @@ export const PastTripProvider = (props) => {
   const [loading, setLoading] = useState(true);
   const getPastTripsOfUser = () => {
     const jwt = JSON.parse(localStorage.getItem("jwt"));
-   
-    if(jwt !== undefined && jwt !== null){
-    console.log("Data from Trips", jwt.token);
-    const UID = jwt.user._id;
-    getPastTrips(UID, jwt.token)
-      .then((data) => {
-        if (data.error) {
-          console.log(data.error);
-        } else {
-          console.log("Data", data);
-          setLoading(false);
-          setPastTrips(data);
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+
+    if (jwt !== undefined && jwt !== null) {
+      // console.log("Data from Trips", jwt.token);
+      const UID = jwt.user._id;
+      getPastTrips(UID, jwt.token)
+        .then((data) => {
+          if (data.error) {
+            // console.log(data.error);
+          } else {
+            // console.log("Data", data);
+            setLoading(false);
+            setPastTrips(data);
+          }
+        })
+        .catch((err) => {
+          // console.log(err);
+        });
     }
   };
 

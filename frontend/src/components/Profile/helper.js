@@ -13,13 +13,13 @@ export const getUser = (userId, token) => {
       return res.json();
     })
     .catch((err) => {
-      console.log(err);
+      // console.log(err);
       return err;
     });
 };
 
 export const updateUserBio = (userId, token, data) => {
-  console.log("data", data);
+  // console.log("data", data);
   return fetch(`${API}/db/updateUserBio?userId=${userId}`, {
     method: "PUT",
     headers: {
@@ -33,7 +33,7 @@ export const updateUserBio = (userId, token, data) => {
       return res.json();
     })
     .catch((err) => {
-      console.log(err);
+      // console.log(err);
       return err;
     });
 };
@@ -45,12 +45,12 @@ export const updateUserBio = (userId, token, data) => {
  * @param {File} image - Image
  */
 export const updateUserDP = (userId, token, image) => {
-  console.log(image.toString());
+  // console.log(image.toString());
 
   const formData = new FormData();
   formData.append("image", image);
 
-  console.log(formData);
+  // console.log(formData);
 
   return fetch(`${API}/db/updateUserDP?userId=${userId}`, {
     method: "PUT",
@@ -64,8 +64,7 @@ export const updateUserDP = (userId, token, image) => {
       return res.json();
     })
     .catch((err) => {
-      console.log(err);
+      // console.log(err);
       return err;
     });
 };
-

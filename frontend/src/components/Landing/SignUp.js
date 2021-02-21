@@ -296,7 +296,7 @@ const SignUp = ({ setIsNewUser }) => {
               </Form.Group>
             </Col>
             <Col>
-              <Form.Group controlId="password">
+              <Form.Group>
                 <Form.Label>
                   <h5 style={{ color: "grey", fontWeight: "600" }}>
                     Confirm Password

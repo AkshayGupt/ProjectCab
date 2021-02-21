@@ -7,11 +7,10 @@ import { Row, Col, Container } from "react-bootstrap";
 import { PastTripContext } from "../Context/PastTripProvider";
 
 const PastTrips = () => {
-
-  const {userPastTrips,isLoading} = useContext(PastTripContext);
+  const { userPastTrips, isLoading } = useContext(PastTripContext);
 
   const [pastTrips, setPastTrips] = userPastTrips;
-  const [loading, setLoading]=isLoading;
+  const [loading, setLoading] = isLoading;
 
   const pastTripCardElements =
     pastTrips.length > 0 &&
@@ -65,9 +64,7 @@ const PastTrips = () => {
                   <Row>
                     {pastTrips.length > 0 && pastTripCardElements}
                     {pastTrips.length == 0 && (
-                      <h5 className="text-center mx-auto">
-                        No past trips !
-                      </h5>
+                      <h5 className="text-center mx-auto">No past trips !</h5>
                     )}
                   </Row>
                 </>
