@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Container, Row, Col, Form, Button } from "react-bootstrap";
+import { Container, Row, Col, Form, Button, Spinner } from "react-bootstrap";
 import { authenticate, signInUser } from "../Auth/helper";
 import { toast } from "react-toastify";
 import { forgotUserPassword } from "./helper";
@@ -171,7 +171,13 @@ const SignIn = ({ setIsNewUser, setRedirect }) => {
             </Form.Group>
             {isLoading ? (
               <Button size="lg" block>
-                <i className="fa fa-spinner" />
+                <Spinner
+                  as="span"
+                  animation="border"
+                  size="sm"
+                  role="status"
+                  aria-hidden="true"
+                />
               </Button>
             ) : (
               <Button size="lg" onClick={onResetPassword} block>
@@ -215,7 +221,13 @@ const SignIn = ({ setIsNewUser, setRedirect }) => {
             </Form.Group>
             {isLoading ? (
               <Button size="lg" block>
-                <i className="fa fa-spinner" />
+                <Spinner
+                  as="span"
+                  animation="border"
+                  size="sm"
+                  role="status"
+                  aria-hidden="true"
+                />
               </Button>
             ) : (
               <Button size="lg" onClick={onSignIn} block>
