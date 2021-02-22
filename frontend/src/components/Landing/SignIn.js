@@ -68,6 +68,7 @@ const SignIn = ({ setIsNewUser, setRedirect }) => {
           setIsLoading(false);
           showToast("SUCCESS", "Email sent successfully!");
           setIsNewUser(false);
+          setHasForgottenPassword(false);
         }
       })
       .catch((err) => {
