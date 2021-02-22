@@ -1,5 +1,5 @@
-const Trip = require("../models/Trip");
-const User = require("../models/User");
+const Trip = require("../models/trip");
+const User = require("../models/user");
 
 /**
  * Create a new trip
