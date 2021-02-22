@@ -14,6 +14,31 @@ const secret = process.env.SECRET;
 //   userProperty: "auth",
 // }
 
+const replaceDot = (token) =>{
+  let newToken="";
+
+  
+  for(let i=0;i<token.length;i++){
+    let ch =token[i];
+    if(ch === '.'){
+      ch='*';
+    }
+    newToken=newToken+ch;
+  }
+  return newToken;
+}
+const replaceMul = (token) =>{
+  let newToken="";
+  for(let i=0;i<token.length;i++){
+    let ch =token[i];
+    if(ch === '*'){
+      ch='.';
+    }
+    newToken=newToken+ch;
+  }
+  return newToken;
+}
+
 exports.signup = (req, res) => {
   const errors = validationResult(req);
 
@@ -26,6 +51,7 @@ exports.signup = (req, res) => {
 
   const user = new User(req.body);
 
+
   const { email, password, firstName, lastName, gender } = user;
   // console.log("Email received from express-validator" + email);
   User.findOne({ email }, (err, user) => {
@@ -34,11 +60,15 @@ exports.signup = (req, res) => {
         error: "User already exists!",
       });
     }
-    const token = jwt.sign(
+    let token = jwt.sign(
       { email, password, firstName, lastName, gender },
       process.env.ACTIVATION_KEY,
       { expiresIn: "15m" }
     );
+
+    token=replaceDot(token);
+    
+
     sgMail.setApiKey(process.env.SENDGRID_API_KEY);
     const msg = {
       to: email, // Change to your recipient
@@ -135,12 +165,15 @@ exports.isAuthenticated = (req, res, next) => {
 };
 
 exports.verifyEmail = (req, res) => {
-  const token = req.query.token;
+  let token = req.query.token;
+
+  token=replaceMul(token);
+
   if (token) {
     jwt.verify(token, process.env.ACTIVATION_KEY, (err, decodedToken) => {
       if (err) {
         return res.status(400).json({
-          error: "Token invalid !",
+          error: "Token invalid !"+token,
         });
       }
       const { email, password, firstName, lastName, gender } = decodedToken;
@@ -209,9 +242,13 @@ exports.forgotPassword = (req, res) => {
       });
     }
 
-    const token = jwt.sign({ _id: user._id }, process.env.RESET_PASSWORD_KEY, {
+    let token = jwt.sign({ _id: user._id }, process.env.RESET_PASSWORD_KEY, {
       expiresIn: "15m",
     });
+
+    const newToken =token;
+    token=replaceDot(token);
+
     sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
     const msg = {
@@ -227,7 +264,7 @@ exports.forgotPassword = (req, res) => {
           `,
     };
 
-    return user.updateOne({ resetLink: token }, (err, success) => {
+    return user.updateOne({ resetLink: newToken }, (err, success) => {
       if (err) {
         return res.status(400).json({
           error: "reset password link error",
@@ -259,7 +296,8 @@ exports.resetPassword = (req, res) => {
     });
   }
 
-  const { resetLink, newPass } = req.body;
+  let { resetLink, newPass } = req.body;
+  resetLink=replaceMul(resetLink);
   if (resetLink) {
     jwt.verify(
       resetLink,

@@ -121,7 +121,8 @@ const SignUp = ({ setIsNewUser }) => {
         .then((data) => {
           if (data.error) {
             setIsLoading(false);
-            setError({ ...error, hasError: true, error: data.error });
+            console.log(data.error);
+            // setError({ ...error, hasError: true, error: data.error });
           } else {
             setIsLoading(false);
             showToast(

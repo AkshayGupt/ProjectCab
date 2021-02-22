@@ -10,6 +10,9 @@ const cookieParser = require("cookie-parser");
 const connectDB = require("./config/db");
 const dotenv = require("dotenv");
 const session = require("express-session");
+const MongoStore = require("connect-mongo").default;
+// const mongoStoreFactory = require('connect-mongo');
+// const MongoStore = mongoStoreFactory(session);
 
 // Init express
 const app = express();
@@ -23,6 +26,7 @@ app.use(
     secret: "poolit",
     resave: false,
     saveUninitialized: false,
+    store: MongoStore.create({ mongoUrl:process.env.MONGO_URI })
   })
 );
 
