@@ -1,4 +1,4 @@
-const Trip = require("../models/trip");
+const Trip = require("../models/Trip");
 const User = require("../models/user");
 
 /**
