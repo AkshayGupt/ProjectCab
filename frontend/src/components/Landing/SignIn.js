@@ -65,6 +65,7 @@ const SignIn = ({ setIsNewUser, setRedirect }) => {
           setIsLoading(false);
           setError({ ...error, hasError: true, error: data.error });
         } else {
+          setIsLoading(false);
           showToast("SUCCESS", "Email sent successfully!");
           setIsNewUser(false);
         }
