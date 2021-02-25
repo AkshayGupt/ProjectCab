@@ -1,33 +1,20 @@
 import React, { useState, useContext } from "react";
-import { Redirect } from "react-router-dom";
-
-// import { Modal, Button, Badge, Container, Row, Col } from "react-bootstrap";
-import {
-  Row,
-  Col,
-  Container,
-  Form,
-  Button,
-  Badge,
-  Spinner,
-  Modal,
-  Nav,
-} from "react-bootstrap";
-import "./Register.css";
+import { Row, Col, Container, Form, Button, Spinner } from "react-bootstrap";
 import TimeSlot from "./TimeSlot";
-import Confirm from "./Confirm";
 import { createNewTrip } from "./helper";
-import NavBar from "../NavBar/NavBar";
-import TermsAndConditions from "../Others/TermsAndConditions";
 import { CurrentPageContext } from "../Context/CurrentPageProvider";
 import { TripContext } from "../Context/TripProvider";
+import { toast } from "react-toastify";
+import "./Register.css";
+
 const Register = () => {
   const [agreeToTerms, setAgreeToTerms] = useState(false);
   const [modalShow, setModalShow] = useState(false);
   const [currentPage, setCurrentPage] = useContext(CurrentPageContext);
   const { refresh } = useContext(TripContext);
-
   const [refreshTrips, setRefreshTrips] = refresh;
+
+  const [hasAcceptedtc, setHasAcceptedtc] = useState(false);
 
   const [values, setValues] = useState({
     source: "Manipal University Jaipur",
@@ -71,7 +58,17 @@ const Register = () => {
     seconds: 0,
   });
 
-  function timeSlotValidator(slotTime) {
+  /**
+   * Display a 3s Toast on the top right corner of the screen
+   * @param {string} status - SUCCESS/ ERROR
+   * @param {string} message - Text for the Toast Body
+   */
+  const showToast = (status, message) => {
+    if (status == "SUCCESS") toast.success(message);
+    else toast.error(message);
+  };
+
+  const timeSlotValidator = (slotTime) => {
     const eveningTime = new Date(
       start.year,
       start.month - 1,
@@ -82,7 +79,7 @@ const Register = () => {
     );
     const isValid = slotTime.getTime() > eveningTime.getTime();
     return isValid;
-  }
+  };
 
   const handleStart = (str) => {
     // console.log(str);
@@ -133,6 +130,7 @@ const Register = () => {
   const onSubmit = () => {
     if (destination === "Select" || start.date === 0 || end.date === 0) {
       setValues({ error: "Please fill all the entries first!" });
+      showToast("ERROR", "Please fill all the entries first!");
       setTimeout(() => {
         setValues({
           ...values,
@@ -144,6 +142,7 @@ const Register = () => {
 
     if (source === destination) {
       setValues({ error: "Source and Destination cannot be same." });
+      showToast("ERROR", "Source and Destination cannot be same.");
       setTimeout(() => {
         setValues({
           ...values,
@@ -153,66 +152,74 @@ const Register = () => {
       return;
     }
 
-    if (!agreeToTerms) {
-      setModalShow(true);
+    if (!hasAcceptedtc) {
+      setValues({ error: "Terms and conditions not accepted." });
+      setTimeout(() => {
+        setValues({
+          ...values,
+          error: "",
+        });
+      }, 3000);
+      showToast("ERROR", "Terms and conditions not accepted.");
+      return;
     }
 
-    if (agreeToTerms) {
-      const minCapacity = cabSize;
-      const members = [];
-      const jwtTemp = JSON.parse(localStorage.getItem("jwt"));
-      const UID = jwtTemp.user._id;
-      members.push(UID);
-      const obj = {
-        source,
-        destination,
-        minCapacity,
-        members,
-        genderAllowed,
-        startTime,
-        endTime,
-      };
+    const minCapacity = cabSize;
+    const members = [];
+    const jwtTemp = JSON.parse(localStorage.getItem("jwt"));
+    const UID = jwtTemp.user._id;
+    members.push(UID);
+    const obj = {
+      source,
+      destination,
+      minCapacity,
+      members,
+      genderAllowed,
+      startTime,
+      endTime,
+    };
 
-      // console.log(obj);
-      const jwt = JSON.parse(localStorage.getItem("jwt"));
-      createNewTrip(obj, jwt.token).then((data) => {
-        if (data.error) {
-          setValues({ error: data.error });
-          setTimeout(() => {
-            setValues({
-              source: "Manipal University Jaipur",
-              destination: "Select",
-              cabSize: 2,
-              genderAllowed: 0,
-              error: "",
-              startTime: "",
-              endTime: "",
-              success: false,
-            });
-            setStart({
-              date: 0,
-              month: 0,
-              year: 0,
-              hours: 0,
-              minutes: 0,
-              seconds: 0,
-            });
-            setEnd({
-              date: 0,
-              month: 0,
-              year: 0,
-              hours: 0,
-              minutes: 0,
-              seconds: 0,
-            });
-            setAgreeToTerms(false);
-          }, 3000);
-        } else {
-          setValues({ ...values, success: true });
-          setRefreshTrips(true);
-        }
-      });
-    }
+    // console.log(obj);
+    const jwt = JSON.parse(localStorage.getItem("jwt"));
+    createNewTrip(obj, jwt.token).then((data) => {
+      if (data.error) {
+        setValues({ error: data.error });
+        showToast("ERROR", data.error);
+        setTimeout(() => {
+          setValues({
+            source: "Manipal University Jaipur",
+            destination: "Select",
+            cabSize: 2,
+            genderAllowed: 0,
+            error: "",
+            startTime: "",
+            endTime: "",
+            success: false,
+          });
+          setStart({
+            date: 0,
+            month: 0,
+            year: 0,
+            hours: 0,
+            minutes: 0,
+            seconds: 0,
+          });
+          setEnd({
+            date: 0,
+            month: 0,
+            year: 0,
+            hours: 0,
+            minutes: 0,
+            seconds: 0,
+          });
+          setAgreeToTerms(false);
+        }, 3000);
+      } else {
+        setValues({ ...values, success: true });
+        showToast("SUCCESS", "Trip Created Successfully");
+        setRefreshTrips(true);
+      }
+    });
   };
   const showErrorMessage = () => {
     return (
@@ -278,13 +285,6 @@ const Register = () => {
               </h1>
             </h1>
           </div>
-          <TC
-            show={modalShow}
-            agreeToTerms={agreeToTerms}
-            setModalShow={setModalShow}
-            setAgreeToTerms={setAgreeToTerms}
-            onHide={() => setModalShow(false)}
-          />
           <Container>
             <Row>
               <Col sm="3"></Col>
@@ -433,6 +433,29 @@ const Register = () => {
                     time={end.date}
                   />
                 )}
+                <Form.Group style={{ marginTop: "50px" }}>
+                  <Form.Check
+                    custom
+                    type="checkbox"
+                    id="checkbox"
+                    value={hasAcceptedtc}
+                    onChange={() => {
+                      setHasAcceptedtc(!hasAcceptedtc);
+                    }}
+                    label={
+                      <span>
+                        I agree to the{" "}
+                        <a
+                          href="/termsandconditions"
+                          style={{ color: "#0084ff" }}
+                          target="_blank"
+                        >
+                          Terms and Conditions.
+                        </a>
+                      </span>
+                    }
+                  />
+                </Form.Group>
                 <div className="text-center">
                   {success ? (
                     <>{showSuccessMessage()} </>
@@ -443,7 +466,7 @@ const Register = () => {
                       size="lg"
                       onClick={() => onSubmit()}
                     >
-                      {agreeToTerms ? "Create Trip" : "Proceed"}
+                      Create Trip
                     </Button>
                   )}
                 </div>
@@ -461,33 +484,7 @@ const Register = () => {
     <div>
       {onSuccessfulRegister()}
       {register()}
-      {/* {confirm ? (
-        <Confirm
-          trip={{ source, destination, cabSize, genderAllowed, start, end }}
-        />
-      ) : (
-       
-      )} */}
     </div>
-  );
-};
-
-export const TC = (props) => {
-  const { agreeToTerms, setAgreeToTerms, modalShow, setModalShow } = props;
-
-  return (
-    <Modal {...props} size="md" centered>
-      <Modal.Header closeButton></Modal.Header>
-      <Modal.Body className="text-center">
-        <TermsAndConditions
-          agreeToTerms={agreeToTerms}
-          setAgreeToTerms={setAgreeToTerms}
-          modalShow={modalShow}
-          setModalShow={setModalShow}
-          guest={false}
-        />
-      </Modal.Body>
-    </Modal>
   );
 };
 
