@@ -44,7 +44,7 @@ exports.cancelTrip = (req, res) => {
   const tripID = req.body.tripId;
 
   User.findById(userID).exec((err, user) => {
-    if (err) {
+    if (err || !user) {
       return res.status(400).json({ error: "Some error occured! " });
     } else {
       const trips = user.trips;
@@ -56,7 +56,7 @@ exports.cancelTrip = (req, res) => {
 
   // Fetch the referenced trip
   Trip.findById(tripID).exec((err, trip) => {
-    if (err) {
+    if (err || !trip) {
       return res.status(400).json({ error: "Some error occured! " });
     } else {
       const timePreferences = trip.timePreferences;
