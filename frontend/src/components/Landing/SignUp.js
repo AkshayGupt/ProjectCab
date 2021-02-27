@@ -112,7 +112,8 @@ const SignUp = ({ setIsNewUser }) => {
   /**
    * Validate fields and sign up user.
    */
-  const onSignUp = () => {
+  const onSignUp = (e) => {
+    e.preventDefault();
     setIsLoading(true);
     if (fieldValidation()) {
       const data = signUpData;
@@ -121,8 +122,7 @@ const SignUp = ({ setIsNewUser }) => {
         .then((data) => {
           if (data.error) {
             setIsLoading(false);
-            console.log(data.error);
-            // setError({ ...error, hasError: true, error: data.error });
+            setError({ ...error, hasError: true, error: data.error });
           } else {
             setIsLoading(false);
             showToast(
@@ -197,7 +197,7 @@ const SignUp = ({ setIsNewUser }) => {
       <Container>
         <TopRow />
         <ErrorMessage />
-        <Form>
+        <Form onSubmit={onSignUp}>
           <Row>
             <Col sm={12} md={6} lg={6}>
               <Form.Group controlId="name">
@@ -352,7 +352,7 @@ const SignUp = ({ setIsNewUser }) => {
               />
             </Button>
           ) : (
-            <Button size="lg" onClick={onSignUp} block>
+            <Button size="lg" type="submit"  block>
               Sign Up
             </Button>
           )}

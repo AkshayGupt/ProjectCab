@@ -34,7 +34,8 @@ const SignIn = ({ setIsNewUser, setRedirect }) => {
   /**
    * Sign in user and display appropriate error.
    */
-  const onSignIn = () => {
+  const onSignIn = (e) => {
+    e.preventDefault();
     setIsLoading(true);
     const { email, password } = signInData;
     signInUser({ email, password })
@@ -188,7 +189,7 @@ const SignIn = ({ setIsNewUser, setRedirect }) => {
             )}
           </Form>
         ) : (
-          <Form>
+          <Form onSubmit={onSignIn} >
             <Form.Group>
               <Form.Label>
                 <h5 style={{ color: "grey", fontWeight: "600" }}>E-mail</h5>
@@ -220,22 +221,24 @@ const SignIn = ({ setIsNewUser, setRedirect }) => {
                 required
                 disabled={isLoading}
               />
-            </Form.Group>
+           
             {isLoading ? (
-              <Button size="lg" block>
+              <Button size="lg" block className="mt-3">
                 <Spinner
                   as="span"
                   animation="border"
                   size="sm"
                   role="status"
                   aria-hidden="true"
+                  
                 />
               </Button>
             ) : (
-              <Button size="lg" onClick={onSignIn} block>
+              <Button size="lg"  type="submit"  className="mt-3" block>
                 Sign In
               </Button>
             )}
+             </Form.Group>
             <h6
               type="button"
               style={{ marginTop: "25px", color: "#0084ff" }}
