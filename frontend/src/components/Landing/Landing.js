@@ -39,10 +39,10 @@ const Landing = () => {
         />
         <Row>
           <Col lg={6} className="d-none d-lg-block">
-            <Image src={cover} style={{ height: "80vh" }} fluid />
+            <Image src={cover} style={{ height: "100vh" }} fluid />
           </Col>
           <Col>
-            <div style={{ height: "25px" }}></div>
+            <div style={{ height: "20px" }}></div>
             {isNewUser ? (
               <SignUp setIsNewUser={setIsNewUser} />
             ) : (

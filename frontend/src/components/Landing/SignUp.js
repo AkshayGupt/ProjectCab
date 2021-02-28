@@ -123,6 +123,7 @@ const SignUp = ({ setIsNewUser }) => {
           if (data.error) {
             setIsLoading(false);
             setError({ ...error, hasError: true, error: data.error });
+            showToast("ERROR", data.error);
           } else {
             setIsLoading(false);
             showToast(
@@ -352,7 +353,7 @@ const SignUp = ({ setIsNewUser }) => {
               />
             </Button>
           ) : (
-            <Button size="lg" type="submit"  block>
+            <Button size="lg" type="submit" block>
               Sign Up
             </Button>
           )}

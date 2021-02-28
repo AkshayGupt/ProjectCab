@@ -189,7 +189,7 @@ const SignIn = ({ setIsNewUser, setRedirect }) => {
             )}
           </Form>
         ) : (
-          <Form onSubmit={onSignIn} >
+          <Form onSubmit={onSignIn}>
             <Form.Group>
               <Form.Label>
                 <h5 style={{ color: "grey", fontWeight: "600" }}>E-mail</h5>
@@ -221,24 +221,23 @@ const SignIn = ({ setIsNewUser, setRedirect }) => {
                 required
                 disabled={isLoading}
               />
-           
-            {isLoading ? (
-              <Button size="lg" block className="mt-3">
-                <Spinner
-                  as="span"
-                  animation="border"
-                  size="sm"
-                  role="status"
-                  aria-hidden="true"
-                  
-                />
-              </Button>
-            ) : (
-              <Button size="lg"  type="submit"  className="mt-3" block>
-                Sign In
-              </Button>
-            )}
-             </Form.Group>
+
+              {isLoading ? (
+                <Button size="lg" block className="mt-3">
+                  <Spinner
+                    as="span"
+                    animation="border"
+                    size="sm"
+                    role="status"
+                    aria-hidden="true"
+                  />
+                </Button>
+              ) : (
+                <Button size="lg" type="submit" className="mt-3" block>
+                  Sign In
+                </Button>
+              )}
+            </Form.Group>
             <h6
               type="button"
               style={{ marginTop: "25px", color: "#0084ff" }}
